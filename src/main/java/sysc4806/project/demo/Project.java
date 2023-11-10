@@ -15,6 +15,13 @@ public class Project {
     private String name;
     private String description;
     private int numStudents;
+    private int currentStudents;
+    private String dueDate;
+    private String status;
+    @ManyToOne
+    private Professor professor;
+    @OneToMany
+    private List<Student> students;
     @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "programRestrictions", joinColumns = @JoinColumn(name = "project_id"))
     @Column(name = "programRestrictions", nullable = false)
@@ -24,12 +31,18 @@ public class Project {
         this.id = id;
     }
 
-    public Project(){}
+    public Project(){
+        this.currentStudents = 0;
+    }
 
-    public Project(String name, String description, String programRestrictions, int numStudents) {
+    public Project(String name, String description, Professor professor, String programRestrictions, String dueDate, int numStudents) {
+        this.name = name;
+        this.professor = professor;
         this.description = description;
         this.programRestrictions = List.of(programRestrictions.split(", "));
         this.numStudents = numStudents;
+        this.dueDate = dueDate;
+        this.currentStudents = 0;
     }
 
     public String getDescription() {
@@ -68,6 +81,59 @@ public class Project {
         this.name = name;
     }
 
+    public String getDueDate() {
+        return dueDate;
+    }
 
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
+    }
 
+    public int getCurrentStudents() {
+        return currentStudents;
+    }
+
+    public void setCurrentStudents(int currentStudents) {
+        this.currentStudents = currentStudents;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
+
+    public Professor getProfessor() {
+        return professor;
+    }
+
+    public void setProfessor(Professor professor) {
+        this.professor = professor;
+    }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", numStudents=" + numStudents +
+                ", currentStudents=" + currentStudents +
+                ", dueDate='" + dueDate + '\'' +
+                ", status='" + status + '\'' +
+                ", professor=" + professor +
+                ", students=" + students +
+                ", programRestrictions=" + programRestrictions +
+                '}';
+    }
 }
