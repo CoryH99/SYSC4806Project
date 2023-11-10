@@ -26,6 +26,7 @@ public class Student {
     public Student() {}
 
     public Student(String name, String program, String timeslot) {
+        this.name = name;
         this.program = program;
         this.timeslot = timeslot;
     }

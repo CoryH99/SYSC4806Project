@@ -20,10 +20,10 @@ public class StudentController {
 
     @PutMapping("/student/timeslot")
     @ResponseBody
-    public void changeAvailable(@RequestParam String slot, @RequestParam Long id){
+    public Student changeAvailable(@RequestParam String slot, @RequestParam Long id){
         Student s = studentRepo.findById(id).get();
         s.setTimeslot(slot);
-        studentRepo.save(s);
+        return studentRepo.save(s);
     }
 
     @PutMapping("/student/assignProject")
