@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Project</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        .project {
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+        }
+
+        .search-bar {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Add Project</h2>
+
+    <form onsubmit="return submitForm()">
+        <label for="projectName">Project Name:</label>
+        <input type="text" id="projectName" placeholder="Enter project name" required>
+        <label for="projectDescription">Description:</label>
+        <textarea id="projectDescription" placeholder="Enter project description" required></textarea>
+        <label for="projectRestrictions">Program Restrictions:</label>
+        <input type="text" id="projectRestrictions" placeholder="Enter program restrictions" required>
+        <label for="studentsRequired">Students Required:</label>
+        <input type="number" id="studentsRequired" placeholder="Enter number of students required" required>
+        <button type="submit">Submit</button>
+    </form>
+
+</div>
+
+<script>
+    function submitForm() {
+        const projectName = document.getElementById('projectName').value;
+        const projectDescription = document.getElementById('projectDescription').value;
+        const projectRestrictions = document.getElementById('projectRestrictions').value;
+        const studentsRequired = parseInt(document.getElementById('studentsRequired').value);
+
+        // Implement the logic to submit the project here
+        fetch('/api/teacher/projects/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: projectName,
+                description: projectDescription,
+                restrictions: projectRestrictions,
+                studentsRequired: studentsRequired,
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Project added:', data);
+                // Redirect back to the teacher dashboard after adding the project
+                window.location.href = '/teacher';
+            })
+            .catch(error => console.error('Error adding project:', error));
+
+        // Prevent the form from submitting in the traditional way
+        return false;
+    }
+</script>
+
+</body>
+</html>
