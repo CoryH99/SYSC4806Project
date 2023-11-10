@@ -3,16 +3,22 @@ package sysc4806.project.demo;
 import jakarta.persistence.*;
 import jakarta.persistence.Id;
 
-@Entity
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity(name="project")
 public class Project {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private String name;
     private String description;
-    private String programRestrictions;
     private int numStudents;
+    @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "programRestrictions", joinColumns = @JoinColumn(name = "project_id"))
+    @Column(name = "programRestrictions", nullable = false)
+    private List<String> programRestrictions;
 
     public void setId(Long id) {
         this.id = id;
@@ -20,9 +26,9 @@ public class Project {
 
     public Project(){}
 
-    public Project(String description, String programRestrictions, int numStudents) {
+    public Project(String name, String description, String programRestrictions, int numStudents) {
         this.description = description;
-        this.programRestrictions = programRestrictions;
+        this.programRestrictions = List.of(programRestrictions.split(", "));
         this.numStudents = numStudents;
     }
 
@@ -34,11 +40,11 @@ public class Project {
         this.description = description;
     }
 
-    public String getProgramRestrictions() {
+    public List<String> getProgramRestrictions() {
         return programRestrictions;
     }
 
-    public void setProgramRestrictions(String programRestrictions) {
+    public void setProgramRestrictions(List<String> programRestrictions) {
         this.programRestrictions = programRestrictions;
     }
 
@@ -54,13 +60,14 @@ public class Project {
         return id;
     }
 
-    @Override
-    public String toString() {
-        return "Project{" +
-                "id=" + id +
-                ", description='" + description + '\'' +
-                ", programRestrictions='" + programRestrictions + '\'' +
-                ", numStudents=" + numStudents +
-                '}';
+    public String getName() {
+        return name;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
+
 }
