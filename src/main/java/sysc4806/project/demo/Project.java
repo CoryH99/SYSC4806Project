@@ -121,6 +121,10 @@ public class Project {
         this.professor = professor;
     }
 
+    public void removeStudent(Student s){
+        students.remove(s);
+    }
+
     @Override
     public String toString() {
         return "Project{" +

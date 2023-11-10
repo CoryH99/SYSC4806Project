@@ -31,7 +31,12 @@ public class StudentController {
         if (studentRepo.existsById(studentID) && projectRepo.existsById(projectID)){
             Student s = studentRepo.findById(studentID).get();
             Project p = projectRepo.findById(projectID).get();
-            s.setProject(p);
+            if (p.getNumStudents() >= p.getCurrentStudents() || p.getStudents().contains(s)){
+                //not sure how to return an error
+            }
+            else {
+                s.setProject(p);
+            }
         }
         else{
             //not quite sure what to put in for else but oops something went wrong or smth
