@@ -1,6 +1,10 @@
 package sysc4806.project.demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,19 +31,22 @@ public class StudentController {
     }
 
     @PutMapping("/student/assignProject")
-    public void assignProject(@RequestParam Long studentID, @RequestParam Long projectID){
+    public ResponseEntity<Student> assignProject(@RequestParam Long studentID, @RequestParam Long projectID){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
         if (studentRepo.existsById(studentID) && projectRepo.existsById(projectID)){
             Student s = studentRepo.findById(studentID).get();
             Project p = projectRepo.findById(projectID).get();
             if (p.getNumStudents() >= p.getCurrentStudents() || p.getStudents().contains(s)){
-                //not sure how to return an error
+                return new ResponseEntity<Student>(null, headers, HttpStatus.NOT_FOUND);
             }
             else {
                 s.setProject(p);
+                return new ResponseEntity<Student>(studentRepo.save(s), headers, HttpStatus.OK);
             }
         }
         else{
-            //not quite sure what to put in for else but oops something went wrong or smth
+            return new ResponseEntity<Student>(null, headers, HttpStatus.NOT_FOUND);
         }
     }
 }

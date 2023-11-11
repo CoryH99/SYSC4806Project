@@ -24,14 +24,14 @@ public class ProjectController {
         projectRepo.deleteById(id);
     }
 
-    @PutMapping("/project/restrictions")
+    @PutMapping("/project/editRestrictions")
     public Project editProjectRestrict(@RequestParam Long id, @RequestBody List<String> restrict){
         Project p = projectRepo.findById(id).get();
         p.setProgramRestrictions(restrict);
         return projectRepo.save(p);
     }
 
-    @PutMapping("/project/dueDate")
+    @PutMapping("/project/setDueDate")
     public Project setDueDate(@RequestParam String date, @RequestParam Long id){
         Project p = projectRepo.findById(id).get();
         p.setDueDate(date);
@@ -39,15 +39,16 @@ public class ProjectController {
     }
 
     @DeleteMapping("/project/removeStudent")
-    public void removeStudent(@RequestParam Long stuID, @RequestParam Long projID){
+    public Project removeStudent(@RequestParam Long stuID, @RequestParam Long projID){
         Project p = projectRepo.findById(projID).get();
         Student s = studentRepo.findById(stuID).get();
         if (p.getStudents().contains(s)){
             p.removeStudent(s);
         }
+        return projectRepo.save(p);
     }
 
-    @GetMapping("/project/list")
+    @GetMapping("/project/listByStatus")
     public List<Project> listProjects(@RequestParam String status){
         return projectRepo.findByStatus(status);
     }

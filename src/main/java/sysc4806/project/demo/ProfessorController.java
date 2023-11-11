@@ -1,6 +1,10 @@
 package sysc4806.project.demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,25 +32,31 @@ public class ProfessorController {
         return profRepo.save(prof);
     }
     @PutMapping("/professor/assignProject")
-    public void assignProject(@RequestParam Long profID, @RequestParam Long projectID){
+    public ResponseEntity<Professor> assignProject(@RequestParam Long profID, @RequestParam Long projectID){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
         if (profRepo.existsById(profID) && projectRepo.existsById(projectID)){
             Professor prof = profRepo.findById(profID).get();
             Project proj = projectRepo.findById(projectID).get();
             prof.addProject(proj);
+            return new ResponseEntity<Professor>(profRepo.save(prof), headers, HttpStatus.NOT_FOUND);
         }
         else{
-            //not quite sure what to put in for else but oops something went wrong or smth
+            return new ResponseEntity<Professor>(null, headers, HttpStatus.NOT_FOUND);
         }
     }
 
     @PutMapping("/professor/setProjects")
-    public void setProject(@RequestBody List<Project> proj, @RequestParam Long profID){
+    public ResponseEntity<Professor> setProject(@RequestBody List<Project> proj, @RequestParam Long profID){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
         if (profRepo.existsById(profID)){
             Professor prof = profRepo.findById(profID).get();
             prof.setProjects(proj);
+            return new ResponseEntity<Professor>(profRepo.save(prof), headers, HttpStatus.NOT_FOUND);
         }
         else{
-            //once again, still unsure what to do
+            return new ResponseEntity<Professor>(null, headers, HttpStatus.NOT_FOUND);
         }
     }
 }
