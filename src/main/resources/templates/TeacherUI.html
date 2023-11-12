@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        .search-bar {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Teacher Dashboard</h2>
+
+    <div id="teacherProjects"></div>
+
+    <div class="search-bar">
+        <label for="search">Search Projects:</label>
+        <input type="text" id="search" placeholder="Enter project name">
+        <button onclick="searchProjects()">Search</button>
+    </div>
+
+    <div class="add-project">
+        <button onclick="goToAddProject()">Add Project</button>
+    </div>
+
+</div>
+
+<script>
+    function fetchTeacherProjects() {
+        fetch('/api/teacher/projects')
+            .then(response => response.json())
+            .then(projects => {
+                const teacherProjectsContainer = document.getElementById('teacherProjects');
+                teacherProjectsContainer.innerHTML = '';
+
+                projects.forEach(project => {
+                    const projectItem = document.createElement('div');
+                    projectItem.classList.add('project');
+                    projectItem.innerHTML = `
+                        <h3>${project.name}</h3>
+                        <p><strong>Description:</strong> ${project.description}</p>
+                        <p><strong>Program Restrictions:</strong> ${project.restrictions}</p>
+                        <p><strong>Students Required:</strong> ${project.studentsRequired}</p>
+                        <button onclick="removeProject('${project.name}')">Remove Project</button>
+                        <button onclick="notifyStudents('${project.name}')">Notify Students</button>
+                    `;
+                    teacherProjectsContainer.appendChild(projectItem);
+                });
+            })
+            .catch(error => console.error('Error fetching projects:', error));
+    }
+
+    function goToAddProject() {
+        window.location.href = '/addProject';
+    }
+
+    function searchProjects() {
+        const searchTerm = document.getElementById('search').value.toLowerCase();
+        fetch('/api/projects')
+            .then(response => response.json())
+            .then(projects => {
+                const projectListContainer = document.getElementById('projectList');
+                projectListContainer.innerHTML = '';
+
+                projects.forEach(project => {
+                    const projectName = project.name.toLowerCase();
+                    if (projectName.includes(searchTerm)) {
+                        const projectItem = document.createElement('div');
+                        projectItem.classList.add('project');
+                        projectItem.innerHTML = `
+                            <h3>${project.name}</h3>
+                            <p><strong>Description:</strong> ${project.description}</p>
+                            <p><strong>Program Restrictions:</strong> ${project.restrictions}</p>
+                            <p><strong>Students Required:</strong> ${project.studentsRequired}</p>
+                            <button onclick="applyForProject('${project.name}', ${project.studentsRequired})">Apply</button>
+                        `;
+                        projectListContainer.appendChild(projectItem);
+                    }
+                });
+            })
+            .catch(error => console.error('Error fetching projects:', error));
+    }
+
+    function removeProject(projectName) {
+        // Implement the logic to remove a project here
+        fetch(`/api/teacher/projects/remove/${projectName}`, {
+            method: 'DELETE',
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Project removed:', data);
+                fetchTeacherProjects();
+            })
+            .catch(error => console.error('Error removing project:', error));
+    }
+
+    // Initial display of teacher projects
+    fetchTeacherProjects();
+</script>
+
+</body>
+</html>
