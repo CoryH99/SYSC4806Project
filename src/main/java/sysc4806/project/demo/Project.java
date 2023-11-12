@@ -45,6 +45,12 @@ public class Project {
         this.currentStudents = 0;
     }
 
+    //For testing only
+    public Project(String name, String description){
+        this.name = name;
+        this.description = description;
+    }
+
     public String getDescription() {
         return description;
     }

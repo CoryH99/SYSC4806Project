@@ -18,12 +18,12 @@ public class TestController {
     @Autowired
     private StudentRepository studRepo;
 
-    @PostMapping("/testProj")
+    @PostMapping("/createProject")
     public Project createProj(@RequestBody Project proj){
         return repo.save(proj);
     }
 
-    @GetMapping("/getProj")
+    @GetMapping("/getProjects")
     public List<Project> getProjects(){
         return repo.findAll();
     }
