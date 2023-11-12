@@ -4,15 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Coordinator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-    </style>
-
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
 
     <h2>Welcome, Professor!</h2>
 
@@ -47,15 +40,17 @@
 
     <!-- Search Projects -->
     <h3>Search Projects</h3>
-    <form action="/teacher/searchProjects" method="get">
-        <input type="text" name="keyword" placeholder="Enter keyword">
-        <button type="submit">Search</button>
-    </form>
+    <div class="search-container">
+        <label for="search">Search by Project Name:</label>
+        <input type="text" id="search" placeholder="Enter project name">
+        <button onclick="searchProject()">Search</button>
+    </div>
+    <script src="script.js"></script>
 
 <!-- Notify Students -->
 <h3>Notify Students</h3>
 <form action="/teacher/notifyStudents" method="post">
     <button type="submit">Notify Students without Projects</button>
 </form>
-</body>
+
 </html>
