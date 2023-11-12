@@ -26,7 +26,14 @@ Version 1.0
 - Added basic controllers for the professor, student, and project classes
 - Added basic UI
 - Added CI functionality
+- Added basic tests
 - Basic Azure deployment
 ======================================================================
+# Next Steps
+- Complete and clean up UI
+- Full coverage testing
+- Add complete routes and endpoints for all controllers
+- Adding professors and students to projects is working
+- Ability to view projects and their related students/professors
 
 
