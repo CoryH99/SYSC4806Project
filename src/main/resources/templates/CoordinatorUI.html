@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Coordinator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+    </style>
+
+
+    <h2>Welcome, Professor!</h2>
+
+    <!-- View Projects -->
+    <h3>View Projects</h3>
+    <table border="1">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Professor</th>
+            <th>Num Students</th>
+            <th>Current Students</th>
+            <th>Due Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Iterate through the projects -->
+        <tr th:each="project : ${projects}">
+            <td th:text="${project.id}"></td>
+            <td th:text="${project.name}"></td>
+            <td th:text="${project.description}"></td>
+            <td th:text="${project.professor.name}"></td>
+            <td th:text="${project.numStudents}"></td>
+            <td th:text="${project.currentStudents}"></td>
+            <td th:text="${project.dueDate}"></td>
+            <!-- Add more columns as needed -->
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Search Projects -->
+    <h3>Search Projects</h3>
+    <form action="/teacher/searchProjects" method="get">
+        <input type="text" name="keyword" placeholder="Enter keyword">
+        <button type="submit">Search</button>
+    </form>
+
+<!-- Notify Students -->
+<h3>Notify Students</h3>
+<form action="/teacher/notifyStudents" method="post">
+    <button type="submit">Notify Students without Projects</button>
+</form>
+</body>
+</html>
