@@ -3,114 +3,55 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Dashboard</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            background-color: #fff;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-        }
-
-        .project {
-            border-bottom: 1px solid #ccc;
-            padding: 10px 0;
-        }
-
-        .search-bar {
-            margin-bottom: 20px;
-        }
-    </style>
+    <title>Student UI</title>
 </head>
 <body>
 
-<div class="container">
-    <h2>Student Dashboard</h2>
+<h2>Welcome, Student!</h2>
 
-    <div class="search-bar">
-        <label for="search">Search Projects:</label>
-        <input type="text" id="search" placeholder="Enter project name">
-        <button onclick="searchProjects()">Search</button>
-    </div>
+<!-- View Projects -->
+<h3>View Projects</h3>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Professor</th>
+        <th>Num Students</th>
+        <th>Current Students</th>
+        <th>Due Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Iterate through the projects -->
+    <tr th:each="project : ${projects}">
+        <td th:text="${project.id}"></td>
+        <td th:text="${project.name}"></td>
+        <td th:text="${project.description}"></td>
+        <td th:text="${project.professor.name}"></td>
+        <td th:text="${project.numStudents}"></td>
+        <td th:text="${project.currentStudents}"></td>
+        <td th:text="${project.dueDate}"></td>
+        <!-- Add more columns as needed -->
+    </tr>
+    </tbody>
+</table>
 
-    <div id="projectList"></div>
+<!-- Sign Up for a Project -->
+<h3>Sign Up for a Project</h3>
+<form action="/student/assignProject" method="post">
+    <label for="projectID">Project ID:</label>
+    <input type="text" id="projectID" name="projectID" required>
+    <button type="submit">Sign Up</button>
+</form>
 
-</div>
-
-<script>
-    function fetchProjects() {
-        fetch('/api/projects')
-            .then(response => response.json())
-            .then(projects => {
-                const projectListContainer = document.getElementById('projectList');
-                projectListContainer.innerHTML = '';
-
-                projects.forEach(project => {
-                    const projectItem = document.createElement('div');
-                    projectItem.classList.add('project');
-                    projectItem.innerHTML = `
-                        <h3>${project.name}</h3>
-                        <p><strong>Description:</strong> ${project.description}</p>
-                        <p><strong>Program Restrictions:</strong> ${project.restrictions}</p>
-                        <p><strong>Students Required:</strong> ${project.studentsRequired}</p>
-                        <button onclick="applyForProject('${project.name}', ${project.studentsRequired})">Apply</button>
-                    `;
-                    projectListContainer.appendChild(projectItem);
-                });
-            })
-            .catch(error => console.error('Error fetching projects:', error));
-    }
-
-    function searchProjects() {
-        const searchTerm = document.getElementById('search').value.toLowerCase();
-        fetch('/api/projects')
-            .then(response => response.json())
-            .then(projects => {
-                const projectListContainer = document.getElementById('projectList');
-                projectListContainer.innerHTML = '';
-
-                projects.forEach(project => {
-                    const projectName = project.name.toLowerCase();
-                    if (projectName.includes(searchTerm)) {
-                        const projectItem = document.createElement('div');
-                        projectItem.classList.add('project');
-                        projectItem.innerHTML = `
-                            <h3>${project.name}</h3>
-                            <p><strong>Description:</strong> ${project.description}</p>
-                            <p><strong>Program Restrictions:</strong> ${project.restrictions}</p>
-                            <p><strong>Students Required:</strong> ${project.studentsRequired}</p>
-                            <button onclick="applyForProject('${project.name}', ${project.studentsRequired})">Apply</button>
-                        `;
-                        projectListContainer.appendChild(projectItem);
-                    }
-                });
-            })
-            .catch(error => console.error('Error fetching projects:', error));
-    }
-
-    function applyForProject(projectName, studentsRequired) {
-        // Implement the logic to apply for a project here
-        // Check if there are available slots before applying
-        if (studentsRequired > 0) {
-            alert(`Applied for ${projectName} successfully!`);
-            // Implement logic to update the backend and decrement available slots
-        } else {
-            alert(`Sorry, ${projectName} is already full.`);
-        }
-    }
-
-    fetchProjects();
-</script>
+<!-- Search Projects -->
+<h3>Search Projects</h3>
+<form action="/teacher/searchProjects" method="get">
+    <input type="text" name="keyword" placeholder="Enter keyword">
+    <button type="submit">Search</button>
+</form>
 
 </body>
 </html>
