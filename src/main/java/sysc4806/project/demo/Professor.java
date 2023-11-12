@@ -42,6 +42,10 @@ public class Professor {
         this.availability = availability;
     }
 
+    public void addProject(Project project){
+        projects.add(project);
+    }
+
     public List<Project> getProjects() {
         return projects;
     }
