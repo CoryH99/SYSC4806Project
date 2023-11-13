@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Professor UI</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 
@@ -39,31 +40,31 @@
 
 <!-- Add New Project -->
 <h3>Add New Project</h3>
-<form action="/professor/setProject" method="post">
+<form action="/project/create" method="post">
     <label for="name">Project Name:</label>
     <input type="text" id="name" name="name" required>
     <label for="description">Description:</label>
     <input type="text" id="description" name="description" required>
 
-    <label for="professor.name">Description:</label>
+    <label for="professor.name">Name:</label>
     <input type="text" id="professor.name" name="professor.name" required>
 
-    <label for="numStudents">Description:</label>
-    <input type="text" id="numStudents" name="professor.name" required>
+    <label for="numStudents">Max Number of Students:</label>
+    <input type="text" id="numStudents" name="numStudents" required>
 
-    <label for="dueDate">Description:</label>
-    <input type="text" id="dueDate" name="professor.name" required>
+    <label for="dueDate">Due Date:</label>
+    <input type="text" id="dueDate" name="dueDate" required>
 
     <button type="submit">Add Project</button>
 </form>
 
 <!-- Search Projects -->
 <h3>Search Projects</h3>
-<form action="/teacher/searchProjects" method="get">
-    <input type="text" name="keyword" placeholder="Enter keyword">
-    <button type="submit">Search</button>
-</form>
-
-
+<div class="search-container">
+    <label for="search">Search by Project Name:</label>
+    <input type="text" id="search" placeholder="Enter project name">
+    <button onclick="searchProject()">Search</button>
+</div>
+<script src="script.js"></script>
 </body>
 </html>

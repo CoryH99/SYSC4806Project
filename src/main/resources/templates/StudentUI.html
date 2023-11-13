@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Student UI</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 
@@ -48,10 +49,12 @@
 
 <!-- Search Projects -->
 <h3>Search Projects</h3>
-<form action="/teacher/searchProjects" method="get">
-    <input type="text" name="keyword" placeholder="Enter keyword">
-    <button type="submit">Search</button>
-</form>
+<div class="search-container">
+    <label for="search">Search by Project Name:</label>
+    <input type="text" id="search" placeholder="Enter project name">
+    <button onclick="searchProject()">Search</button>
+</div>
+<script src="script.js"></script>
 
 </body>
 </html>
