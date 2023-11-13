@@ -1,5 +1,7 @@
 package sysc4806.project.demo;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,6 +13,7 @@ public class Student {
 
     private String program;
     private String name;
+    @JsonBackReference
     @ManyToOne
     private Project project;
     private String timeslot;

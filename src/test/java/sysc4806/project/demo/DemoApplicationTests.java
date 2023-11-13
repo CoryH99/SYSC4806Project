@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -16,6 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Tests for TestController class using MockMvc
  */
+@Import(StudentController.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 class DemoApplicationTests {
@@ -33,11 +35,11 @@ class DemoApplicationTests {
 
 		String requestBody = "{\"name\": \"testProject\", \"description\": \"test project\"}";
 
-		this.mockController.perform(post("/createProject").contentType(MediaType.APPLICATION_JSON).
+		this.mockController.perform(post("/project/createProject").contentType(MediaType.APPLICATION_JSON).
 						content(requestBody)).andDo(print()).andExpect(status().isOk()).
 						andExpect(content().string(containsString(expected)));
 
-		this.mockController.perform(get("/getProjects")).andDo(print()).andExpect(status().isOk()).andExpect(
+		this.mockController.perform(get("/project/getProjects")).andDo(print()).andExpect(status().isOk()).andExpect(
 				content().string(containsString("testProject")));
 	}
 
@@ -51,11 +53,11 @@ class DemoApplicationTests {
 
 		String requestBody = "{\"name\": \"Bob\", \"program\": \"Software Engineering\", \"timeslot\": \"12:00\"}";
 
-		this.mockController.perform(post("/createStudent").contentType(MediaType.APPLICATION_JSON).
+		this.mockController.perform(post("/student/createStudent").contentType(MediaType.APPLICATION_JSON).
 						content(requestBody)).andDo(print()).andExpect(status().isOk()).
 				andExpect(content().string(containsString(expected)));
 
-		this.mockController.perform(get("/getStudents")).andDo(print()).andExpect(status().isOk()).andExpect(
+		this.mockController.perform(get("/student/getStudents")).andDo(print()).andExpect(status().isOk()).andExpect(
 				content().string(containsString("Bob")));
 	}
 
@@ -68,15 +70,15 @@ class DemoApplicationTests {
 		String expected = "Bob";
 
 		String studentRequestBody = "{\"name\": \"Bob\", \"program\": \"Software Engineering\", \"timeslot\": \"12:00\"}";
-		String projRequestBody = "{\"name\": \"testProject\", \"description\": \"test project\"}";
+		String projRequestBody = "{\"name\": \"testProject\", \"description\": \"test project\", \"numStudents\": 3}";
 
-		this.mockController.perform(post("/createProject").contentType(MediaType.APPLICATION_JSON).
+		this.mockController.perform(post("/project/createProject").contentType(MediaType.APPLICATION_JSON).
 						content(projRequestBody)).andDo(print()).andExpect(status().isOk());
 
-		this.mockController.perform(post("/createStudent").contentType(MediaType.APPLICATION_JSON).
+		this.mockController.perform(post("/student/createStudent").contentType(MediaType.APPLICATION_JSON).
 						content(studentRequestBody)).andDo(print()).andExpect(status().isOk());
 
-		this.mockController.perform(put("/assignProject?studId=1&projId=1").contentType(MediaType.APPLICATION_JSON)
+		this.mockController.perform(put("/student/assignProject?studentID=1&projectID=1").contentType(MediaType.APPLICATION_JSON)
 				).andDo(print()).andExpect(status().isOk()).
 				andExpect(content().string(containsString(expected)));
 	}

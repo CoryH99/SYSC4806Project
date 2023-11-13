@@ -1,6 +1,8 @@
 package sysc4806.project.demo;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -15,6 +17,7 @@ public class Professor {
     private Long id;
     private String name;
     private String availability;
+    @JsonManagedReference
     @OneToMany
     private List<Project> projects;
 

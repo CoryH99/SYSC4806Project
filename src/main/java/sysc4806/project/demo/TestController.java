@@ -18,45 +18,45 @@ public class TestController {
     @Autowired
     private StudentRepository studRepo;
 
-    @PostMapping("/createProject")
-    public Project createProj(@RequestBody Project proj){
-        return repo.save(proj);
-    }
+//    @PostMapping("/createProject")
+//    public Project createProj(@RequestBody Project proj){
+//        return repo.save(proj);
+//    }
 
-    @GetMapping("/getProjects")
-    public List<Project> getProjects(){
-        return repo.findAll();
-    }
+//    @GetMapping("/getProjects")
+//    public List<Project> getProjects(){
+//        return repo.findAll();
+//    }
 
-    @GetMapping("/getStudents")
-    public List<Student> getStudents(){ return studRepo.findAll();}
+//    @GetMapping("/getStudents")
+//    public List<Student> getStudents(){ return studRepo.findAll();}
+//
+//    @PostMapping("/createStudent")
+//    public Student createStudent(@RequestBody Student student){
+//        return studRepo.save(student);
+//    }
 
-    @PostMapping("/createStudent")
-    public Student createStudent(@RequestBody Student student){
-        return studRepo.save(student);
-    }
-
-    @PutMapping("/assignProject")
-    public ResponseEntity<Student> assignProject(@RequestParam Long studId, @RequestParam Long projId){
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        Student stud;
-        Project proj;
-
-
-        Optional<Student> target = studRepo.findById(studId);
-
-        if (target.isPresent()){
-            stud = target.get();
-            Optional<Project> projTarget = repo.findById(projId);
-
-            if(projTarget.isPresent()){
-                proj = projTarget.get();
-                stud.setProject(proj);
-                return new ResponseEntity<Student>(studRepo.save(stud), headers, HttpStatus.OK);
-            }
-        }
-        return new ResponseEntity<Student>(null, headers, HttpStatus.NOT_FOUND);
-    }
+//    @PutMapping("/assignProject")
+//    public ResponseEntity<Student> assignProject(@RequestParam Long studId, @RequestParam Long projId){
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.APPLICATION_JSON);
+//        Student stud;
+//        Project proj;
+//
+//
+//        Optional<Student> target = studRepo.findById(studId);
+//
+//        if (target.isPresent()){
+//            stud = target.get();
+//            Optional<Project> projTarget = repo.findById(projId);
+//
+//            if(projTarget.isPresent()){
+//                proj = projTarget.get();
+//                stud.setProject(proj);
+//                return new ResponseEntity<Student>(studRepo.save(stud), headers, HttpStatus.OK);
+//            }
+//        }
+//        return new ResponseEntity<Student>(null, headers, HttpStatus.NOT_FOUND);
+//    }
 
 }
