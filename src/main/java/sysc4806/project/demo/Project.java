@@ -1,5 +1,7 @@
 package sysc4806.project.demo;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.persistence.Id;
 
@@ -18,8 +20,11 @@ public class Project {
     private int currentStudents;
     private String dueDate;
     private String status;
+
+    @JsonBackReference
     @ManyToOne
     private Professor professor;
+    @JsonManagedReference
     @OneToMany
     private List<Student> students;
     @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
@@ -128,7 +133,13 @@ public class Project {
     }
 
     public void removeStudent(Student s){
+        this.currentStudents--;
         students.remove(s);
+    }
+
+    public void addStudent(Student s){
+        this.currentStudents++;
+        students.add(s);
     }
 
     @Override

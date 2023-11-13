@@ -14,9 +14,14 @@ public class ProjectController {
     @Autowired
     private StudentRepository studentRepo;
 
-    @PostMapping("/project/create")
+    @PostMapping("/project/createProject")
     public Project newProject(@RequestBody Project proj){
         return projectRepo.save(proj);
+    }
+
+    @GetMapping("/project/getProjects")
+    public List<Project> getProjects(){
+        return projectRepo.findAll();
     }
 
     @DeleteMapping("/project/delete")

@@ -18,13 +18,18 @@ public class ProfessorController {
     @Autowired
     private ProjectRepository projectRepo;
 
-    @PostMapping("/professor/newProf")
+    @PostMapping("/professor/createProfessor")
     @ResponseBody
     public Professor newProfessor(@RequestBody Professor p){
         return profRepo.save(p);
     }
 
-    @PutMapping("/professor/available")
+    @GetMapping("/professor/getProfessors")
+    public List<Professor> getProfessors(){
+        return profRepo.findAll();
+    }
+
+    @PutMapping("/professor/setAvailability")
     @ResponseBody
     public Professor changeAvailable(@RequestParam String available, @RequestParam Long id){
         Professor prof = profRepo.findById(id).get();
@@ -39,6 +44,8 @@ public class ProfessorController {
             Professor prof = profRepo.findById(profID).get();
             Project proj = projectRepo.findById(projectID).get();
             prof.addProject(proj);
+            proj.setProfessor(prof);
+            projectRepo.save(proj);
             return new ResponseEntity<Professor>(profRepo.save(prof), headers, HttpStatus.NOT_FOUND);
         }
         else{
