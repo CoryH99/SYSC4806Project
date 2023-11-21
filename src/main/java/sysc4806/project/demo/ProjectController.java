@@ -10,7 +10,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@EnableCircuitBreaker
+//@EnableCircuitBreaker
 public class ProjectController {
 
     @Autowired
@@ -19,13 +19,13 @@ public class ProjectController {
     @Autowired
     private StudentRepository studentRepo;
 
-    @GetMapping
-    @HystrixCommand(fallbackMethod = "fallbackMessage")
-    public String cloudProductList() {
-        RestTemplate restTemplate = new RestTemplate();
-        URI uri = URI.create("http://localhost:8090/products");
-        return restTemplate.getForObject(uri, String.class);
-    }
+//    @GetMapping
+//    @HystrixCommand(fallbackMethod = "fallbackMessage")
+//    public String cloudProductList() {
+//        RestTemplate restTemplate = new RestTemplate();
+//        URI uri = URI.create("http://localhost:8090/products");
+//        return restTemplate.getForObject(uri, String.class);
+//    }
 
     public String fallbackMessage() {
         return "Test";
@@ -38,6 +38,12 @@ public class ProjectController {
 
     @GetMapping("/project/getProjects")
     public List<Project> getProjects(){
+        return projectRepo.findAll();
+    }
+
+    @GetMapping("/project/getProjects/timeout/{timeout}")
+    public List<Project> getProjects(@PathVariable("timeout") Long timeout) throws InterruptedException {
+        Thread.sleep(timeout);
         return projectRepo.findAll();
     }
 

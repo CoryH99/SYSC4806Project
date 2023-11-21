@@ -53,4 +53,21 @@
     <button type="submit">Notify Students without Projects</button>
 </form>
 
+<h3>Hystrix Demo</h3>
+
+<p th:if="${demo_message != null}" th:text="${demo_message}">
+</p>
+
+<label for="timeout">Input Timeout Desired (set to timeout at 1000ms): </label>
+<input type="text" id="timeout">
+<button onclick="sendTimeoutDemo()">Start</button>
+
+<script>
+    function sendTimeoutDemo(){
+        let time = document.getElementById("timeout").value;
+        window.location.href = "http://localhost:8080/coordinatorView/" + time;
+    }
+
+</script>
+
 </html>
