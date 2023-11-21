@@ -1,11 +1,16 @@
 package sysc4806.project.demo;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
+@EnableCircuitBreaker
 public class ProjectController {
 
     @Autowired
@@ -13,6 +18,18 @@ public class ProjectController {
 
     @Autowired
     private StudentRepository studentRepo;
+
+    @GetMapping
+    @HystrixCommand(fallbackMethod = "fallbackMessage")
+    public String cloudProductList() {
+        RestTemplate restTemplate = new RestTemplate();
+        URI uri = URI.create("http://localhost:8090/products");
+        return restTemplate.getForObject(uri, String.class);
+    }
+
+    public String fallbackMessage() {
+        return "Test";
+    }
 
     @PostMapping("/project/createProject")
     public Project newProject(@RequestBody Project proj){
