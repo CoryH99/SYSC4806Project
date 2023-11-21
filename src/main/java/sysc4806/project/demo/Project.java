@@ -20,6 +20,7 @@ public class Project {
     private int currentStudents;
     private String dueDate;
     private String status;
+    private String professorName;
 
     @JsonBackReference
     @ManyToOne
@@ -43,6 +44,7 @@ public class Project {
     public Project(String name, String description, Professor professor, String programRestrictions, String dueDate, int numStudents) {
         this.name = name;
         this.professor = professor;
+        this.professorName = professor.getName();
         this.description = description;
         this.programRestrictions = List.of(programRestrictions.split(", "));
         this.numStudents = numStudents;
@@ -54,6 +56,14 @@ public class Project {
     public Project(String name, String description){
         this.name = name;
         this.description = description;
+    }
+
+    public String getProfessorName() {
+        return professorName;
+    }
+
+    public void setProfessorName(String professorName) {
+        this.professorName = professorName;
     }
 
     public String getDescription() {
@@ -130,6 +140,7 @@ public class Project {
 
     public void setProfessor(Professor professor) {
         this.professor = professor;
+        this.professorName = professor.getName();
     }
 
     public void removeStudent(Student s){
@@ -152,7 +163,7 @@ public class Project {
                 ", currentStudents=" + currentStudents +
                 ", dueDate='" + dueDate + '\'' +
                 ", status='" + status + '\'' +
-                ", professor=" + professor +
+                ", professorName='" + professorName + '\'' +
                 ", students=" + students +
                 ", programRestrictions=" + programRestrictions +
                 '}';
