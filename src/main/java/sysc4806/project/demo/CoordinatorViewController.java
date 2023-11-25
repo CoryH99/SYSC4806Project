@@ -62,6 +62,6 @@ public class CoordinatorViewController {
         model.addAttribute("projects", projectRepo.findAll());
         model.addAttribute("students_no_project", studRepo.findByProjectIsNull());
 
-        return "CoordinatorUI";
+        return "redirect:/coordinatorView";
     }
 }

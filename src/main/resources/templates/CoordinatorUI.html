@@ -9,17 +9,16 @@
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="CommonTheme.css">
     <!-- Jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 </head>
 
 <body>
+
+    <h2 class="mainHeader text-white p-3">Welcome, Coordinator!</h2>
     <div class="p-3">
-        <h2 class="m-2">Welcome, Coordinator!</h2>
-
-
-        <hr>
         <!-- Search Projects -->
         <h3 class="m-2">Search Projects</h3>
         <div class="search-container">
@@ -93,17 +92,21 @@
                     <div class="card-body" id="message-box">
                         <h4 id="sendTitle" class="card-title">To send a message, select a student</h4>
 
-                        <form action="#" th:action="@{/sendMessage}" th:object="${messageForm}" method="post">
+                        <form action="#" th:action="@{/coordinator/sendMessage}" th:object="${messageForm}" method="post">
                             <input id="idField" type="hidden" th:field="*{id}" value="">
                             <label for="contentField" class="form-label">Message:</label>
-                            <input id="contentField" type="text" th:field="*{content}" disabled><br>
-                            <input id="sendMessageBtn" type="submit" class="btn btn-danger" value="Send Message" disabled>
+                            <input id="contentField" type="text" class="form-control" th:field="*{content}" disabled><br>
+                            <input id="sendMessageBtn" type="submit" class="btn btn-danger my-1" value="Send Message" disabled>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <footer>
+        <h3>Group 10</h3>
+    </footer>
 
     <script>
         // Enable the form
