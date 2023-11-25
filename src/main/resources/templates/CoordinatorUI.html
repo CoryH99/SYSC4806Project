@@ -17,18 +17,17 @@
 
 <body>
 
-    <h2 class="mainHeader text-white p-3">Welcome, Coordinator!</h2>
+    <h2 class="mainHeader text-white p-3 display-4">Welcome, Coordinator!</h2>
     <div class="p-3">
+        <!-- PROJECT SECTION -->
         <!-- Search Projects -->
-        <h3 class="m-2">Search Projects</h3>
-        <div class="search-container">
-            <label for="search">Search by Project Name:</label>
+        <h3 class="my-3">View Projects</h3>
+<!--        <div class="search-container">-->
+        <div>
+            <label for="search" class="text-muted me-3">Search by Project Name: </label>
             <input type="text" id="search" placeholder="Enter project name">
             <button class="btn btn-secondary" onclick="searchProject()">Search</button>
         </div>
-        <hr>
-        <!-- View Projects -->
-        <h3 class="m-2">View Projects</h3>
         <table class="table">
             <thead>
             <tr>
@@ -56,11 +55,11 @@
             </tbody>
         </table>
 
-        <br>
+        <!-- Send Message Section-->
         <hr>
         <div class="row m-2">
             <div class="card col-6">
-                <h3 class="card-title">Students With No Project</h3>
+                <h3 class="card-title mt-2">Students With No Project</h3>
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -104,8 +103,8 @@
         </div>
     </div>
 
-    <footer>
-        <h3>Group 10</h3>
+    <footer class="p-2">
+        <h3 class="text-white">Group 10</h3>
     </footer>
 
     <script>
