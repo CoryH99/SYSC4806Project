@@ -7,6 +7,8 @@ import sysc4806.project.demo.Student;
 @Entity
 public class Message {
 
+    public final static String URGENT_STATUS = "Urgent";
+
     @JsonBackReference
     @ManyToOne
     private Student receiver;
@@ -17,6 +19,16 @@ public class Message {
     @GeneratedValue
     private Long id;
 
+
+    public Message(String date, String level, String content) {
+        this.date = date;
+        this.level = level;
+        this.content = content;
+    }
+
+    public Message() {
+
+    }
 
     public void setId(Long id) {
         this.id = id;
