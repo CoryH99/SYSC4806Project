@@ -5,6 +5,11 @@ footer {
     width: 100%;
 }
 
+.contentPane {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
 .mainHeader {
     background: #2b070a;
     width: 100%;

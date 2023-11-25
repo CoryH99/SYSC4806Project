@@ -15,14 +15,6 @@ public class StudentViewController {
     @Autowired
     private ProjectRepository projectRepo;
 
-    @GetMapping("/studentView")
-    public String studentView(Model model){
-
-        model.addAttribute("projects", projectRepo.findAll());
-
-        return "StudentUI";
-    }
-
     @GetMapping("/studentView/{id}")
     public String specificStudentView(@PathVariable("id") Long studId, Model model){
 
