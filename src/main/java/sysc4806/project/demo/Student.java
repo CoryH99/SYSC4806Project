@@ -79,10 +79,10 @@ public class Student {
     }
 
     public void addMessage(Message message) {
-        this.messages.add(message);
+        this.messages.add(0, message);
     }
 
-    @Override
+    @Override   
     public String toString() {
         return "Student{" +
                 "id=" + id +
