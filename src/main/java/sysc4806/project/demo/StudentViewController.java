@@ -26,6 +26,12 @@ public class StudentViewController {
     @GetMapping("/studentView/{id}")
     public String specificStudentView(@PathVariable("id") Long studId, Model model){
 
+        if (studentRepo.findById(studId).isPresent()) {
+            Student student = studentRepo.findById(studId).get();
+            model.addAttribute("student", student);
+        } else {
+            return "redirect:/";
+        }
         model.addAttribute("projects", projectRepo.findAll());
 
         return "StudentUI";
