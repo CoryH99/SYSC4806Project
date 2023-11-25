@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import sysc4806.project.demo.messages.Message;
 
@@ -32,12 +33,13 @@ public class Student {
         this.id = id;
     }
 
-    public Student() {}
+    public Student() {this.messages = new ArrayList<>();}
 
     public Student(String name, String program, String timeslot) {
         this.name = name;
         this.program = program;
         this.timeslot = timeslot;
+        this.messages = new ArrayList<>();
     }
 
     public String getProgram() {
