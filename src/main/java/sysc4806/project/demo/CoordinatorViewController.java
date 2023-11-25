@@ -37,7 +37,7 @@ public class CoordinatorViewController {
         return "CoordinatorUI";
     }
 
-    @PostMapping("/sendMessage")
+    @PostMapping("/coordinator/sendMessage")
     public String sendStudMessage(@ModelAttribute MessageForm messageForm, Model model){
 
         // Get the current date as a string

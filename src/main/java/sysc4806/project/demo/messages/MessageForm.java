@@ -5,6 +5,13 @@ public class MessageForm {
     private long id;
     private String content;
 
+    public MessageForm(long id, String content) {
+        this.id = id;
+        this.content = content;
+    }
+
+    public MessageForm(){}
+
     public long getId() {
         return id;
     }
