@@ -28,14 +28,27 @@ public class ProfessorController {
     @PostMapping("/{professorId}/projects")
     public ResponseEntity<String> addProjectToProfessor(
             @PathVariable Long professorId,
-            @RequestBody Project project) {
+            @RequestParam String name,
+            @RequestParam String description,
+            @RequestParam String professorName,
+            @RequestParam int numStudents,
+            @RequestParam String dueDate) {
 
+        // Find the professor
         Optional<Professor> optionalProfessor = professorRepository.findById(professorId);
 
         if (optionalProfessor.isPresent()) {
             Professor professor = optionalProfessor.get();
+
+            // Create a new Project
+            Project project = new Project(name, description, professor, "", dueDate, numStudents);
+
+            // Save the project
+            profRepo.save(project);
+
+            // Add the project to the professor's list of projects
             professor.addProject(project);
-            professorRepository.save(professor);
+            profRepo.save(professor);
 
             return new ResponseEntity<>("Project added to professor successfully", HttpStatus.OK);
         } else {
