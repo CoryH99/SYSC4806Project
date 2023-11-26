@@ -1,11 +1,14 @@
 package sysc4806.project.demo;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -13,12 +16,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+
 @SpringBootTest
-@AutoConfigureMockMvc
+@WebAppConfiguration
 public class StudentTests {
 
-    @Autowired
+
     private MockMvc mockController;
+
+    @Autowired
+    private WebApplicationContext context;
+
+    @BeforeEach
+    public void setupTests(){
+        this.mockController = MockMvcBuilders.webAppContextSetup(context).build();
+    }
 
     /**
      * Test for /createStudent and /getStudents controller methods
@@ -68,10 +80,11 @@ public class StudentTests {
         this.mockController.perform(post("/student/createStudent").contentType(MediaType.APPLICATION_JSON).
                 content(studentRequestBody)).andDo(print()).andExpect(status().isOk());
 
+//        this.mockController.perform(put("/student/assignProject?studentID=3&projectID=8").contentType(MediaType.APPLICATION_JSON)
+//        ).andDo(print()).andExpect(status().isOk()).andExpect(content().string(containsString(expected)));
+
         this.mockController.perform(put("/student/assignProject?studentID=1&projectID=1").contentType(MediaType.APPLICATION_JSON)
         ).andDo(print()).andExpect(status().isOk()).andExpect(content().string(containsString(expected)));
     }
-
-
 
 }
