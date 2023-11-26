@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Project Page</title>
+</head>
+<body>
+
+</body>
+
+<th:block th:each="project : ${proj}">
+    <th:block th:if="${project.id == projID}">
+        <h3 th:text="${project.name}+' Project'">name</h3>
+
+        <table border="1">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Professor</th>
+                <th th:text="${project.currentStudents}+'/'+${project.numStudents}+' Students'">Students</th>
+                <th>Due Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td th:text="${project.name}"></td>
+                <td th:text="${project.description}"></td>
+                <td th:text="${project.professor.name}"></td>
+                <td>
+                    <table>
+                        <tr th:each="student : ${project.getStudents()}">
+                            <td th:text="${student.getName()}"></td>
+                        </tr>
+                    </table>
+                </td>
+                <td th:text="${project.dueDate}"></td>
+            </tr>
+    </tbody>
+    </table>
+    </th:block>
+</th:block>
+
+</html>
