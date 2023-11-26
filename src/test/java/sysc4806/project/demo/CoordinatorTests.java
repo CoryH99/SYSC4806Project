@@ -1,21 +1,18 @@
 package sysc4806.project.demo;
 
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -30,9 +27,6 @@ public class CoordinatorTests {
     @Autowired
     private MockMvc mockController;
 
-    @Mock
-    private StudentRepository studRepo;
-
     @Test
     public void testSendMessage() throws Exception {
         String expected = "ThisIsATest";
@@ -45,12 +39,11 @@ public class CoordinatorTests {
         formBody += "&";
         formBody += URLEncoder.encode("content", StandardCharsets.UTF_8) + "=" + URLEncoder.encode(expected, StandardCharsets.UTF_8);
         this.mockController.perform(post("/coordinator/sendMessage").contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .content(formBody)).andDo(print()).andExpect(status().isOk());
+                        .content(formBody)).andDo(print()).andExpect(status().isFound());
 
         this.mockController.perform(get("/student/getStudents")).andDo(print()).andExpect(status().isOk()).andExpect(
                 content().string(containsString(expected)));
 
     }
-
 
 }
