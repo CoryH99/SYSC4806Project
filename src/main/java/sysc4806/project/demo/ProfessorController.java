@@ -24,6 +24,25 @@ public class ProfessorController {
         return profRepo.save(p);
     }
 
+
+    @PostMapping("/{professorId}/projects")
+    public ResponseEntity<String> addProjectToProfessor(
+            @PathVariable Long professorId,
+            @RequestBody Project project) {
+
+        Optional<Professor> optionalProfessor = professorRepository.findById(professorId);
+
+        if (optionalProfessor.isPresent()) {
+            Professor professor = optionalProfessor.get();
+            professor.addProject(project);
+            professorRepository.save(professor);
+
+            return new ResponseEntity<>("Project added to professor successfully", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Professor not found", HttpStatus.NOT_FOUND);
+        }
+    }
+}
     @GetMapping("/professor/getProfessors")
     public List<Professor> getProfessors(){
         return profRepo.findAll();
