@@ -27,7 +27,7 @@ public class StudentViewController {
         } else {
             return "redirect:/";
         }
-        model.addAttribute("projects", projectRepo.findAll());
+        model.addAttribute("projects", projectRepo.findByStatus(Project.ACTIVE_PROJ));
 
         return "StudentUI";
     }
