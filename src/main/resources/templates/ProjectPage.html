@@ -8,7 +8,13 @@
 
 </body>
 
-<h3>Project</h3>
+<th:block th:each="project : ${proj}">
+    <th:block th:if="${project.id == projID}">
+        <h3 th:text="${project.name}+' Project'">name</h3>
+    </th:block>
+</th:block>
+
+
 <table border="1">
     <thead>
     <tr>
