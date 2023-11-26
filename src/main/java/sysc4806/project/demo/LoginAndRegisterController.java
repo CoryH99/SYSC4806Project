@@ -51,4 +51,21 @@ public class LoginAndRegisterController {
         return "redirect:" + send_to;
     }
 
+    @GetMapping("/registerProfessor")
+    public String viewRegisterProf(Model model){
+
+        model.addAttribute("professorForm", new Professor());
+
+        return "registerProfessor";
+    }
+
+    @PostMapping("/registerProfessor/register")
+    public String registerProf(@ModelAttribute Professor professorForm, Model model){
+
+        Professor newProf = profRepo.save(professorForm);
+        String send_to = "/professorView/" + newProf.getId();
+
+        return "redirect:" + send_to;
+    }
+
 }
