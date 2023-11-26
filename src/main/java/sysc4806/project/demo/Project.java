@@ -74,8 +74,8 @@ public class Project {
         return programRestrictions;
     }
 
-    public void setProgramRestrictions(List<String> programRestrictions) {
-        this.programRestrictions = programRestrictions;
+    public void addProgramRestriction(String programRestriction) {
+        this.programRestrictions.add(programRestriction);
     }
 
     public int getNumStudents() {
