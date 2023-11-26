@@ -42,7 +42,7 @@ public class ProfessorController {
             Project project = new Project(name, description, professor, "", dueDate, numStudents);
 
             // Save the project
-            profRepo.save(project);
+            projectRepo.save(project);
 
             // Add the project to the professor's list of projects
             professor.addProject(project);
