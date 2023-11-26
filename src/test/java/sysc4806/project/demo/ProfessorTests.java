@@ -61,7 +61,11 @@ public class ProfessorTests {
                 content(profRequestBody)).andDo(print()).andExpect(status().isOk());
 
         this.mockController.perform(put("/professor/assignProject?profID=1&projectID=1").contentType(MediaType.APPLICATION_JSON)
-        ).andDo(print()).andExpect(status().is(404));
+        ).andDo(print()).andExpect(status().isOk()).andExpect(content().string(containsString(expected)));
     }
 
+    @Test
+    public void testProfSetProjects() throws Exception {
+
+    }
 }
