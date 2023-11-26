@@ -10,7 +10,7 @@
 <h2>Welcome, Professor!</h2>
 
 <!-- View Projects -->
-<h3>View Projects</h3>
+<h3 id="projectTable">View Projects</h3>
 <table border="1">
     <thead>
     <tr>
@@ -21,6 +21,7 @@
         <th>Num Students</th>
         <th>Current Students</th>
         <th>Due Date</th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
@@ -33,6 +34,7 @@
         <td th:text="${project.numStudents}"></td>
         <td th:text="${project.currentStudents}"></td>
         <td th:text="${project.dueDate}"></td>
+        <td><button id="projectPage" onclick="location.href='/projects/${project.id}';">Project Page</button></td>
         <!-- Add more columns as needed -->
     </tr>
     </tbody>
@@ -68,3 +70,12 @@
 <script src="../static/script.js"></script>
 </body>
 </html>
+
+<script>
+    $(document).ready(function(){
+        if ($("#projectTable > tr").length > 1)
+            $("#projectPage").show();
+        else
+            $("#projectPage").hide();
+    });
+</script>
