@@ -3,10 +3,7 @@ package sysc4806.project.demo;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.util.List;
 
@@ -18,7 +15,7 @@ public class Professor {
     private String name;
     private String availability;
     @JsonManagedReference
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Project> projects;
 
     public Professor(String name, String availability){
