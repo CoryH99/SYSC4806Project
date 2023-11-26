@@ -11,34 +11,34 @@
 <th:block th:each="project : ${proj}">
     <th:block th:if="${project.id == projID}">
         <h3 th:text="${project.name}+' Project'">name</h3>
+
+        <table border="1">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Professor</th>
+                <th th:text="${project.currentStudents}+'/'+${project.numStudents}+' Students'">Students</th>
+                <th>Due Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td th:text="${project.name}"></td>
+                <td th:text="${project.description}"></td>
+                <td th:text="${project.professor.name}"></td>
+                <td>
+                    <table>
+                        <tr th:each="student : ${project.getStudents()}">
+                            <td th:text="${student.getName()}"></td>
+                        </tr>
+                    </table>
+                </td>
+                <td th:text="${project.dueDate}"></td>
+            </tr>
+    </tbody>
+    </table>
     </th:block>
 </th:block>
 
-
-<table border="1">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Professor</th>
-        <th>Num Students</th>
-        <th>Current Students</th>
-        <th>Due Date</th>
-    </tr>
-    </thead>
-    <tbody>
-    <th:block th:each="project : ${proj}">
-        <tr th:if="${project.id == projID}">
-            <td th:text="${project.id}"></td>
-            <td th:text="${project.name}"></td>
-            <td th:text="${project.description}"></td>
-            <td th:text="${project.professor.name}"></td>
-            <td th:text="${project.numStudents}"></td>
-            <td th:text="${project.currentStudents}"></td>
-            <td th:text="${project.dueDate}"></td>
-        </tr>
-    </th:block>
-    </tbody>
-</table>
 </html>
