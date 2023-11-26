@@ -33,7 +33,7 @@ public class ProfessorController {
             @RequestParam String dueDate) {
 
         // Find the professor
-        Optional<Professor> optionalProfessor = professorRepository.findById(professorId);
+        Optional<Professor> optionalProfessor = profRepo.findById(professorId);
 
         if (optionalProfessor.isPresent()) {
             Professor professor = optionalProfessor.get();
