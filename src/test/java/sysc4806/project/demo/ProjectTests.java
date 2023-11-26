@@ -63,14 +63,14 @@ public class ProjectTests {
     }
 
     @Test
-    public void testEditProjRestrictions() throws Exception {
+    public void testAddProjRestriction() throws Exception {
         String requestBody = "{\"name\": \"testProject\", \"description\": \"test project\"}";
-        String expected = "CS";
+        String expected = "cs";
 
         this.mockController.perform(post("/project/createProject").contentType(MediaType.APPLICATION_JSON).
                 content(requestBody)).andDo(print()).andExpect(status().isOk());
 
-        this.mockController.perform(put("/project/editRestrictions?id=1&restrict=CS").contentType(MediaType.APPLICATION_JSON)
+        this.mockController.perform(put("/project/addRestriction?id=1&restrict=cs").contentType(MediaType.APPLICATION_JSON)
                 ).andDo(print()).andExpect(status().isOk()).
                 andExpect(content().string(containsString(expected)));
     }
