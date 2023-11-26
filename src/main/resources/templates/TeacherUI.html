@@ -38,6 +38,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
+                        <th></th>
                         <th>Description</th>
                         <th>Num Students</th>
                         <th>Current Students</th>
@@ -50,6 +51,13 @@
                     <tr th:each="actProj : ${activeProjects}">
                         <td th:text="${actProj.id}"></td>
                         <td th:text="${actProj.name}"></td>
+                        <td class="m-2">
+                            <a th:href="@{/projects/{id}(id=${project.id})}">
+                                <button th:id="'projectPage' + ${project.id}" class="btn btn-outline-dark btn-sm notify-btn">
+                                    Project Page
+                                </button>
+                            </a>
+                        </td>
                         <td th:text="${actProj.description}"></td>
                         <td th:text="${actProj.numStudents}"></td>
                         <td th:text="${actProj.currentStudents}"></td>
