@@ -56,6 +56,12 @@ public class Project {
         this.description = description;
     }
 
+    public Project(String name, String description, String status){
+        this.name = name;
+        this.description = description;
+        this.status = status;
+    }
+
     public String getDescription() {
         return description;
     }
