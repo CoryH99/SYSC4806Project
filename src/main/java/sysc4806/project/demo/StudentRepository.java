@@ -13,4 +13,6 @@ public interface StudentRepository extends CrudRepository<Student, Long> {
     List<Student> findAll();
 
     List<Student> findByProjectIsNull();
+
+    List<Student> findByProject(Project project);
 }

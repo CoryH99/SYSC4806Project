@@ -65,6 +65,10 @@ public class Professor {
         this.projects = projects;
     }
 
+    public void removeProject(Project project){
+        this.projects.remove(project);
+    }
+
     public List<Project> getActiveProjects(){
         List<Project> active = new ArrayList<>();
 
