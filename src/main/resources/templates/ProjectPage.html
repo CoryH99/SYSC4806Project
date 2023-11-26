@@ -22,15 +22,17 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:text="${project.id}">
-        <td th:text="${project.id}"></td>
-        <td th:text="${project.name}"></td>
-        <td th:text="${project.description}"></td>
-        <td th:text="${project.professor.name}"></td>
-        <td th:text="${project.numStudents}"></td>
-        <td th:text="${project.currentStudents}"></td>
-        <td th:text="${project.dueDate}"></td>
-    </tr>
+    <th:block th:each="project : ${proj}">
+        <tr th:if="${project.id == projID}">
+            <td th:text="${project.id}"></td>
+            <td th:text="${project.name}"></td>
+            <td th:text="${project.description}"></td>
+            <td th:text="${project.professor.name}"></td>
+            <td th:text="${project.numStudents}"></td>
+            <td th:text="${project.currentStudents}"></td>
+            <td th:text="${project.dueDate}"></td>
+        </tr>
+    </th:block>
     </tbody>
 </table>
 </html>

@@ -35,9 +35,11 @@
         <td th:text="${project.currentStudents}"></td>
         <td th:text="${project.dueDate}"></td>
         <td class="m-2">
-            <button th:id="'projectPage' + ${project.id}" class="btn btn-outline-dark btn-sm notify-btn" onclick="location.href='/projects/${project.id}';">
-                Project Page
-            </button>
+            <a th:href="@{/projects/{id}(id=${project.id})}">
+                <button th:id="'projectPage' + ${project.id}" class="btn btn-outline-dark btn-sm notify-btn">
+                    Project Page
+                </button>
+            </a>
         </td>
         <!-- Add more columns as needed -->
     </tr>

@@ -13,7 +13,7 @@ public class ProjectViewController {
     ProjectRepository projectRepo;
     @GetMapping("/projects/{projID}")
     public String projectView(@PathVariable("projID") Long projID, Model model){
-        model.addAttribute("project", projectRepo.findById(projID));
+        model.addAttribute("proj", projectRepo.findAll());
         return "ProjectPage";
     }
 
