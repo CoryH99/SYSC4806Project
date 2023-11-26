@@ -42,7 +42,7 @@ public class ProfessorController {
             return new ResponseEntity<>("Professor not found", HttpStatus.NOT_FOUND);
         }
     }
-}
+
     @GetMapping("/professor/getProfessors")
     public List<Professor> getProfessors(){
         return profRepo.findAll();
