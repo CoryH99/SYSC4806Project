@@ -23,8 +23,8 @@
 <div class="container d-flex align-items-center justify-content-center">
     <div class="card m-2 p-3 border-dark" style="max-width: 18rem;">
         <h5 class="card-title">Please Input ID</h5>
-        <input type="text" class="form-text m-2" id="studIdInput">
-        <button class="btn btn-danger m-2" th:onclick="'loginStudent(' + ${numberOfProfessors} + ')'">Log in</button>
+        <input type="text" class="form-text m-2" id="profIdInput">
+        <button class="btn btn-danger m-2" th:onclick="'loginProf(' + ${numberOfProfessors} + ')'">Log in</button>
     </div>
 </div>
 
@@ -34,7 +34,7 @@
 <script th:inline="javascript">
 
     function loginProf(maxProfs){
-        let inputId = document.getElementById("studIdInput").value
+        let inputId = document.getElementById("profIdInput").value
 
 
         if (typeof Number(inputId) === 'number'){

@@ -27,8 +27,16 @@ public class ProfessorViewController {
     @GetMapping("/professorView/{id}")
     public String specificProfessorView(@PathVariable("id") Long profId, Model model){
 
-        model.addAttribute("projects", projectRepo.findAll());
+        if (profRepo.findById(profId).isPresent()) {
+            Professor prof = profRepo.findById(profId).get();
+            model.addAttribute("prof", prof);
 
-        return "TeacherUI";
+            model.addAttribute("activeProjects", prof.getActiveProjects());
+            model.addAttribute("archivedProjects", prof.getArchivedProjects());
+
+            return "TeacherUI";
+        } else {
+            return "redirect:/";
+        }
     }
 }

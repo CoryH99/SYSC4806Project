@@ -57,4 +57,22 @@ public class ProjectController {
     public List<Project> listProjects(@RequestParam String status){
         return projectRepo.findByStatus(status);
     }
+
+    @PutMapping("/project/activateProject")
+    public Project activateProject(@RequestParam long projID){
+        Project project = projectRepo.findById(projID);
+
+        project.setStatus(Project.ACTIVE_PROJ);
+        return projectRepo.save(project);
+    }
+
+    @PutMapping("/project/archiveProject")
+    public Project archiveProject(@RequestParam long projID){
+        Project project = projectRepo.findById(projID);
+
+        project.setStatus(Project.ARCHIVE);
+        return projectRepo.save(project);
+    }
+
+
 }

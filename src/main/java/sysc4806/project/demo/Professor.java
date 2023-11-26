@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,9 +22,11 @@ public class Professor {
     public Professor(String name, String availability){
         this.name = name;
         this.availability = availability;
+        this.projects = new ArrayList<>();
     }
 
     public Professor() {
+        this.projects = new ArrayList<>();
     }
 
     public void setId(Long id) {
@@ -60,6 +63,29 @@ public class Professor {
 
     public void setProjects(List<Project> projects) {
         this.projects = projects;
+    }
+
+    public List<Project> getActiveProjects(){
+        List<Project> active = new ArrayList<>();
+
+        for (Project proj : this.projects){
+            if (proj.getStatus().equals(Project.ACTIVE_PROJ)){
+                active.add(proj);
+            }
+        }
+
+        return active;
+
+    }
+    
+    public List<Project> getArchivedProjects(){
+        List<Project> archived = new ArrayList<>();
+        for (Project proj : this.projects){
+            if (proj.getStatus().equals(Project.ARCHIVE)){
+                archived.add(proj);
+            }
+        }
+        return archived;
     }
 
     @Override
