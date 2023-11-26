@@ -21,6 +21,14 @@ public class Professor {
     @OneToMany
     private List<Project> projects;
 
+    public Professor(String name, String availability){
+        this.name = name;
+        this.availability = availability;
+    }
+
+    public Professor() {
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
