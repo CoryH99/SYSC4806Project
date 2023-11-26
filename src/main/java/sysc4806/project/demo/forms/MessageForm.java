@@ -1,4 +1,4 @@
-package sysc4806.project.demo.messages;
+package sysc4806.project.demo.forms;
 
 public class MessageForm {
 

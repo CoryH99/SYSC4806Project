@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import sysc4806.project.demo.messages.Message;
-import sysc4806.project.demo.messages.MessageForm;
+import sysc4806.project.demo.forms.MessageForm;
 import sysc4806.project.demo.messages.MessageRepository;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -46,7 +46,6 @@ public class CoordinatorViewController {
         String dateStr = formatter.format(today);
 
         long studId = messageForm.getId();
-        logger.info("THE ID THAT WAS RECEIVED WAS: " + studId);
 
         String level = Message.URGENT_STATUS;
         Message message = new Message(dateStr, level, messageForm.getContent());

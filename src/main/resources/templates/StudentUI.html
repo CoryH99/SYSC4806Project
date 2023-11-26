@@ -77,8 +77,30 @@
                     </div>
                 </div>
             </div>
-            <div class="col-4"></div>
-            <div class="col-4"></div>
+            <div class="col-4">
+<!--                <div class="card my-2">-->
+<!--                    <h5 class="card-title m-2">Student Info:</h5>-->
+<!--                    <ul class="list-group list-group-flush">-->
+<!--                        <li class="list-group-item">-->
+<!--                            <p><b>Program: </b> <span th:text="${student.program != null} ? ${student.program}: 'no program selected'"></span></p>-->
+<!--                        </li>-->
+<!--                        <li class="list-group-item">-->
+<!--                            <p><b>Available Time: </b> <span th:text="${student.timeslot != null} ? ${student.timeslot}: 'Availability not set'"></span></p>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+
+            </div>
+            <div class="col-4">
+                <div class="callout">
+                    <h4>Program</h4>
+                    <code th:text="${student.program != null} ? ${student.program}: 'no program selected'"></code>
+                </div>
+                <div class="callout">
+                    <h4>Availability</h4>
+                    <code th:text="${student.timeslot != null} ? ${student.timeslot}: 'Availability not set'"></code>
+                </div>
+            </div>
         </div>
     </div>
 
