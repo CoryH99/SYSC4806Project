@@ -29,10 +29,10 @@ public class ProjectController {
         projectRepo.deleteById(id);
     }
 
-    @PutMapping("/project/editRestrictions")
-    public Project editProjectRestrict(@RequestParam Long id, @RequestBody List<String> restrict){
+    @PutMapping("/project/addRestriction")
+    public Project addProjectRestrict(@RequestParam Long id, @RequestParam String restrict){
         Project p = projectRepo.findById(id).get();
-        p.setProgramRestrictions(restrict);
+        p.addProgramRestriction(restrict);
         return projectRepo.save(p);
     }
 
