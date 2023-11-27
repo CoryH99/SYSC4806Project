@@ -42,4 +42,12 @@ Version 2.0
 - Finish all features
 - Finalize UI
 
+Er Diagram for Milestone 2:
+![ER_DiagramM2](https://github.com/acegiansal/Sysc4806Project/assets/91341372/487adb8d-5345-49c0-9815-48ce438ea1cb)
+
+
+
+UML class diagram for the models in milestone 2:
+![UMLDiagramM2](https://github.com/acegiansal/Sysc4806Project/assets/91341372/ab6e0713-dc03-48e8-b5b1-af8dc5a86e8a)
+
 
