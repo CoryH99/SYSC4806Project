@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class ProfessorViewController {
@@ -16,26 +18,40 @@ public class ProfessorViewController {
     @Autowired
     private ProjectRepository projectRepo;
 
-    @GetMapping("/profView")
-    public String profView(Model model){
-
-        model.addAttribute("projects", projectRepo.findAll());
-
-        return "TeacherUI";
-    }
-
     @GetMapping("/professorView/{id}")
     public String specificProfessorView(@PathVariable("id") Long profId, Model model){
 
-        model.addAttribute("projects", projectRepo.findAll());
-
         if (profRepo.findById(profId).isPresent()) {
             Professor prof = profRepo.findById(profId).get();
-            model.addAttribute("professor", prof);
+            model.addAttribute("prof", prof);
+
+            model.addAttribute("activeProjects", prof.getActiveProjects());
+            model.addAttribute("archivedProjects", prof.getArchivedProjects());
+
+            model.addAttribute("projectForm", new Project());
+
+            return "TeacherUI";
         } else {
             return "redirect:/";
         }
+    }
 
-        return "TeacherUI";
+    @PostMapping("/professorView/{id}/createProject/")
+    public String profCreateProject(@ModelAttribute Project project, @PathVariable("id") Long profId, Model model){
+
+        Professor prof = profRepo.findById(profId).get();
+
+        Project new_proj = new Project(project.getName(), project.getDescription(), Project.ACTIVE_PROJ);
+
+        new_proj.setDueDate(project.getDueDate());
+        new_proj.setNumStudents(project.getNumStudents());
+
+        new_proj.setProfessor(prof);
+        prof.addProject(new_proj);
+
+        profRepo.save(prof);
+        projectRepo.save(new_proj);
+
+        return "redirect:/professorView/" + profId;
     }
 }

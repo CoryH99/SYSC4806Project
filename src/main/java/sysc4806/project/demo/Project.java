@@ -11,6 +11,9 @@ import java.util.List;
 @Entity(name="project")
 public class Project {
 
+    public final static String ACTIVE_PROJ = "ACTIVE";
+    public final static String ARCHIVE = "ARCHIVED";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -60,6 +63,7 @@ public class Project {
         this.name = name;
         this.description = description;
         this.status = status;
+        this.currentStudents = 0;
     }
 
     public String getDescription() {

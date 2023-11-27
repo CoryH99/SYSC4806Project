@@ -29,7 +29,7 @@ public class CoordinatorViewController {
     @GetMapping("/coordinatorView")
     public String coordinatorView(Model model){
 
-        model.addAttribute("projects", projectRepo.findAll());
+        model.addAttribute("projects", projectRepo.findByStatus(Project.ACTIVE_PROJ));
         model.addAttribute("students_no_project", studRepo.findByProjectIsNull());
 
         model.addAttribute("messageForm", new MessageForm());
@@ -58,7 +58,7 @@ public class CoordinatorViewController {
         mRepo.save(message);
         studRepo.save(targetStud);
 
-        model.addAttribute("projects", projectRepo.findAll());
+        model.addAttribute("projects", projectRepo.findByStatus(Project.ACTIVE_PROJ));
         model.addAttribute("students_no_project", studRepo.findByProjectIsNull());
 
         return "redirect:/coordinatorView";

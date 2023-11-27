@@ -14,6 +14,5 @@ public interface ProjectRepository extends CrudRepository<Project, Long> {
 
     List<Project> findByStatus(String stat);
 
-    Project save(Project project);
 
 }
