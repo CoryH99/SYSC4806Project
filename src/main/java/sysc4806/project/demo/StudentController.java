@@ -46,7 +46,7 @@ public class StudentController {
         if (studentRepo.existsById(studentID) && projectRepo.existsById(projectID)){
             Student s = studentRepo.findById(studentID).get();
             Project p = projectRepo.findById(projectID).get();
-            if (p.getNumStudents() <= p.getCurrentStudents() || p.getStudents().contains(s)){
+            if (p.getNumStudents() == p.getCurrentStudents() || p.getStudents().contains(s)){
                 logger.error("NOT ADDING STUDENT, because: studentInProject:" + p.getStudents().contains(s) + " or projectFull: " + (p.getNumStudents() <= p.getCurrentStudents()));
                 return new ResponseEntity<Student>(null, headers, HttpStatus.EXPECTATION_FAILED);
             }
