@@ -92,7 +92,10 @@
                     </div>
                     <div class="card-body">
                         <div th:if="${student.project != null}">
-
+                            <span><b>ID: </b><code th:text="${student.project?.id}"></code></span><br>
+                            <span><b>Name: </b><code th:text="${student.project?.name}"></code></span><br>
+                            <span><b>DueDate: </b><code th:text="${student.project?.dueDate}"></code></span><br>
+                            <span><b>Status: </b><code th:text="${student.project?.status}"></code></span>
                         </div>
                         <div th:unless="${student.project != null}">
                             <p>No Project has been assigned!</p>
