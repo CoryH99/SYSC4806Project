@@ -4,6 +4,10 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import sysc4806.project.demo.messages.Message;
+
 @Entity
 public class Student {
 
@@ -17,6 +21,9 @@ public class Student {
     @ManyToOne
     private Project project;
     private String timeslot;
+    @JsonManagedReference
+    @OneToMany
+    private List<Message> messages;
 
 
     public Long getId() {
@@ -26,12 +33,13 @@ public class Student {
         this.id = id;
     }
 
-    public Student() {}
+    public Student() {this.messages = new ArrayList<>();}
 
     public Student(String name, String program, String timeslot) {
         this.name = name;
         this.program = program;
         this.timeslot = timeslot;
+        this.messages = new ArrayList<>();
     }
 
     public String getProgram() {
@@ -66,7 +74,15 @@ public class Student {
         this.name = name;
     }
 
-    @Override
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void addMessage(Message message) {
+        this.messages.add(0, message);
+    }
+
+    @Override   
     public String toString() {
         return "Student{" +
                 "id=" + id +

@@ -1,5 +1,7 @@
 package sysc4806.project.demo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,8 @@ public class StudentController {
 
     @Autowired
     private ProjectRepository projectRepo;
+
+    Logger logger = LoggerFactory.getLogger(CoordinatorViewController.class);
 
     @PostMapping("/student/createStudent")
     @ResponseBody
@@ -43,8 +47,8 @@ public class StudentController {
             Student s = studentRepo.findById(studentID).get();
             Project p = projectRepo.findById(projectID).get();
             if (p.getNumStudents() <= p.getCurrentStudents() || p.getStudents().contains(s)){
-                System.out.println("NOT ADDING STUDENT, because: studentInProject:" + p.getStudents().contains(s) + " or projectFull: " + (p.getNumStudents() <= p.getCurrentStudents()));
-                return new ResponseEntity<Student>(null, headers, HttpStatus.NOT_FOUND);
+                logger.error("NOT ADDING STUDENT, because: studentInProject:" + p.getStudents().contains(s) + " or projectFull: " + (p.getNumStudents() <= p.getCurrentStudents()));
+                return new ResponseEntity<Student>(null, headers, HttpStatus.EXPECTATION_FAILED);
             }
             else {
                 s.setProject(p);
@@ -54,7 +58,7 @@ public class StudentController {
             }
         }
         else{
-            System.out.println("NOT ADDING STUDENT, STUDENT OR PROJECT DOES NOT EXIST");
+            logger.error("NOT ADDING STUDENT, STUDENT OR PROJECT DOES NOT EXIST");
             return new ResponseEntity<Student>(null, headers, HttpStatus.NOT_FOUND);
         }
     }

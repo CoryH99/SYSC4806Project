@@ -28,12 +28,26 @@ Version 1.0
 - Added CI functionality
 - Added basic tests
 - Basic Azure deployment
+Version 2.0
+- Added tests for version 1.0 controllers
+- Added functionality to login, create student and professor accounts
+- Added ability for student to sign up for a project
+- Added ability for a professor to archive/delete/unarchive projects
+- Cleaned up UI
+- Added functionality to submit a report for a project
 ======================================================================
 # Next Steps
-- Complete and clean up UI
-- Full coverage testing
-- Add complete routes and endpoints for all controllers
-- Adding professors and students to projects is working
-- Ability to view projects and their related students/professors
+- Add circuit breaker pattern across all critical points
+- Add oral presentation functionality to project coordinator class
+- Finish all features
+- Finalize UI
+
+Er Diagram for Milestone 2:
+![ER_DiagramM2](https://github.com/acegiansal/Sysc4806Project/assets/91341372/487adb8d-5345-49c0-9815-48ce438ea1cb)
+
+
+
+UML class diagram for the models in milestone 2:
+![UMLDiagramM2](https://github.com/acegiansal/Sysc4806Project/assets/91341372/ab6e0713-dc03-48e8-b5b1-af8dc5a86e8a)
 
 

@@ -11,4 +11,5 @@ public interface ProfessorRepository extends CrudRepository<Professor, Long> {
     Professor getById(long id);
 
     List<Professor> findAll();
+
 }

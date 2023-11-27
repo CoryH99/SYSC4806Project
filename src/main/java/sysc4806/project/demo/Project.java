@@ -11,6 +11,9 @@ import java.util.List;
 @Entity(name="project")
 public class Project {
 
+    public final static String ACTIVE_PROJ = "ACTIVE";
+    public final static String ARCHIVE = "ARCHIVED";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,7 +28,7 @@ public class Project {
     @ManyToOne
     private Professor professor;
     @JsonManagedReference
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Student> students;
     @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "programRestrictions", joinColumns = @JoinColumn(name = "project_id"))
@@ -56,6 +59,13 @@ public class Project {
         this.description = description;
     }
 
+    public Project(String name, String description, String status){
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.currentStudents = 0;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -68,8 +78,8 @@ public class Project {
         return programRestrictions;
     }
 
-    public void setProgramRestrictions(List<String> programRestrictions) {
-        this.programRestrictions = programRestrictions;
+    public void addProgramRestriction(String programRestriction) {
+        this.programRestrictions.add(programRestriction);
     }
 
     public int getNumStudents() {

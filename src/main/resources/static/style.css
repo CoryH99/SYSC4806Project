@@ -36,7 +36,7 @@ input[type="text"] {
     margin-right: 8px;
 }
 
-button {
+.search-button {
     padding: 8px 16px;
     background-color: #4CAF50;
     color: #fff;
@@ -44,6 +44,6 @@ button {
     cursor: pointer;
 }
 
-button:hover {
+.search-button:hover {
     background-color: #45a049;
 }

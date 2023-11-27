@@ -14,6 +14,8 @@ public class ProjectController {
     @Autowired
     private StudentRepository studentRepo;
 
+    @Autowired ProfessorRepository profRepo;
+
     @PostMapping("/project/createProject")
     public Project newProject(@RequestBody Project proj){
         return projectRepo.save(proj);
@@ -26,13 +28,30 @@ public class ProjectController {
 
     @DeleteMapping("/project/delete")
     public void deleteProject(@RequestParam Long id){
-        projectRepo.deleteById(id);
+        if (projectRepo.findById(id).isPresent()) {
+            Project target = projectRepo.findById(id).get();
+            List<Student> studentsInProj = studentRepo.findByProject(target);
+
+            for (Student stud : studentsInProj){
+                stud.setProject(null);
+                studentRepo.save(stud);
+            }
+
+            if (target.getProfessor() != null){
+                Professor prof = target.getProfessor();
+                prof.removeProject(target);
+                profRepo.save(prof);
+            }
+
+            projectRepo.deleteById(id);
+        }
+
     }
 
-    @PutMapping("/project/editRestrictions")
-    public Project editProjectRestrict(@RequestParam Long id, @RequestBody List<String> restrict){
+    @PutMapping("/project/addRestriction")
+    public Project addProjectRestrict(@RequestParam Long id, @RequestParam String restrict){
         Project p = projectRepo.findById(id).get();
-        p.setProgramRestrictions(restrict);
+        p.addProgramRestriction(restrict);
         return projectRepo.save(p);
     }
 
@@ -57,4 +76,22 @@ public class ProjectController {
     public List<Project> listProjects(@RequestParam String status){
         return projectRepo.findByStatus(status);
     }
+
+    @PutMapping("/project/activateProject")
+    public Project activateProject(@RequestParam long projID){
+        Project project = projectRepo.findById(projID);
+
+        project.setStatus(Project.ACTIVE_PROJ);
+        return projectRepo.save(project);
+    }
+
+    @PutMapping("/project/archiveProject")
+    public Project archiveProject(@RequestParam long projID){
+        Project project = projectRepo.findById(projID);
+
+        project.setStatus(Project.ARCHIVE);
+        return projectRepo.save(project);
+    }
+
+
 }

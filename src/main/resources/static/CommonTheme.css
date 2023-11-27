@@ -1,0 +1,95 @@
+footer {
+    background: #d92536;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.contentPane {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.mainHeader {
+    background: #2b070a;
+    width: 100%;
+}
+
+.customLargeButton {
+    background: #d92536;
+    width: 100%;
+    height: 100%;
+}
+
+/* Source for callouts: https://codepen.io/superjaberwocky/pen/rLKxOa in SCSS
+ * Then translated to CSS using https://jsonformatter.org/scss-to-css
+ */
+.callout {
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid;
+    border-left-width: 5px;
+    border-radius: 3px;
+}
+.callout h4 {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+.callout p:last-child {
+    margin-bottom: 0;
+}
+.callout code {
+    border-radius: 3px;
+}
+.callout + .bs-callout {
+    margin-top: -5px;
+}
+
+.callout-default {
+    border-left-color: #777;
+}
+.callout-default h4 {
+    color: #777;
+}
+
+.callout-primary {
+    border-left-color: #428bca;
+}
+.callout-primary h4 {
+    color: #428bca;
+}
+
+.callout-success {
+    border-left-color: #5cb85c;
+}
+.callout-success h4 {
+    color: #5cb85c;
+}
+
+.callout-danger {
+    border-left-color: #d9534f;
+}
+.callout-danger h4 {
+    color: #d9534f;
+}
+
+.callout-warning {
+    border-left-color: #f0ad4e;
+}
+.callout-warning h4 {
+    color: #f0ad4e;
+}
+
+.callout-info {
+    border-left-color: #5bc0de;
+}
+.callout-info h4 {
+    color: #5bc0de;
+}
+
+.callout-bdc {
+    border-left-color: #29527a;
+}
+.callout-bdc h4 {
+    color: #29527a;
+}
