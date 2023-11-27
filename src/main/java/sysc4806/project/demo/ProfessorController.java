@@ -6,6 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
@@ -74,18 +75,21 @@ public class ProfessorController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        logger.info("Inside AssignProject");
 
         if (profRepo.existsById(profID) && projectRepo.existsById(projectID)){
-            Professor prof = profRepo.findById(profID).get();
-            Project proj = projectRepo.findById(projectID).get();
-            logger.info("Got professor and project");
-            prof.addProject(proj);
-            proj.setProfessor(prof);
-            projectRepo.save(proj);
-            Professor saved_prof = profRepo.save(prof);
-            logger.info("Added project and professor");
-            return new ResponseEntity<Professor>(saved_prof, headers, HttpStatus.OK);
+
+            try {
+                Professor prof = profRepo.findById(profID).get();
+                Project proj = projectRepo.findById(projectID).get();
+                proj.setProfessor(prof);
+                prof.addProject(proj);
+                projectRepo.save(proj);
+                Professor saved_prof = profRepo.save(prof);
+                return new ResponseEntity<Professor>(saved_prof, headers, HttpStatus.OK);
+            } catch (HttpMessageNotWritableException e){
+                logger.error(e.getMessage());
+            }
+            return new ResponseEntity<Professor>(null, headers, HttpStatus.EXPECTATION_FAILED);
         }
         else{
             return new ResponseEntity<Professor>(null, headers, HttpStatus.NOT_FOUND);

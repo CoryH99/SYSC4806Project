@@ -56,7 +56,7 @@ public class ProfessorTests {
         String expected = "testProject";
 
         String profRequestBody = "{\"name\": \"testProf\", \"availability\": \"monday\"}";
-        String projRequestBody = "{\"name\": \"testProject\", \"description\": \"test project\", \"numStudents\": 3}";
+        String projRequestBody = "{\"name\": \"testProject\", \"description\": \"test project\", \"numStudents\": 3, \"status\": \"" + Project.ACTIVE_PROJ + "\"}";
 
         this.mockController.perform(post("/project/createProject").contentType(MediaType.APPLICATION_JSON).
                 content(projRequestBody)).andDo(print()).andExpect(status().isOk());
@@ -65,7 +65,7 @@ public class ProfessorTests {
                 content(profRequestBody)).andDo(print()).andExpect(status().isOk());
 
         this.mockController.perform(put("/professor/assignProject?profID=1&projectID=1").contentType(MediaType.APPLICATION_JSON)
-        ).andDo(print()).andExpect(status().isOk());
+        ).andDo(print()).andExpect(status().isOk()).andExpect(content().string(containsString(expected)));
     }
 
 }
