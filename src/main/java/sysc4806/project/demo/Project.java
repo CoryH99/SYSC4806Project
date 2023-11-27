@@ -63,6 +63,7 @@ public class Project {
         this.name = name;
         this.description = description;
         this.status = status;
+        this.currentStudents = 0;
     }
 
     public String getDescription() {

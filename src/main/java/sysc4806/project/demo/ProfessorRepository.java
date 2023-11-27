@@ -12,5 +12,4 @@ public interface ProfessorRepository extends CrudRepository<Professor, Long> {
 
     List<Professor> findAll();
 
-    Professor save(Professor professor);
 }
