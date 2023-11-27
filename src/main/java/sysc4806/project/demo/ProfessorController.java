@@ -1,4 +1,6 @@
 package sysc4806.project.demo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -9,6 +11,8 @@ import java.util.*;
 
 @RestController
 public class ProfessorController {
+
+    Logger logger = LoggerFactory.getLogger(CoordinatorViewController.class);
 
     @Autowired
     private ProfessorRepository profRepo;
@@ -69,13 +73,19 @@ public class ProfessorController {
     public ResponseEntity<Professor> assignProject(@RequestParam Long profID, @RequestParam Long projectID){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+
+        logger.info("Inside AssignProject");
+
         if (profRepo.existsById(profID) && projectRepo.existsById(projectID)){
             Professor prof = profRepo.findById(profID).get();
             Project proj = projectRepo.findById(projectID).get();
+            logger.info("Got professor and project");
             prof.addProject(proj);
             proj.setProfessor(prof);
             projectRepo.save(proj);
-            return new ResponseEntity<Professor>(profRepo.save(prof), headers, HttpStatus.NOT_FOUND);
+            Professor saved_prof = profRepo.save(prof);
+            logger.info("Added project and professor");
+            return new ResponseEntity<Professor>(saved_prof, headers, HttpStatus.OK);
         }
         else{
             return new ResponseEntity<Professor>(null, headers, HttpStatus.NOT_FOUND);
@@ -89,7 +99,7 @@ public class ProfessorController {
         if (profRepo.existsById(profID)){
             Professor prof = profRepo.findById(profID).get();
             prof.setProjects(proj);
-            return new ResponseEntity<Professor>(profRepo.save(prof), headers, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Professor>(profRepo.save(prof), headers, HttpStatus.OK);
         }
         else{
             return new ResponseEntity<Professor>(null, headers, HttpStatus.NOT_FOUND);
