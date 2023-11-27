@@ -1,14 +1,19 @@
 package sysc4806.project.demo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
 public class ProfessorController {
+
+    Logger logger = LoggerFactory.getLogger(CoordinatorViewController.class);
 
     @Autowired
     private ProfessorRepository profRepo;
@@ -69,13 +74,22 @@ public class ProfessorController {
     public ResponseEntity<Professor> assignProject(@RequestParam Long profID, @RequestParam Long projectID){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+
+
         if (profRepo.existsById(profID) && projectRepo.existsById(projectID)){
-            Professor prof = profRepo.findById(profID).get();
-            Project proj = projectRepo.findById(projectID).get();
-            prof.addProject(proj);
-            proj.setProfessor(prof);
-            projectRepo.save(proj);
-            return new ResponseEntity<Professor>(profRepo.save(prof), headers, HttpStatus.NOT_FOUND);
+
+            try {
+                Professor prof = profRepo.findById(profID).get();
+                Project proj = projectRepo.findById(projectID).get();
+                proj.setProfessor(prof);
+                prof.addProject(proj);
+                projectRepo.save(proj);
+                Professor saved_prof = profRepo.save(prof);
+                return new ResponseEntity<Professor>(saved_prof, headers, HttpStatus.OK);
+            } catch (HttpMessageNotWritableException e){
+                logger.error(e.getMessage());
+            }
+            return new ResponseEntity<Professor>(null, headers, HttpStatus.EXPECTATION_FAILED);
         }
         else{
             return new ResponseEntity<Professor>(null, headers, HttpStatus.NOT_FOUND);
@@ -89,7 +103,7 @@ public class ProfessorController {
         if (profRepo.existsById(profID)){
             Professor prof = profRepo.findById(profID).get();
             prof.setProjects(proj);
-            return new ResponseEntity<Professor>(profRepo.save(prof), headers, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Professor>(profRepo.save(prof), headers, HttpStatus.OK);
         }
         else{
             return new ResponseEntity<Professor>(null, headers, HttpStatus.NOT_FOUND);
