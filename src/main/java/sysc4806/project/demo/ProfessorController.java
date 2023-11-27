@@ -1,13 +1,11 @@
 package sysc4806.project.demo;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import java.util.*;
 
 @RestController
 public class ProfessorController {
@@ -22,6 +20,37 @@ public class ProfessorController {
     @ResponseBody
     public Professor newProfessor(@RequestBody Professor p){
         return profRepo.save(p);
+    }
+
+
+    @PostMapping("/{professorId}/projects")
+    public ResponseEntity<String> addProjectToProfessor(
+            @PathVariable Long professorId,
+            @RequestParam String name,
+            @RequestParam String description,
+            @RequestParam int numStudents,
+            @RequestParam String dueDate) {
+
+        // Find the professor
+        Optional<Professor> optionalProfessor = profRepo.findById(professorId);
+
+        if (optionalProfessor.isPresent()) {
+            Professor professor = optionalProfessor.get();
+
+            // Create a new Project
+            Project project = new Project(name, description, professor, "", dueDate, numStudents);
+
+            // Save the project
+            projectRepo.save(project);
+
+            // Add the project to the professor's list of projects
+            professor.addProject(project);
+            profRepo.save(professor);
+
+            return new ResponseEntity<>("Project added to professor successfully", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Professor not found", HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/professor/getProfessors")
