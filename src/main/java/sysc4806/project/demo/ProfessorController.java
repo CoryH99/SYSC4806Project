@@ -28,7 +28,6 @@ public class ProfessorController {
             @PathVariable Long professorId,
             @RequestParam String name,
             @RequestParam String description,
-            @RequestParam String professorName,
             @RequestParam int numStudents,
             @RequestParam String dueDate) {
 

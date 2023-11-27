@@ -40,7 +40,7 @@
 
 <!-- Add New Project -->
 <h3>Add New Project</h3>
-<form action="/{professorId}/projects" method="post">
+<form>
     <label for="name">Project Name:</label>
     <input type="text" id="name" name="name" required>
     <label for="description">Description:</label>
@@ -55,8 +55,28 @@
     <label for="dueDate">Due Date:</label>
     <input type="text" id="dueDate" name="dueDate" required>
 
-    <button type="submit">Add Project</button>
+    <button th:attr="onclick=|addNewProject('${professor.id}')|">Add Project</button>
 </form>
+
+<script>
+    async function addNewProject(profID){
+        var projName = document.getElementById("name").value;
+        var desc = document.getElementById("description").value;
+        var numStudents = document.getElementById("numStudents").value;
+        var due = document.getElementById("dueDate").value;
+
+        let results = fetch('/'+profID+'/projects?' + new URLSearchParams({
+            name: projName,
+            description: desc,
+            numStudents: numStudents,
+            dueDate: due
+        }), {
+            method: "post"
+        }).then(()=>{
+            window.location.reload();
+        })
+    }
+</script>
 
 <!-- Search Projects -->
 <h3>Search Projects</h3>

@@ -29,6 +29,13 @@ public class ProfessorViewController {
 
         model.addAttribute("projects", projectRepo.findAll());
 
+        if (profRepo.findById(profId).isPresent()) {
+            Professor prof = profRepo.findById(profId).get();
+            model.addAttribute("professor", prof);
+        } else {
+            return "redirect:/";
+        }
+
         return "TeacherUI";
     }
 }
