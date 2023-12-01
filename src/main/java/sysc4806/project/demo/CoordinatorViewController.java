@@ -58,9 +58,6 @@ public class CoordinatorViewController {
         mRepo.save(message);
         studRepo.save(targetStud);
 
-        model.addAttribute("projects", projectRepo.findByStatus(Project.ACTIVE_PROJ));
-        model.addAttribute("students_no_project", studRepo.findByProjectIsNull());
-
         return "redirect:/coordinatorView";
     }
 }
