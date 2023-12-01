@@ -23,3 +23,9 @@ function toggleDiv(divToShowOrHide) {
         x.style.display = "none";
     }
 }
+
+function viewForm(divToHide, showForm){
+    toggleDiv(divToHide);
+    toggleDiv(showForm);
+
+}

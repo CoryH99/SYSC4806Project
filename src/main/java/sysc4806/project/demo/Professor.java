@@ -4,6 +4,7 @@ package sysc4806.project.demo;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import sysc4806.project.demo.presentationHandling.TimeSlotHandling;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +47,11 @@ public class Professor {
     }
 
     public String getAvailability() {
-        return availability;
+        if (availability != null && !availability.isEmpty()){
+            return availability;
+        } else {
+            return TimeSlotHandling.DEFAULT_TIME;
+        }
     }
 
     public void setAvailability(String availability) {

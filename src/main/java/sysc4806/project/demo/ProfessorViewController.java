@@ -8,6 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import sysc4806.project.demo.forms.TimeslotForm;
+import sysc4806.project.demo.presentationHandling.TimeSlotHandling;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class ProfessorViewController {
@@ -25,8 +30,10 @@ public class ProfessorViewController {
             Professor prof = profRepo.findById(profId).get();
             model.addAttribute("prof", prof);
 
+            model.addAttribute("timeslotForm", new TimeslotForm());
             model.addAttribute("activeProjects", prof.getActiveProjects());
             model.addAttribute("archivedProjects", prof.getArchivedProjects());
+            model.addAttribute("timeslot", TimeSlotHandling.fromTimeslotToMap(prof.getAvailability()));
 
             model.addAttribute("projectForm", new Project());
 
@@ -51,6 +58,19 @@ public class ProfessorViewController {
 
         profRepo.save(prof);
         projectRepo.save(new_proj);
+
+        return "redirect:/professorView/" + profId;
+    }
+
+    @PostMapping("/professorView/createAvailability/{id}")
+    public String createAvailability(@ModelAttribute TimeslotForm timeslot, @PathVariable("id") Long profId, Model model){
+        String new_timeslot = TimeSlotHandling.convertToTimeslot(TimeSlotHandling.createTimeList(timeslot));
+
+        if (profRepo.findById(profId).isPresent()) {
+            Professor prof = profRepo.findById(profId).get();
+            prof.setAvailability(new_timeslot);
+            profRepo.save(prof);
+        }
 
         return "redirect:/professorView/" + profId;
     }

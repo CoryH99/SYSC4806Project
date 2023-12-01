@@ -1,5 +1,8 @@
 package sysc4806.project.demo.presentationHandling;
 
+import org.springframework.web.bind.annotation.ModelAttribute;
+import sysc4806.project.demo.forms.TimeslotForm;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -52,6 +55,17 @@ public class TimeSlotHandling {
         }
 
         return weekMap;
+    }
+
+    public static List<String> createTimeList(TimeslotForm timeslot) {
+        List<String> weekSchedule = new ArrayList<>();
+        weekSchedule.add(timeslot.getMonday());
+        weekSchedule.add(timeslot.getTuesday());
+        weekSchedule.add(timeslot.getWednesday());
+        weekSchedule.add(timeslot.getThursday());
+        weekSchedule.add(timeslot.getFriday());
+        return weekSchedule;
+
     }
 
 

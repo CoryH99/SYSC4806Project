@@ -45,13 +45,7 @@ public class StudentViewController {
 
     @PostMapping("/studentView/createTimeSlot/{id}")
     public String createTimeSlot(@ModelAttribute TimeslotForm timeslot, @PathVariable("id") Long studId, Model model){
-        List<String> weekSchedule = new ArrayList<>();
-        weekSchedule.add(timeslot.getMonday());
-        weekSchedule.add(timeslot.getTuesday());
-        weekSchedule.add(timeslot.getWednesday());
-        weekSchedule.add(timeslot.getThursday());
-        weekSchedule.add(timeslot.getFriday());
-        String new_timeslot = TimeSlotHandling.convertToTimeslot(weekSchedule);
+        String new_timeslot = TimeSlotHandling.convertToTimeslot(TimeSlotHandling.createTimeList(timeslot));
 
         if (studentRepo.findById(studId).isPresent()) {
             Student student = studentRepo.findById(studId).get();
