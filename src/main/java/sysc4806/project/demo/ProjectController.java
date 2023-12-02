@@ -1,9 +1,13 @@
 package sysc4806.project.demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class ProjectController {
@@ -92,6 +96,5 @@ public class ProjectController {
         project.setStatus(Project.ARCHIVE);
         return projectRepo.save(project);
     }
-
 
 }

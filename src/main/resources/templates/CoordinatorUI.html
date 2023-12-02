@@ -47,7 +47,12 @@
             <!-- Iterate through the projects -->
             <tr th:each="project : ${projects}">
                 <td th:text="${project.id}"></td>
-                <td th:text="${project.name}"></td>
+                <td>
+                    <a th:href="@{/projects/coordinator/{id}(id=${project.id})}">
+                        <button th:id="${project.id} + 'PageButton'" class="btn btn-outline-dark btn-sm notify-btn" th:text="${project.name}">
+                        </button>
+                    </a>
+                </td>
                 <td th:text="${project.description}"></td>
                 <td th:text="${project.professor.name}"></td>
                 <td th:text="${project.numStudents}"></td>

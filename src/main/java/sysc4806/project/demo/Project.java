@@ -23,6 +23,7 @@ public class Project {
     private int currentStudents;
     private String dueDate;
     private String status;
+    private String presentationTime;
 
     @JsonBackReference
     @ManyToOne
@@ -150,6 +151,14 @@ public class Project {
     public void addStudent(Student s){
         this.currentStudents++;
         students.add(s);
+    }
+
+    public String getPresentationTime() {
+        return presentationTime;
+    }
+
+    public void setPresentationTime(String presentationTime) {
+        this.presentationTime = presentationTime;
     }
 
     @Override
