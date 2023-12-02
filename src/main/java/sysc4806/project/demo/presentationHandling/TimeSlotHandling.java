@@ -51,7 +51,9 @@ public class TimeSlotHandling {
         String[] days = timeslot.split(";");
         for (String day: days){
             String[] day_split = day.split(": ");
-            weekMap.put(day_split[0], day_split[1]);
+            if (day_split.length == 2){
+                weekMap.put(day_split[0], day_split[1]);
+            }
         }
 
         return weekMap;
