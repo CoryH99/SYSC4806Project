@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.persistence.Id;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name="project")
@@ -23,7 +22,7 @@ public class Project {
     private int currentStudents;
     private String dueDate;
     private String status;
-    private String presentationTime;
+    private String presentationDetails;
 
     @JsonBackReference
     @ManyToOne
@@ -153,12 +152,12 @@ public class Project {
         students.add(s);
     }
 
-    public String getPresentationTime() {
-        return presentationTime;
+    public String getPresentationDetails() {
+        return presentationDetails;
     }
 
-    public void setPresentationTime(String presentationTime) {
-        this.presentationTime = presentationTime;
+    public void setPresentationDetails(String presentationTime) {
+        this.presentationDetails = presentationTime;
     }
 
     @Override

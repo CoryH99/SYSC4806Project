@@ -49,10 +49,10 @@
         </div>
         <div class="col-2 card text-white bg-dark m-2">
             <div class="card-header">
-                Presentation Date
+                Presentation Details
             </div>
             <div class="card-body">
-                <h5 th:text="${proj.presentationTime != null} ? ${proj.presentationTime}:'No Presentation Time Set'"></h5>
+                <h5 th:text="${proj.presentationDetails != null} ? ${proj.presentationDetails}:'No Presentation Time Set'"></h5>
             </div>
         </div>
     </div>
@@ -101,8 +101,8 @@
             <div class="card-body">
                 <h4>Availability</h4>
                 <div>
-                    <div th:each="key : ${studentTimeslots.get(index.getIndex())}">
-                        <span><b th:text="${key} + ': '"></b><br><code th:text="${studentTimeslots.get(index.getIndex()).get(key) != null} ? ${studentTimeslots.get(index).get(key)}: 'Availability not set'"></code></span><br>
+                    <div th:each="key : ${studentTimeslots.get(index.getIndex()).keySet()}">
+                        <span><b th:text="${key} + ': '"></b><br><code th:text="${studentTimeslots.get(index.getIndex()).get(key) != null} ? ${studentTimeslots.get(index.getIndex()).get(key)}: 'Availability not set'"></code></span><br>
                     </div>
                 </div>
             </div>

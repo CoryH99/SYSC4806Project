@@ -72,7 +72,7 @@ public class ProjectViewController {
             Project project = projectRetrieval.get();
 
             /* Set project presentation time */
-            project.setPresentationTime(bookRoomForm.getTime());
+            project.setPresentationDetails(bookRoomForm.getRoom() + ": " + bookRoomForm.getTime());
             Project saved_proj = projectRepo.save(project);
 
             /* Tell the students when the presentation is */
@@ -82,7 +82,7 @@ public class ProjectViewController {
             String dateStr = formatter.format(today);
             String level = Message.URGENT_STATUS;
 
-            String content = bookRoomForm.getRoom() + " is booked for " + bookRoomForm.getTime();
+            String content = bookRoomForm.getRoom() + " is booked for " + bookRoomForm.getTime() + " for your project's oral presentation";
             for (Student stud: saved_proj.getStudents()){
                 Message message = new Message(dateStr, level, content);
                 message.setReceiver(stud);
