@@ -4,6 +4,7 @@ package sysc4806.project.demo;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +15,18 @@ public class Professor {
     @GeneratedValue
     private Long id;
     private String name;
+
+    @NotNull
+    private String profPassword;
     private String availability;
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL)
     private List<Project> projects;
 
-    public Professor(String name, String availability){
+    public Professor(String name, String availability, String profPassword){
         this.name = name;
         this.availability = availability;
+        this.profPassword = profPassword;
         this.projects = new ArrayList<>();
     }
 
@@ -44,6 +49,10 @@ public class Professor {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getProfPassword(){return profPassword;}
+
+    public void setPassword() {this.profPassword = profPassword;}
 
     public String getAvailability() {
         return availability;

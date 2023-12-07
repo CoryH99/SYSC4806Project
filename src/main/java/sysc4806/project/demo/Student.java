@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.antlr.v4.runtime.misc.NotNull;
 import sysc4806.project.demo.messages.Message;
 
 @Entity
@@ -22,7 +24,9 @@ public class Student {
     private Project project;
     private String timeslot;
 
-    private String passwordHash;
+    @NotNull
+    private String password;
+
     @JsonManagedReference
     @OneToMany
     private List<Message> messages;
@@ -37,12 +41,16 @@ public class Student {
 
     public Student() {this.messages = new ArrayList<>();}
 
-    public Student(String name, String program, String timeslot, String passwordHash) {
+    public Student(String name, String program, String timeslot, String password) {
         this.name = name;
         this.program = program;
         this.timeslot = timeslot;
-        this.passwordHash = passwordHash;
+        this.password = password;
         this.messages = new ArrayList<>();
+    }
+
+    public Student(String name, String program, String password){
+        this(name, program,"", password);
     }
 
     public String getProgram() {
@@ -73,9 +81,10 @@ public class Student {
         return name;
     }
 
-    public String getPasswordHash() {return passwordHash;}
+    public String getPassword() {return password;}
 
-    public void setPassword(String hashedPassword) {this.passwordHash = passwordHash;}
+
+    public void setPassword(String password) {this.password = password;}
 
 
 
