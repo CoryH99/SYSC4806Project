@@ -21,6 +21,11 @@
                     </tr>
                 </table>
             </form>
+            <a th:href="@{/projects/{id}(id=${project.id})}">
+                <button th:id="'projectPage' + ${project.id}" class="btn btn-outline-dark btn-sm notify-btn">
+                    Back
+                </button>
+            </a>
         </div>
         <div>
             <th:block th:each="file : ${files}">
