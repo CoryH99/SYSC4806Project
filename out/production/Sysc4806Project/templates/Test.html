@@ -1,0 +1,94 @@
+    <!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+<h1>These are all addressbooks</h1>
+
+<p th:text="${allBooks}"></p>
+
+<div class="card text-dark bg-light mb-3">
+    <table class="table">
+        <tr class="table-primary">
+            <th>Book Number:</th>
+            <th>Buddies:</th>
+        </tr>
+        <tr th:each="book, bookStat: ${allBooks}">
+            <td th:text="'Book ' + ${bookStat.index}"></td>
+            <td th:text="${book.buddies}" />
+        </tr>
+    </table>
+</div>
+
+<hr>
+
+<button class="btn btn-primary" onclick="createAddressBook()">Create Address Book</button>
+
+<hr>
+
+
+
+<h2>Add Buddy</h2>
+
+
+<form id="BuddyAddForm">
+    <label for="bookSel">Addressbook ID:</label>
+    <input type="text" id="bookSel" name="bookSel"><br>
+    <label for="fname">Name:</label>
+    <input type="text" id="fname" name="fname"><br>
+    <label for="pnum">Phone Number:</label>
+    <input type="text" id="pnum" name="pnum"><br>
+    <button class="btn btn-success" onclick="addBuddy()">Add Buddy</button>
+</form>
+
+<script>
+    async function createAddressBook(){
+        const response = await fetch("/createBook", {
+                method: "POST"
+            }
+        ).then(() => {
+            window.location.reload();
+        })
+        const book = await response.json()
+        console.log(book)
+    }
+
+    async function addBuddy(){
+        let selectedBook = document.getElementById("bookSel")
+        if (typeof Number(selectedBook.value) === 'number'){
+            let jsonBody = {
+                name: document.getElementById("fname").value,
+                phonenumber:document.getElementById("pnum").value
+            }
+
+            const response = await fetch("/addBuddy/" + selectedBook.value, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: JSON.stringify(jsonBody)
+            }).then(() => {
+                window.location.reload();
+            })
+
+            console.log(response)
+            console.log(response.text())
+
+        } else {
+            console.log("Not a number given to addressbook id!")
+        }
+
+    }
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>

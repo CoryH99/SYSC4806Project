@@ -21,6 +21,8 @@ public class Student {
     @ManyToOne
     private Project project;
     private String timeslot;
+
+    private String passwordHash;
     @JsonManagedReference
     @OneToMany
     private List<Message> messages;
@@ -35,10 +37,11 @@ public class Student {
 
     public Student() {this.messages = new ArrayList<>();}
 
-    public Student(String name, String program, String timeslot) {
+    public Student(String name, String program, String timeslot, String passwordHash) {
         this.name = name;
         this.program = program;
         this.timeslot = timeslot;
+        this.passwordHash = passwordHash;
         this.messages = new ArrayList<>();
     }
 
@@ -70,6 +73,12 @@ public class Student {
         return name;
     }
 
+    public String getPasswordHash() {return passwordHash;}
+
+    public void setPassword(String hashedPassword) {this.passwordHash = passwordHash;}
+
+
+
     public void setName(String name) {
         this.name = name;
     }
@@ -93,3 +102,4 @@ public class Student {
                 '}';
     }
 }
+

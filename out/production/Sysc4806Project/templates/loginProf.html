@@ -14,19 +14,17 @@
     <script src="CommonActions.js"></script>
 </head>
 <body>
+
 <div class="mainHeader">
-    <h2 class="text-white p-3 display-4 contentPane">Login as Student</h2>
+    <h2 class="text-white p-3 display-4 contentPane">Login as Professor</h2>
 </div>
 <hr>
-
-<div id="callout-div" class="px-2"></div>
 
 <div class="container d-flex align-items-center justify-content-center">
     <div class="card m-2 p-3 border-dark" style="max-width: 18rem;">
         <h5 class="card-title">Please Input ID</h5>
         <input type="text" class="form-text m-2" id="studIdInput">
-        <input type="password" name="password" placeholder="Password">
-        <button class="btn btn-danger m-2" th:onclick="'loginStudent(' + ${numberOfStudents} + ')'">Log in</button>
+        <button class="btn btn-danger m-2" th:onclick="'loginStudent(' + ${numberOfProfessors} + ')'">Log in</button>
     </div>
 </div>
 
@@ -35,23 +33,23 @@
 
 <script th:inline="javascript">
 
-    function loginStudent(maxStudents){
+    function loginProf(maxProfs){
         let inputId = document.getElementById("studIdInput").value
-        let inputPassword = document.getElementById("passwordInput").value;
+
 
         if (typeof Number(inputId) === 'number'){
-            if (inputId > 0 && inputId <= maxStudents){
-                location.href = "/studentView/" + inputId;
+            if (inputId > 0 && inputId <= maxProfs){
+                location.href = "/professorView/" + inputId;
             } else {
                 console.log("Invalid input")
                 $('#callout-div').empty();
-                createCallout("danger", "callout-div", "<h4>ERROR</h4>There is no student with id: " + inputId);
+                createCallout("danger", "callout-div", "<h4>ERROR</h4>There is no professor with id: " + inputId);
             }
 
         } else {
             console.log("Incorrect value inputted!")
             $('#callout-div').empty();
-            createCallout("danger", "callout-div", "<h4>ERROR</h4>{" + inputId + "} is not valid input for student ID (expecting int)");
+            createCallout("danger", "callout-div", "<h4>ERROR</h4>{" + inputId + "} is not valid input for professor ID (expecting int)");
         }
 
     }
