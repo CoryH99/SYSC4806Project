@@ -14,12 +14,14 @@
 </head>
 <body>
 
-<div class="mainHeader">
-    <h2 class="contentPane text-white p-3 display-4" th:text="'Welcome ' + ${prof.name} + ' #' + ${prof.id}"></h2>
-</div>
-
+<nav class="navbar navbar-expand-lg text-white" style="background-color: #2b070a;">
+    <div class="container-fluid">
+        <a class="link-light link-underline link-underline-opacity-0" href="/">Home</a>
+    </div>
+</nav>
 
 <div class="p-3 contentPane">
+    <h2 class="contentPane display-4" th:text="'Welcome ' + ${prof.name} + ' #' + ${prof.id}"></h2>
     <div class="card">
         <h3 class="m-2">View Projects</h3>
         <!-- Nav tabs -->
