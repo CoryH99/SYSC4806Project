@@ -19,7 +19,7 @@ public class StudentViewController {
     private ProjectRepository projectRepo;
 
     @GetMapping("/studentView/{id}")
-    @HystrixCommand(fallbackMethod="timeoutView")
+    @HystrixCommand(fallbackMethod="fallbackView")
     public String specificStudentView(@PathVariable("id") Long studId, Model model){
 
         // Constants
@@ -36,7 +36,7 @@ public class StudentViewController {
         return "StudentUI";
     }
 
-    private String timeoutView(@PathVariable("timeout") Long timeout, Model model){
+    private String fallbackView(){
         return "ErrorUI";
     }
 

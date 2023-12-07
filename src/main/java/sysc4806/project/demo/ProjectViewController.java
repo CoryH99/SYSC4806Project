@@ -15,13 +15,13 @@ public class ProjectViewController {
     @Autowired
     ProjectRepository projectRepo;
     @GetMapping("/projects/{projID}")
-    @HystrixCommand(fallbackMethod="timeoutView")
+    @HystrixCommand(fallbackMethod="fallbackView")
     public String projectView(@PathVariable("projID") Long projID, Model model){
         model.addAttribute("proj", projectRepo.findAll());
         return "ProjectPage";
     }
 
-    private String timeoutView(@PathVariable("timeout") Long timeout, Model model){
+    private String fallbackView(){
         return "ErrorUI";
     }
 

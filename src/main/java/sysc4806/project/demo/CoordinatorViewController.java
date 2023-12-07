@@ -30,7 +30,7 @@ public class CoordinatorViewController {
     private MessageRepository mRepo;
 
     @GetMapping("/coordinatorView")
-    @HystrixCommand(fallbackMethod="timeoutView")
+    @HystrixCommand(fallbackMethod="fallbackView")
     public String coordinatorView(Model model){
 
         model.addAttribute("projects", projectRepo.findByStatus(Project.ACTIVE_PROJ));
@@ -68,7 +68,7 @@ public class CoordinatorViewController {
         return "redirect:/coordinatorView";
     }
 
-    private String timeoutView(@PathVariable("timeout") Long timeout, Model model){
+    private String fallbackView(){
         return "ErrorUI";
     }
 }

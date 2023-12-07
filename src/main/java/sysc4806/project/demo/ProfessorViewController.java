@@ -22,7 +22,7 @@ public class ProfessorViewController {
     private ProjectRepository projectRepo;
 
     @GetMapping("/professorView/{id}")
-    @HystrixCommand(fallbackMethod="timeoutView")
+    @HystrixCommand(fallbackMethod="fallbackView")
     public String specificProfessorView(@PathVariable("id") Long profId, Model model){
 
         if (profRepo.findById(profId).isPresent()) {
@@ -41,6 +41,7 @@ public class ProfessorViewController {
     }
 
     @PostMapping("/professorView/{id}/createProject/")
+    @HystrixCommand(fallbackMethod="fallbackView")
     public String profCreateProject(@ModelAttribute Project project, @PathVariable("id") Long profId, Model model){
 
         Professor prof = profRepo.findById(profId).get();
@@ -59,7 +60,7 @@ public class ProfessorViewController {
         return "redirect:/professorView/" + profId;
     }
 
-    private String timeoutView(@PathVariable("timeout") Long timeout, Model model){
+    private String fallbackView(){
         return "ErrorUI";
     }
 }
