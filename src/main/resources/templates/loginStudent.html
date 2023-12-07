@@ -25,9 +25,11 @@
     <div class="card m-2 p-3 border-dark" style="max-width: 18rem;">
         <a class="link-danger link-underline link-underline-opacity-0 my-2" href="/"><- back</a>
         <h5 class="card-title">Please Input ID</h5>
-        <input type="text" class="form-text m-2" id="studIdInput">
-        <input type="password" name="password" placeholder="Password">
-        <button class="btn btn-danger m-2" th:onclick="'loginStudent(' + ${numberOfStudents} + ')'">Log in</button>
+        <form action="#" th:action="@{/loginStudent}" th:object="${loginForm}" method="post">
+            <input type="text" class="form-text m-2" id="studIdInput" th:field="*{id}">
+            <input type="password" name="password" placeholder="Password" th:field="*{password}">
+            <button class="btn btn-danger m-2" type="submit">Log in</button>
+        </form>
     </div>
 </div>
 

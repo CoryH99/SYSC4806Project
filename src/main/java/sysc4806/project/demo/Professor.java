@@ -11,6 +11,9 @@ import java.util.List;
 
 @Entity
 public class Professor {
+
+    public static final String PROF_ROLE = "PROFESSOR";
+
     @Id
     @GeneratedValue
     private Long id;
