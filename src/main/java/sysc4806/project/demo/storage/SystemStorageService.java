@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class SystemStorageService implements StorageService {
 
     private final Path rootLocation;
+
+    private ArrayList<Integer> ID;
 
     @Autowired
     public SystemStorageService(StorageProperties properties) {

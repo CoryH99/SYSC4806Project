@@ -38,6 +38,11 @@
             </tr>
     </tbody>
     </table>
+        <a th:href="@{/upload/{id}(id=${project.id})}">
+            <button th:id="'reportUpload' + ${project.id}" class="btn btn-outline-dark btn-sm notify-btn">
+                Upload Report
+            </button>
+        </a>
     </th:block>
 </th:block>
 

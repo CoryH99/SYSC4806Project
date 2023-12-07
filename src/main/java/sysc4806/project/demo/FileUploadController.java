@@ -1,6 +1,8 @@
 package sysc4806.project.demo;
 
 import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +21,15 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.nio.file.Path;
+
 import sysc4806.project.demo.storage.StorageService;
 
 @Controller
 public class FileUploadController {
+
+    @Autowired
+    private ProjectRepository projRepo;
 
     private final StorageService storageService;
 
@@ -31,8 +38,10 @@ public class FileUploadController {
         this.storageService = storageService;
     }
 
-    @GetMapping("/upload")
-    public String listUploadedFiles(Model model) throws IOException {
+    @GetMapping("/upload/{id}")
+    public String listUploadedFiles(@PathVariable("id") Long projID, Model model) throws IOException {
+
+        model.addAttribute("proj", projRepo.findAll());
 
         model.addAttribute("files", storageService.loadAll().map(
                         path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
@@ -55,15 +64,18 @@ public class FileUploadController {
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
-    @PostMapping("/upload")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file,
-                                   RedirectAttributes redirectAttributes) {
+    @PostMapping("/uploading/{id}")
+    public String handleFileUpload(@PathVariable("id") Long projID, @RequestParam("file") MultipartFile file) throws IOException {
+
+        Project pro = projRepo.findById(projID).get();
 
         storageService.store(file);
-        redirectAttributes.addFlashAttribute("message",
-                "You successfully uploaded " + file.getOriginalFilename() + "!");
 
-        return "redirect:home";
+        pro.setReport(storageService.load(file.getName()).resolve(file.getName()).toUri().toString());
+
+        projRepo.save(pro);
+
+        return "redirect:/projects/"+projID;
     }
 
     @ExceptionHandler(RuntimeException.class)
