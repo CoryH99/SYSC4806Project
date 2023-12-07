@@ -27,6 +27,7 @@
                 Register Professor
             </div>
             <div class="card-body">
+                <a class="link-danger link-underline link-underline-opacity-0 my-2" href="/"><- back</a>
                 <form action="#" th:action="@{/registerProfessor/register}" th:object="${professorForm}" method="post">
                     <label for="nameField" class="form-label">Name:</label>
                     <input id="nameField" type="text" class="form-control" th:field="*{name}"><br>
