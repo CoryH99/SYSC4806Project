@@ -42,8 +42,13 @@ public class LoginAndRegisterController {
 
         if (optionalStudent.isPresent()) {
             Student student = optionalStudent.get();
-
-            return null;
+            // Compare the entered password with the password associated with the student
+            if (password.equals(student.getPassword())) {
+                return "redirect:/StudentUI";
+            } else {
+                // Passwords do not match, return to login page with an error message
+                return "redirect:/loginStudent?error=Incorrect password";
+            }
         } else {
             // Student not found, return to login page with an error message
             return "redirect:/loginStudent?error=Student not found";
@@ -58,11 +63,24 @@ public class LoginAndRegisterController {
         return "loginProf";
     }
 
+    @PostMapping("/loginProfessor")
+    public String processLoginProfessor(@RequestParam Long id, @RequestParam String profPassword) {
+        Optional<Professor> optionalProfessor = profRepo.findById(id);
 
-
-
-
-
+        if (optionalProfessor.isPresent()) {
+            Professor professor = optionalProfessor.get();
+            // Compare the entered password with the password associated with the student
+            if (profPassword.equals(professor.getProfPassword())) {
+                return "redirect:/ProfessorUI";
+            } else {
+                // Passwords do not match, return to login page with an error message
+                return "redirect:/loginProfessor?error=Incorrect password";
+            }
+        } else {
+            // Student not found, return to login page with an error message
+            return "redirect:/loginProfessor?error=Professor not found";
+        }
+    }
 
 
     @GetMapping("/registerStudent")

@@ -84,10 +84,6 @@ public class Student {
     public String getPassword() {return password;}
 
 
-    public void setPassword(String password) {this.password = password;}
-
-
-
     public void setName(String name) {
         this.name = name;
     }

@@ -24,6 +24,7 @@
     <div class="card m-2 p-3 border-dark" style="max-width: 18rem;">
         <h5 class="card-title">Please Input ID</h5>
         <input type="text" class="form-text m-2" id="profIdInput">
+        <input type="password" name="profPassword" placeholder="Password">
         <button class="btn btn-danger m-2" th:onclick="'loginProf(' + ${numberOfProfessors} + ')'">Log in</button>
     </div>
 </div>
