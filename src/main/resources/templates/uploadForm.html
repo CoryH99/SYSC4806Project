@@ -13,31 +13,36 @@
                     </tr>
                     <tr>
                         <td></td>
-                        <td><button class="btn btn-success btn-sm" th:attr="onclick=|uploadFile(${project.id})|">Submit</button></td>
+                        <td>
+                            <button class="btn btn-success btn-sm" th:attr="onclick=|uploadFile(${project.id})|">
+                                Submit
+                            </button>
+                        </td>
                     </tr>
                 </table>
             </form>
         </div>
         <div>
-            <ul>
-                <li th:each="file : ${files}">
+            <th:block th:each="file : ${files}">
+                <th:block
+                        th:if="${project.getReport() == file.toString().substring(file.toString().lastIndexOf('/')+1)}">
                     <a th:href="${file}" th:text="${file}"/>
-                </li>
-            </ul>
+                </th:block>
+            </th:block>
         </div>
     </th:block>
 </th:block>
 
 <script>
-    async function uploadFile(projID){
+    async function uploadFile(projID) {
         let uploadFile = document.getElementById("up").value;
 
-        let results = fetch('/uploading/'+ projID + new URLSearchParams({
+        let results = fetch('/uploading/' + projID + new URLSearchParams({
             file: uploadFile,
         }), {
             method: "post"
-        }).then(()=>{
-            window.location.replace("/projects/"+projID);
+        }).then(() => {
+            window.location.replace("/projects/" + projID);
         })
 
     }

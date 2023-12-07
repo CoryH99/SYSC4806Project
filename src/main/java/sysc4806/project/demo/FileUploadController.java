@@ -48,6 +48,7 @@ public class FileUploadController {
                                 "serveFile", path.getFileName().toString()).build().toUri().toString())
                 .collect(Collectors.toList()));
 
+
         return "uploadForm";
     }
 
@@ -71,7 +72,7 @@ public class FileUploadController {
 
         storageService.store(file);
 
-        pro.setReport(storageService.load(file.getName()).resolve(file.getName()).toUri().toString());
+        pro.setReport(storageService.load(file.getOriginalFilename()).toString());
 
         projRepo.save(pro);
 

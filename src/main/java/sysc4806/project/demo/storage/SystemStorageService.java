@@ -23,8 +23,6 @@ public class SystemStorageService implements StorageService {
 
     private final Path rootLocation;
 
-    private ArrayList<Integer> ID;
-
     @Autowired
     public SystemStorageService(StorageProperties properties) {
 
@@ -69,7 +67,6 @@ public class SystemStorageService implements StorageService {
         catch (IOException e) {
             throw new RuntimeException("Failed to read stored files", e);
         }
-
     }
 
     @Override

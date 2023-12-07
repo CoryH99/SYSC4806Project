@@ -145,8 +145,8 @@ public class Project {
         this.professor = professor;
     }
 
-    public void setReport(String fileName) throws IOException {
-        this.file = fileName;
+    public void setReport(String file) throws IOException {
+        this.file = file.substring(file.lastIndexOf("\\")+1);
     }
 
     public String getReport(){
