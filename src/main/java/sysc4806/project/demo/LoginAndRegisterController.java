@@ -34,8 +34,9 @@ public class LoginAndRegisterController {
     }
 
     @GetMapping("/loginStudent")
-    public String loginStudent(Model model){
+    public String loginStudent(@RequestParam("error") Optional<String> error, Model model){
         model.addAttribute("numberOfStudents", studentRepo.count());
+        error.ifPresent(s -> model.addAttribute("error", s));
         model.addAttribute("loginForm", new LoginForm());
         return "loginStudent";
     }

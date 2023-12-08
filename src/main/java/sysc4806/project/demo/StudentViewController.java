@@ -22,11 +22,15 @@ public class StudentViewController {
     private ProjectRepository projectRepo;
 
     @GetMapping("/studentView/{id}")
-    public String specificStudentView(@CookieValue(value = "role", defaultValue = "Atta") String role,
+    public String specificStudentView(@CookieValue(value = "role", defaultValue = "noRole") String role,
                                       @CookieValue(value = "studId", defaultValue = "-1") String givenId,
                                       @PathVariable("id") Long studId, Model model, HttpServletResponse response){
 
         logger.info("found cookies: " + role + " and " + givenId);
+        if (Long.parseLong(givenId) != studId || !role.equals(Student.STUDENT_ROLE)){
+            logger.warn("ID: " + givenId + " attempted to login to user " + studId);
+            return "redirect:/";
+        }
 
         // Constants
         model.addAttribute("URGENT_LEVEL", "Urgent");
