@@ -53,7 +53,7 @@ public class LoginAndRegisterController {
             if (loginForm.getPassword().equals(student.getPassword())) {
 
                 Cookie cookie = new Cookie("role", Student.STUDENT_ROLE);
-                Cookie anotherCookie = new Cookie("studId", loginForm.getId().toString());
+                Cookie anotherCookie = new Cookie("id", loginForm.getId().toString());
                 response.addCookie(cookie);
                 response.addCookie(anotherCookie);
 
@@ -87,7 +87,7 @@ public class LoginAndRegisterController {
             if (loginForm.getPassword().equals(professor.getProfPassword())) {
 
                 Cookie cookie = new Cookie("role", Professor.PROF_ROLE);
-                Cookie anotherCookie = new Cookie("profId", loginForm.getId().toString());
+                Cookie anotherCookie = new Cookie("id", loginForm.getId().toString());
                 response.addCookie(cookie);
                 response.addCookie(anotherCookie);
                 return "redirect:/professorView/" + loginForm.getId();

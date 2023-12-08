@@ -22,7 +22,7 @@ public class ProfessorViewController {
 
     @GetMapping("/professorView/{id}")
     public String specificProfessorView(@CookieValue(value = "role", defaultValue = "noRole") String role,
-                                        @CookieValue(value = "studId", defaultValue = "-1") String givenId,
+                                        @CookieValue(value = "id", defaultValue = "-1") String givenId,
                                         @PathVariable("id") Long profId, Model model){
 
         logger.info("found cookies: " + role + " and " + givenId);
@@ -48,7 +48,7 @@ public class ProfessorViewController {
 
     @PostMapping("/professorView/{id}/createProject/")
     public String profCreateProject(@CookieValue(value = "role", defaultValue = "noRole") String role,
-                                    @CookieValue(value = "studId", defaultValue = "-1") String givenId,
+                                    @CookieValue(value = "id", defaultValue = "-1") String givenId,
                                     @ModelAttribute Project project, @PathVariable("id") Long profId, Model model){
 
         if (HandleUsers.checkIfProf(givenId, role, profId)){
