@@ -4,6 +4,7 @@ package sysc4806.project.demo;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import sysc4806.project.demo.presentationHandling.TimeSlotHandling;
 import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class Professor {
     private String profPassword;
     private String availability;
     @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Project> projects;
 
     public Professor(String name, String availability, String profPassword){
@@ -63,7 +64,11 @@ public class Professor {
     public void setPassword() {this.profPassword = profPassword;}
 
     public String getAvailability() {
-        return availability;
+        if (availability != null && !availability.isEmpty()){
+            return availability;
+        } else {
+            return TimeSlotHandling.DEFAULT_TIME;
+        }
     }
 
     public void setAvailability(String availability) {

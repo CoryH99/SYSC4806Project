@@ -4,8 +4,9 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.persistence.Id;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
 @Entity(name="project")
@@ -23,12 +24,15 @@ public class Project {
     private int currentStudents;
     private String dueDate;
     private String status;
+    private String presentationDetails;
+
+    private String file;
 
     @JsonBackReference
     @ManyToOne
     private Professor professor;
     @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Student> students;
     @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "programRestrictions", joinColumns = @JoinColumn(name = "project_id"))
@@ -80,6 +84,10 @@ public class Project {
 
     public void addProgramRestriction(String programRestriction) {
         this.programRestrictions.add(programRestriction);
+    }
+
+    public void removeProjectRestriction(String programRestriction){
+            programRestrictions.remove(programRestriction);
     }
 
     public int getNumStudents() {
@@ -142,6 +150,14 @@ public class Project {
         this.professor = professor;
     }
 
+    public void setReport(String file) throws IOException {
+        this.file = file.substring(file.lastIndexOf("\\")+1);
+    }
+
+    public String getReport(){
+        return file;
+    }
+
     public void removeStudent(Student s){
         this.currentStudents--;
         students.remove(s);
@@ -150,6 +166,14 @@ public class Project {
     public void addStudent(Student s){
         this.currentStudents++;
         students.add(s);
+    }
+
+    public String getPresentationDetails() {
+        return presentationDetails;
+    }
+
+    public void setPresentationDetails(String presentationTime) {
+        this.presentationDetails = presentationTime;
     }
 
     @Override

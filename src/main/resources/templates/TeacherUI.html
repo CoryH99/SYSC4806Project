@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -6,7 +5,8 @@
     <title>Prof UI</title>
 
     <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="../style.css">
     <link rel="stylesheet" type="text/css" href="../CommonTheme.css">
     <!-- Jquery -->
@@ -21,186 +21,297 @@
     </div>
 </nav>
 
-<div class="p-3 contentPane">
-    <h2 class="contentPane display-4" th:text="'Welcome ' + ${prof.name} + ' #' + ${prof.id}"></h2>
-    <div class="card">
-        <h3 class="m-2">View Projects</h3>
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link active" data-bs-toggle="tab" href="#activeproj">Active Projects</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#archiveproj">Archived Projects</a>
-            </li>
-        </ul>
-        <div class="tab-content">
-            <div class="tab-pane container active" id="activeproj">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th></th>
-                        <th>Description</th>
-                        <th>Num Students</th>
-                        <th>Current Students</th>
-                        <th>Due Date</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <!-- Iterate through the projects -->
-                    <tr th:each="actProj : ${activeProjects}">
-                        <td th:text="${actProj.id}"></td>
-                        <td th:text="${actProj.name}"></td>
-                        <td class="m-2">
-                            <a th:href="@{/projects/{id}(id=${actProj.id})}">
-                                <button th:id="'projectPage' + ${actProj.id}" class="btn btn-outline-dark btn-sm notify-btn">
-                                    Project Page
+    <div class="p-3 contentPane">
+        <h2 class="contentPane display-4" th:text="'Welcome ' + ${prof.name} + ' #' + ${prof.id}"></h2>
+        <div class="card">
+            <h3 class="m-2">View Projects</h3>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-bs-toggle="tab" href="#activeproj">Active Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#archiveproj">Archived Projects</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane container active" id="activeproj">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th></th>
+                            <th>Description</th>
+                            <th>Num Students</th>
+                            <th>Current Students</th>
+                            <th>Due Date</th>
+                            <th>Program Restrictions</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- Iterate through the projects -->
+                        <tr th:each="actProj : ${activeProjects}">
+                            <td th:text="${actProj.id}"></td>
+                            <td th:text="${actProj.name}"></td>
+                            <td class="m-2">
+                                <a th:href="@{/projects/{id}(id=${actProj.id})}">
+                                    <button th:id="'projectPage' + ${actProj.id}"
+                                            class="btn btn-outline-dark btn-sm notify-btn">
+                                        Project Page
+                                    </button>
+                                </a>
+                            </td>
+                            <td th:text="${actProj.description}"></td>
+                            <td th:text="${actProj.numStudents}"></td>
+                            <td th:text="${actProj.currentStudents}"></td>
+                            <td th:text="${actProj.dueDate}"></td>
+                            <td th:text="${actProj.getProgramRestrictions()}"></td>
+                            <td class="m-2">
+                                <button th:id="'archive-btn-' + ${actProj.id}"
+                                        class="btn btn-outline-danger btn-sm notify-btn"
+                                        th:attr="onclick=|archiveProject('${actProj.id}')|">
+                                    Archive
                                 </button>
-                            </a>
-                        </td>
-                        <td th:text="${actProj.description}"></td>
-                        <td th:text="${actProj.numStudents}"></td>
-                        <td th:text="${actProj.currentStudents}"></td>
-                        <td th:text="${actProj.dueDate}"></td>
-                        <td class="m-2">
-                            <button th:id="'archive-btn-' + ${actProj.id}" class="btn btn-outline-danger btn-sm notify-btn" th:attr="onclick=|archiveProject('${actProj.id}')|">
-                                Archive
-                            </button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="tab-pane container fade" id="archiveproj">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Num Students</th>
-                        <th>Current Students</th>
-                        <th>Due Date</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <!-- Iterate through the projects -->
-                    <tr th:each="archProj : ${archivedProjects}">
-                        <td class="m-2">
-                            <button th:id="'active-btn-' + ${archProj.id}" class="btn btn-outline-dark btn-sm notify-btn" th:attr="onclick=|activateProject('${archProj.id}')|">
-                                Activate
-                            </button>
-                        </td>
-                        <td th:text="${archProj.id}"></td>
-                        <td th:text="${archProj.name}"></td>
-                        <td th:text="${archProj.description}"></td>
-                        <td th:text="${archProj.numStudents}"></td>
-                        <td th:text="${archProj.currentStudents}"></td>
-                        <td th:text="${archProj.dueDate}"></td>
-                        <td class="m-2">
-                            <button th:id="'delete-btn-' + ${archProj.id}" class="btn btn-danger btn-sm notify-btn" th:attr="onclick=|deleteProject('${archProj.id}')|">
-                                Delete
-                            </button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane container fade" id="archiveproj">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Num Students</th>
+                            <th>Current Students</th>
+                            <th>Due Date</th>
+                            <th>Program Restrictions</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- Iterate through the projects -->
+                        <tr th:each="archProj : ${archivedProjects}">
+                            <td class="m-2">
+                                <button th:id="'active-btn-' + ${archProj.id}"
+                                        class="btn btn-outline-dark btn-sm notify-btn"
+                                        th:attr="onclick=|activateProject('${archProj.id}')|">
+                                    Activate
+                                </button>
+                            </td>
+                            <td th:text="${archProj.id}"></td>
+                            <td th:text="${archProj.name}"></td>
+                            <td th:text="${archProj.description}"></td>
+                            <td th:text="${archProj.numStudents}"></td>
+                            <td th:text="${archProj.currentStudents}"></td>
+                            <td th:text="${archProj.dueDate}"></td>
+                            <td th:text="${archProj.getProgramRestrictions()}"></td>
+                            <td class="m-2">
+                                <button th:id="'delete-btn-' + ${archProj.id}" class="btn btn-danger btn-sm notify-btn"
+                                        th:attr="onclick=|deleteProject('${archProj.id}')|">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-    <hr>
-    <div class="row">
-        <div class="col-8">
-            <div class="card">
+        <hr>
+        <div class="row m-0">
+            <div class="card col-8">
                 <div class="card-header">
                     Create Project
                 </div>
                 <div class="card-body">
-                    <form action="#" th:action="@{/professorView/{id}/createProject/(id=${prof.id})}" th:object="${projectForm}" method="post">
+                    <form action="#" th:action="@{/professorView/{id}/createProject/(id=${prof.id})}"
+                          th:object="${projectForm}" method="post">
                         <label for="name" class="form-label mt-2">Project Name:</label>
-                        <input type="text" class="form-control" id="name" name="name" th:field="*{name}" required placeholder="Project name">
+                        <input type="text" class="form-control" id="name" name="name" th:field="*{name}" required
+                               placeholder="Project name">
                         <label for="description" class="form-label mt-2">Description:</label>
-                        <input type="text" class="form-control" id="description" name="description" th:field="*{description}" placeholder="What the project is about" required>
+                        <input type="text" class="form-control" id="description" name="description"
+                               th:field="*{description}" placeholder="What the project is about" required>
 
                         <label for="numStudents" class="form-label mt-2">Max Number of Students:</label>
-                        <input type="text" class="form-control" id="numStudents" name="numStudents" th:field="*{numStudents}" placeholder="Max number of students who can apply" required>
+                        <input type="text" class="form-control" id="numStudents" name="numStudents"
+                               th:field="*{numStudents}" placeholder="Max number of students who can apply" required>
 
                         <label for="dueDate" class="form-label mt-2">Due Date:</label>
-                        <input type="text" class="form-control" id="dueDate" name="dueDate" th:field="*{dueDate}" placeholder="The submission date" required>
+                        <input type="text" class="form-control" id="dueDate" name="dueDate" th:field="*{dueDate}"
+                               placeholder="The submission date" required>
 
                         <button type="submit" class="btn btn-danger mt-3">Add Project</button>
                     </form>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="callout">
+                    <h4>Availability</h4>
+                    <div id="timeslotInfoDiv">
+                        <button class="btn btn-sm btn-outline-danger my-2" onclick="viewForm('timeslotInfoDiv', 'timeslotFormDiv')">Change Availability</button>
+                        <div th:each="key : ${timeslot.keySet()}">
+                            <span><b th:text="${key} + ': '"></b><br><code th:text="${timeslot.get(key) != null} ? ${timeslot.get(key)}: 'Availability not set'"></code></span><br>
+                        </div>
+                    </div>
+                    <div id="timeslotFormDiv" style="display: none;">
+                        <form action="#" th:action="@{/professorView/createAvailability/{id}(id=${prof.id})}" th:object="${timeslotForm}" method="post">
+                            <label for="monday" class="form-label mt-2">Monday:</label>
+                            <input type="text" class="form-control" id="monday" name="monday" th:field="*{monday}" required th:value="${timeslot.get('Monday')}">
+
+                            <label for="tuesday" class="form-label mt-2">Tuesday:</label>
+                            <input type="text" class="form-control" id="tuesday" name="tuesday" th:field="*{tuesday}" required th:value="${timeslot.get('Tuesday')}">
+
+                            <label for="wednesday" class="form-label mt-2">Wednesday:</label>
+                            <input type="text" class="form-control" id="wednesday" name="wednesday" th:field="*{wednesday}" required th:value="${timeslot.get('Wednesday')}">
+
+                            <label for="thursday" class="form-label mt-2">Thursday:</label>
+                            <input type="text" class="form-control" id="thursday" name="thursday" th:field="*{thursday}" required th:value="${timeslot.get('Thursday')}">
+
+                            <label for="friday" class="form-label mt-2">Friday:</label>
+                            <input type="text" class="form-control" id="friday" name="friday" th:field="*{friday}" required th:value="${timeslot.get('Friday')}">
+
+                            <button type="submit" class="btn btn-sm btn-outline-dark my-3">Save timeslot</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-header">
+                        Add/Change Restrictions
+                    </div>
+                    <div class="card-body" id="changeRestrict">
+                        <h4 id="restrictTitle" class="card-title">Change or add restriction to selected project</h4>
+                        <form>
+                            <label>Project ID:</label>
+                            <input type="text" class="form-control" id="projectIDInput" name="projectID" required>
+                            <label for="changeRestrict">Restriction</label>
+                            <input type="text" class="form-control" id="restriction" name="restriction" required>
+                            <button class="btn btn-danger mt-3" th:attr="onclick=|addRestriction()|">Add Restriction
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-header">
+                        Remove Restriction
+                    </div>
+                    <div class="card-body" id="deleteRestrict">
+                        <h4 id="deleteTitle" class="card-title">Remove restriction from selected project</h4>
+                        <form>
+                            <label>Project ID:</label>
+                            <input type="text" class="form-control" id="projectIDInput2" name="projectID" required>
+                            <label for="changeRestrict">Restriction</label>
+                            <input type="text" class="form-control" id="restrictionDelete" name="restriction" required>
+                            <button class="btn btn-danger mt-3" th:attr="onclick=|removeRestriction()|">Remove Restriction
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-4">
         </div>
     </div>
-</div>
 
-<footer class="p-2">
-    <h3 class="contentPane text-white">Group 10</h3>
-</footer>
+    <script>
+        async function archiveProject(projectId) {
+            let results = fetch('/project/archiveProject?' + new URLSearchParams({
+                projID: projectId
+            }), {
+                method: "put"
+            }).then(() => {
+                window.location.reload();
+            })
+        }
 
-<script>
-    async function archiveProject(projectId){
-        let results = fetch('/project/archiveProject?' + new URLSearchParams({
-            projID: projectId
-        }), {
-            method: "put"
-        }).then(()=>{
-            window.location.reload();
-        })
-    }
+        async function activateProject(projectId) {
+            let results = fetch('/project/activateProject?' + new URLSearchParams({
+                projID: projectId
+            }), {
+                method: "put"
+            }).then(() => {
+                window.location.reload();
+            })
+        }
 
-    async function activateProject(projectId){
-        let results = fetch('/project/activateProject?' + new URLSearchParams({
-            projID: projectId
-        }), {
-            method: "put"
-        }).then(()=>{
-            window.location.reload();
-        })
-    }
+        async function deleteProject(projectId) {
+            let results = fetch('/project/delete?' + new URLSearchParams({
+                id: projectId
+            }), {
+                method: "delete"
+            }).then(() => {
+                window.location.reload();
+            })
+        }
 
-    async function deleteProject(projectId){
-        let results = fetch('/project/delete?' + new URLSearchParams({
-            id: projectId
-        }), {
-            method: "delete"
-        }).then(()=>{
-            window.location.reload();
-        })
-    }
+        async function addNewProject(profID) {
+            var projName = document.getElementById("name").value;
+            var desc = document.getElementById("description").value;
+            var numStudents = document.getElementById("numStudents").value;
+            var due = document.getElementById("dueDate").value;
 
-    async function addNewProject(profID){
-        var projName = document.getElementById("name").value;
-        var desc = document.getElementById("description").value;
-        var numStudents = document.getElementById("numStudents").value;
-        var due = document.getElementById("dueDate").value;
+            console.log(profID)
 
-        console.log(profID)
+            let results = fetch('/' + profID + '/projects?' + new URLSearchParams({
+                name: projName,
+                description: desc,
+                numStudents: numStudents,
+                dueDate: due
+            }), {
+                method: "post"
+            })
+            //     .then(()=>{
+            //     window.location.reload();
+            // })
+        }
 
-        let results = fetch('/'+profID+'/projects?' + new URLSearchParams({
-            name: projName,
-            description: desc,
-            numStudents: numStudents,
-            dueDate: due
-        }), {
-            method: "post"
-        })
-        //     .then(()=>{
-        //     window.location.reload();
-        // })
-    }
-</script>
+        async function addRestriction() {
+            var restrict = document.getElementById("restriction").value;
+            var projID = document.getElementById("projectIDInput").value;
 
-<script src="../script.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+            let results = fetch('/project/addRestriction?' + new URLSearchParams({
+                id: projID,
+                restrict: restrict
+            }), {
+                method: "put"
+            }).then(() => {
+                window.location.reload();
+            })
+
+        }
+
+        async function removeRestriction() {
+            var restrict = document.getElementById("restrictionDelete").value;
+            var projID = document.getElementById("projectIDInput2").value;
+
+            let results = fetch('/project/removeRestriction?' + new URLSearchParams({
+                id: projID,
+                restrict: restrict
+            }), {
+                method: "delete"
+            }).then(() => {
+                window.location.reload();
+            })
+
+        }
+
+    </script>
+
+    <script src="../script.js"></script>
+    <script src="../CommonActions.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
+
 </html>

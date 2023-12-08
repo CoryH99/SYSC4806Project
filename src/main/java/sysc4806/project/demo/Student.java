@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.antlr.v4.runtime.misc.NotNull;
 import sysc4806.project.demo.messages.Message;
+import sysc4806.project.demo.presentationHandling.TimeSlotHandling;
 
 @Entity
 public class Student {
@@ -22,7 +23,7 @@ public class Student {
     private String program;
     private String name;
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.EAGER)
     private Project project;
     private String timeslot;
 
@@ -30,7 +31,7 @@ public class Student {
     private String password;
 
     @JsonManagedReference
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Message> messages;
 
 
@@ -72,7 +73,11 @@ public class Student {
     }
 
     public String getTimeslot() {
-        return timeslot;
+        if (timeslot != null && !timeslot.isEmpty()){
+            return timeslot;
+        } else {
+            return TimeSlotHandling.DEFAULT_TIME;
+        }
     }
 
     public void setTimeslot(String timeslot) {

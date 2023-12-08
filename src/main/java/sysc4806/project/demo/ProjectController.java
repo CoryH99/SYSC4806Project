@@ -1,9 +1,13 @@
 package sysc4806.project.demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class ProjectController {
@@ -55,6 +59,13 @@ public class ProjectController {
         return projectRepo.save(p);
     }
 
+    @DeleteMapping("/project/removeRestriction")
+    public Project removeProjectRestriction(@RequestParam Long id, @RequestParam String restrict){
+        Project p = projectRepo.findById(id).get();
+        p.removeProjectRestriction(restrict);
+        return projectRepo.save(p);
+    }
+
     @PutMapping("/project/setDueDate")
     public Project setDueDate(@RequestParam String date, @RequestParam Long id){
         Project p = projectRepo.findById(id).get();
@@ -92,6 +103,5 @@ public class ProjectController {
         project.setStatus(Project.ARCHIVE);
         return projectRepo.save(project);
     }
-
 
 }

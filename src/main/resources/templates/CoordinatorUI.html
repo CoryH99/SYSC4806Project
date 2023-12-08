@@ -43,18 +43,25 @@
                 <th>Num Students</th>
                 <th>Current Students</th>
                 <th>Due Date</th>
+                <th>Program Restrictions</th>
             </tr>
             </thead>
             <tbody>
             <!-- Iterate through the projects -->
             <tr th:each="project : ${projects}">
                 <td th:text="${project.id}"></td>
-                <td th:text="${project.name}"></td>
+                <td>
+                    <a th:href="@{/projects/coordinator/{id}(id=${project.id})}">
+                        <button th:id="${project.id} + 'PageButton'" class="btn btn-outline-dark btn-sm notify-btn" th:text="${project.name}">
+                        </button>
+                    </a>
+                </td>
                 <td th:text="${project.description}"></td>
                 <td th:text="${project.professor.name}"></td>
                 <td th:text="${project.numStudents}"></td>
                 <td th:text="${project.currentStudents}"></td>
                 <td th:text="${project.dueDate}"></td>
+                <td th:text="${project.getProgramRestrictions()}"></td>
                 <!-- Add more columns as needed -->
             </tr>
             </tbody>
@@ -107,10 +114,6 @@
             </div>
         </div>
     </div>
-
-    <footer class="p-2">
-        <h3 class="contentPane text-white">Group 10</h3>
-    </footer>
 
     <script>
         // Enable the form
