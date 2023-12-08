@@ -50,6 +50,10 @@ public class StudentController {
                 logger.error("NOT ADDING STUDENT, because: studentInProject:" + p.getStudents().contains(s) + " or projectFull: " + (p.getNumStudents() <= p.getCurrentStudents()));
                 return new ResponseEntity<Student>(null, headers, HttpStatus.EXPECTATION_FAILED);
             }
+            else if (!p.getProgramRestrictions().isEmpty() && !p.getProgramRestrictions().contains(s.getProgram())){
+                logger.error("CANNOT ADD STUDENT, because: Program Restriction encountered");
+                return new ResponseEntity<Student>(null, headers, HttpStatus.EXPECTATION_FAILED);
+            }
             else {
                 s.setProject(p);
                 p.addStudent(s);

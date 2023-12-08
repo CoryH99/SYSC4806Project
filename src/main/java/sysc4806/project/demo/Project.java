@@ -85,6 +85,10 @@ public class Project {
         this.programRestrictions.add(programRestriction);
     }
 
+    public void removeProjectRestriction(String programRestriction){
+            programRestrictions.remove(programRestriction);
+    }
+
     public int getNumStudents() {
         return numStudents;
     }

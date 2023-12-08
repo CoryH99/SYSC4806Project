@@ -55,6 +55,13 @@ public class ProjectController {
         return projectRepo.save(p);
     }
 
+    @DeleteMapping("/project/removeRestriction")
+    public Project removeProjectRestriction(@RequestParam Long id, @RequestParam String restrict){
+        Project p = projectRepo.findById(id).get();
+        p.removeProjectRestriction(restrict);
+        return projectRepo.save(p);
+    }
+
     @PutMapping("/project/setDueDate")
     public Project setDueDate(@RequestParam String date, @RequestParam Long id){
         Project p = projectRepo.findById(id).get();
