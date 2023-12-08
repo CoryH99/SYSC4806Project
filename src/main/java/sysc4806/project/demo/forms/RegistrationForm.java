@@ -3,28 +3,31 @@ package sysc4806.project.demo.forms;
 public class RegistrationForm {
 
     private long id;
-    private String content;
+    private String name;
 
-    public RegistrationForm(long id, String content) {
-        this.id = id;
-        this.content = content;
-    }
+    private String program;
 
-    public RegistrationForm(){}
+    private String profPassword;
 
-    public long getId() {
-        return id;
-    }
+    private String password;
 
-    public void setId(long id) {
-        this.id = id;
-    }
+    public String getName(){return name;}
 
-    public String getContent() {
-        return content;
-    }
+    public void setName(String name) {this.name = name;}
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+    public String getProfPassword(){return profPassword;}
+
+    public void setProfPassword(String profpassword){this.profPassword = profPassword;}
+
+    public String getPassword(){return password;}
+
+    public void setPassword(String Password){this.profPassword = Password;}
+
+    public Long getId() { return id;}
+
+    public void setId(Long id){this.id=id;}
+
+    public String getProgram(){return program;}
+
+    public void setProgram(String program){this.program = program;}
 }

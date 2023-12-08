@@ -10,11 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.context.request.WebRequest;
 import sysc4806.project.demo.forms.LoginForm;
-import sysc4806.project.demo.forms.MessageForm;
+import sysc4806.project.demo.forms.RegistrationForm;
 
 import java.util.Optional;
 
@@ -114,13 +112,12 @@ public class LoginAndRegisterController {
 
 
     @PostMapping("/registerStudent/register")
-    public String registerStudent(@ModelAttribute Student studentForm, Model model){
-        // Save the student
-        studentRepo.save(studentForm);
+    public String registerStudent(@ModelAttribute RegistrationForm studentForm, Model model){
 
-        String send_to = "/studentView/" + studentForm.getId();
+        Student student = new Student(studentForm.getName(),studentForm.getProgram(), studentForm.getPassword());
+        studentRepo.save(student);
 
-        return "redirect:" + send_to;
+        return "redirect:/studentView/" + studentForm.getId();
     }
 
     @GetMapping("/registerProfessor")
@@ -132,10 +129,13 @@ public class LoginAndRegisterController {
     }
 
     @PostMapping("/registerProfessor/register")
-    public String registerProf(@ModelAttribute Professor professorForm, Model model){
+    public String registerProf(@ModelAttribute RegistrationForm professorForm, Model model){
 
-        profRepo.save(professorForm);
+        Professor prof = new Professor(professorForm.getName(),"",professorForm.getProfPassword());
+
+        profRepo.save(prof);
         String send_to = "/professorView/" + professorForm.getId();
+        System.out.println("register success");
 
         return "redirect:" + send_to;
     }
