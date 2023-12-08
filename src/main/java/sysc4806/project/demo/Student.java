@@ -19,11 +19,11 @@ public class Student {
     private String program;
     private String name;
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.EAGER)
     private Project project;
     private String timeslot;
     @JsonManagedReference
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Message> messages;
 
 

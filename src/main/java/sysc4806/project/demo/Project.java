@@ -32,7 +32,7 @@ public class Project {
     @ManyToOne
     private Professor professor;
     @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Student> students;
     @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "programRestrictions", joinColumns = @JoinColumn(name = "project_id"))

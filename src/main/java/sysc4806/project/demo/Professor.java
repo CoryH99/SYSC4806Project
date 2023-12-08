@@ -17,7 +17,7 @@ public class Professor {
     private String name;
     private String availability;
     @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Project> projects;
 
     public Professor(String name, String availability){

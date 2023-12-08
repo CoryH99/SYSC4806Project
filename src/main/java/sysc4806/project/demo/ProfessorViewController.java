@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import sysc4806.project.demo.forms.TimeslotForm;
 import sysc4806.project.demo.presentationHandling.TimeSlotHandling;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @EnableHystrix
@@ -27,7 +25,7 @@ public class ProfessorViewController {
     private ProjectRepository projectRepo;
 
     @GetMapping("/professorView/{id}")
-//    @HystrixCommand(fallbackMethod="profFallbackView")
+    @HystrixCommand(fallbackMethod="profFallbackView")
     public String specificProfessorView(@PathVariable("id") Long profId, Model model){
 
         if (profRepo.findById(profId).isPresent()) {
@@ -42,13 +40,13 @@ public class ProfessorViewController {
             model.addAttribute("projectForm", new Project());
 
             return "TeacherUI";
-        } else {
+        }
+        else {
             return "redirect:/";
         }
     }
 
     @PostMapping("/professorView/{id}/createProject/")
-    @HystrixCommand(fallbackMethod="profFallbackView")
     public String profCreateProject(@ModelAttribute Project project, @PathVariable("id") Long profId, Model model){
 
         Professor prof = profRepo.findById(profId).get();
@@ -80,7 +78,7 @@ public class ProfessorViewController {
         return "redirect:/professorView/" + profId;
     }
 
-//    private String profFallbackView(@PathVariable("id") Long profId, Model model){
-//        return "ErrorUI";
-//    }
+    private String profFallbackView(@PathVariable("id") Long profId, Model model){
+        return "ErrorUI";
+    }
 }

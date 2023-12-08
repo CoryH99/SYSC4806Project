@@ -35,13 +35,13 @@ public class ProjectViewController {
     private StudentRepository studRepo;
 
     @GetMapping("/projects/{projID}")
-    @HystrixCommand(fallbackMethod="fallbackView")
+    @HystrixCommand(fallbackMethod="projFallbackView")
     public String projectView(@PathVariable("projID") Long projID, Model model){
         model.addAttribute("proj", projectRepo.findAll());
         return "ProjectPage";
     }
 
-    private String fallbackView(){
+    private String projFallbackView(@PathVariable("projID") Long projID, Model model){
         return "ErrorUI";
     }
 
