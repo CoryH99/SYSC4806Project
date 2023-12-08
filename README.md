@@ -45,13 +45,13 @@ Version 3.0
 - Finalized UI
 ======================================================================
 
-Er Diagram for Milestone 2:
+Er Diagram for Milestone 3:
 ![ER_DiagramM2](https://github.com/acegiansal/Sysc4806Project/assets/91341372/49f6a4cb-a73c-4f65-a352-8fe594b922e6)
 
 
 
 
-UML class diagram for the models in milestone 2:
+UML class diagram for the models in milestone 3:
 ![4806M3UML drawio](https://github.com/acegiansal/Sysc4806Project/assets/91341372/07608491-2c22-4fc6-b7da-fea7d184dc3b)
 
 
