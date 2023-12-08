@@ -46,11 +46,13 @@ Version 3.0
 ======================================================================
 
 Er Diagram for Milestone 2:
-![ER_DiagramM2](https://github.com/acegiansal/Sysc4806Project/assets/91341372/487adb8d-5345-49c0-9815-48ce438ea1cb)
+![ER_DiagramM2](https://github.com/acegiansal/Sysc4806Project/assets/91341372/49f6a4cb-a73c-4f65-a352-8fe594b922e6)
+
 
 
 
 UML class diagram for the models in milestone 2:
-![UMLDiagramM2](https://github.com/acegiansal/Sysc4806Project/assets/91341372/ab6e0713-dc03-48e8-b5b1-af8dc5a86e8a)
+![4806M3UML drawio](https://github.com/acegiansal/Sysc4806Project/assets/91341372/07608491-2c22-4fc6-b7da-fea7d184dc3b)
+
 
 
