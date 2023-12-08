@@ -24,7 +24,7 @@ public class StudentViewController {
 
     @GetMapping("/studentView/{id}")
     public String specificStudentView(@CookieValue(value = "role", defaultValue = "noRole") String role,
-                                      @CookieValue(value = "studId", defaultValue = "-1") String givenId,
+                                      @CookieValue(value = "id", defaultValue = "-1") String givenId,
                                       @PathVariable("id") Long studId, Model model, HttpServletResponse response){
 
         logger.info("found cookies: " + role + " and " + givenId);
