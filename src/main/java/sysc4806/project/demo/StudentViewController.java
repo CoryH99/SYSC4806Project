@@ -75,7 +75,9 @@ public class StudentViewController {
         return "redirect:/studentView/" + studId;
     }
 
-    private String studFallbackView(@PathVariable("id") Long studId, Model model){
+    private String studFallbackView(@CookieValue(value = "role", defaultValue = "noRole") String role,
+                                    @CookieValue(value = "id", defaultValue = "-1") String givenId,
+                                    @PathVariable("id") Long studId, Model model, HttpServletResponse response){
         return "ErrorUI";
     }
 

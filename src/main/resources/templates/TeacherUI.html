@@ -191,14 +191,12 @@
                     </div>
                     <div class="card-body" id="changeRestrict">
                         <h4 id="restrictTitle" class="card-title">Change or add restriction to selected project</h4>
-                        <form>
-                            <label>Project ID:</label>
-                            <input type="text" class="form-control" id="projectIDInput" name="projectID" required>
-                            <label for="changeRestrict">Restriction</label>
-                            <input type="text" class="form-control" id="restriction" name="restriction" required>
-                            <button class="btn btn-danger mt-3" th:attr="onclick=|addRestriction()|">Add Restriction
-                            </button>
-                        </form>
+                        <label>Project ID:</label>
+                        <input type="text" class="form-control" id="projectIDInput" name="projectID" required>
+                        <label for="changeRestrict">Restriction</label>
+                        <input type="text" class="form-control" id="restriction" name="restriction" required>
+                        <button class="btn btn-danger mt-3" th:attr="onclick=|addRestriction()|">Add Restriction
+                        </button>
                     </div>
                 </div>
             </div>
@@ -209,14 +207,12 @@
                     </div>
                     <div class="card-body" id="deleteRestrict">
                         <h4 id="deleteTitle" class="card-title">Remove restriction from selected project</h4>
-                        <form>
-                            <label>Project ID:</label>
-                            <input type="text" class="form-control" id="projectIDInput2" name="projectID" required>
-                            <label for="changeRestrict">Restriction</label>
-                            <input type="text" class="form-control" id="restrictionDelete" name="restriction" required>
-                            <button class="btn btn-danger mt-3" th:attr="onclick=|removeRestriction()|">Remove Restriction
-                            </button>
-                        </form>
+                        <label>Project ID:</label>
+                        <input type="text" class="form-control" id="projectIDInput2" name="projectID" required>
+                        <label for="changeRestrict">Restriction</label>
+                        <input type="text" class="form-control" id="restrictionDelete" name="restriction" required>
+                        <button class="btn btn-danger mt-3" th:attr="onclick=|removeRestriction()|">Remove Restriction
+                        </button>
                     </div>
                 </div>
             </div>
@@ -271,10 +267,9 @@
                 dueDate: due
             }), {
                 method: "post"
+            }).then(()=>{
+                window.location.reload();
             })
-            //     .then(()=>{
-            //     window.location.reload();
-            // })
         }
 
         async function addRestriction() {

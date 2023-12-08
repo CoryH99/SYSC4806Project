@@ -95,7 +95,9 @@ public class ProfessorViewController {
         return "redirect:/professorView/" + profId;
     }
 
-    private String profFallbackView(@PathVariable("id") Long profId, Model model){
+    private String profFallbackView(@CookieValue(value = "role", defaultValue = "noRole") String role,
+                                    @CookieValue(value = "id", defaultValue = "-1") String givenId,
+                                    @PathVariable("id") Long profId, Model model){
         return "ErrorUI";
     }
 }
