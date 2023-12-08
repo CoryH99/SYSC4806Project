@@ -123,7 +123,7 @@ public class LoginAndRegisterController {
     @GetMapping("/registerProfessor")
     public String viewRegisterProf(Model model){
 
-        model.addAttribute("professorForm", new Professor());
+        model.addAttribute("professorForm", new RegistrationForm());
 
         return "registerProfessor";
     }
@@ -131,7 +131,11 @@ public class LoginAndRegisterController {
     @PostMapping("/registerProfessor/register")
     public String registerProf(@ModelAttribute RegistrationForm professorForm, Model model, HttpServletRequest request){
 
-        Professor prof = new Professor(professorForm.getName(),professorForm.getProfPassword());
+        boolean profIsCoordinator = professorForm.getCoordinatorFlag().equals("Yes");
+
+        Professor prof = new Professor(professorForm.getName(),professorForm.getProfPassword(), profIsCoordinator);
+
+        logger.info("Professor coordinator? " + prof.getCoordinatorBoolean());
 
         profRepo.save(prof);
         String send_to = "/professorView/" + professorForm.getId();

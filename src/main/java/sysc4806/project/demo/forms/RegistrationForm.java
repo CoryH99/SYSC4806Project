@@ -11,6 +11,8 @@ public class RegistrationForm {
 
     private String password;
 
+    private String coordinatorFlag;
+
     public String getName(){return name;}
 
     public void setName(String name) {this.name = name;}
@@ -30,4 +32,12 @@ public class RegistrationForm {
     public String getProgram(){return program;}
 
     public void setProgram(String program){this.program = program;}
+
+    public String getCoordinatorFlag() {
+        return coordinatorFlag;
+    }
+
+    public void setCoordinatorFlag(String coordinatorFlag) {
+        this.coordinatorFlag = coordinatorFlag;
+    }
 }
