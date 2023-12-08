@@ -27,7 +27,6 @@ public class StudentViewController {
     private ProjectRepository projectRepo;
 
     @GetMapping("/studentView/{id}")
-    @HystrixCommand(fallbackMethod="fallbackView")
     public String specificStudentView(@PathVariable("id") Long studId, Model model){
 
         // Constants
@@ -58,10 +57,6 @@ public class StudentViewController {
         }
 
         return "redirect:/studentView/" + studId;
-    }
-
-    private String fallbackView(){
-        return "ErrorUI";
     }
 
 }

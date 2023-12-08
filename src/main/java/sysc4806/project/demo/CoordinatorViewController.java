@@ -30,7 +30,7 @@ public class CoordinatorViewController {
     private MessageRepository mRepo;
 
     @GetMapping("/coordinatorView")
-    @HystrixCommand(fallbackMethod="fallbackView")
+//    @HystrixCommand(fallbackMethod="coordinatorFallback")
     public String coordinatorView(Model model){
 
         model.addAttribute("projects", projectRepo.findByStatus(Project.ACTIVE_PROJ));
@@ -64,8 +64,8 @@ public class CoordinatorViewController {
 
         return "redirect:/coordinatorView";
     }
-
-    private String fallbackView(){
-        return "ErrorUI";
-    }
+//
+//    private String coordinatorFallback(Model model){
+//        return "ErrorUI";
+//    }
 }
