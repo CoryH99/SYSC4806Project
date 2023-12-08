@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import sysc4806.project.demo.messages.Message;
+import sysc4806.project.demo.presentationHandling.TimeSlotHandling;
 
 @Entity
 public class Student {
@@ -59,7 +60,11 @@ public class Student {
     }
 
     public String getTimeslot() {
-        return timeslot;
+        if (timeslot != null && !timeslot.isEmpty()){
+            return timeslot;
+        } else {
+            return TimeSlotHandling.DEFAULT_TIME;
+        }
     }
 
     public void setTimeslot(String timeslot) {

@@ -24,6 +24,7 @@ public class Project {
     private int currentStudents;
     private String dueDate;
     private String status;
+    private String presentationDetails;
 
     private String file;
 
@@ -165,6 +166,14 @@ public class Project {
     public void addStudent(Student s){
         this.currentStudents++;
         students.add(s);
+    }
+
+    public String getPresentationDetails() {
+        return presentationDetails;
+    }
+
+    public void setPresentationDetails(String presentationTime) {
+        this.presentationDetails = presentationTime;
     }
 
     @Override

@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Coordinator Project View</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../../style.css">
+    <link rel="stylesheet" type="text/css" href="../../CommonTheme.css">
+    <!-- Jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+
+<div class="mainHeader">
+    <h2 class="contentPane text-white p-3 display-4" th:text="'Coordinator Project Page for Project #' + ${proj.id}"></h2>
+</div>
+
+
+<div class="p-3 contentPane mb-5">
+    <h2 th:text="${proj.name}" class="mx-2"></h2>
+    <div class="row mx-2">
+        <div class="col-2 card text-white bg-danger m-2">
+            <div class="card-header">
+                Status
+            </div>
+            <div class="card-body">
+                <h5 th:text="${proj.status}"></h5>
+            </div>
+        </div>
+        <div class="col-2 card text-white bg-danger m-2">
+            <div class="card-header">
+                Students
+            </div>
+            <div class="card-body">
+                <h5 th:text="${proj.currentStudents} + '/' + ${proj.numStudents}"></h5>
+            </div>
+        </div>
+        <div class="col-2 card text-white bg-danger m-2">
+            <div class="card-header">
+                Due Date
+            </div>
+            <div class="card-body">
+                <h5 th:text="${proj.dueDate}"></h5>
+            </div>
+
+        </div>
+        <div class="col-2 card text-white bg-dark m-2">
+            <div class="card-header">
+                Presentation Details
+            </div>
+            <div class="card-body">
+                <h5 th:text="${proj.presentationDetails != null} ? ${proj.presentationDetails}:'No Presentation Time Set'"></h5>
+            </div>
+        </div>
+    </div>
+    <div class="row mx-2">
+        <div class="col-12 card">
+            <div class="card-header">
+                Description
+            </div>
+            <div class="card-body">
+                <p th:text="${proj.description}"></p>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-6 card">
+            <div class="card-body">
+                <h3 th:text="${professor.name}"></h3>
+                <div id="timeslotInfoDiv">
+                    <button class="btn btn-sm btn-outline-danger my-2" onclick="viewForm('timeslotInfoDiv', 'timeslotFormDiv')">Change Availability</button>
+                    <div th:each="key : ${profTimeslot.keySet()}">
+                        <span><b th:text="${key} + ': '"></b><br><code th:text="${profTimeslot.get(key) != null} ? ${profTimeslot.get(key)}: 'Availability not set'"></code></span><br>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-1"></div>
+        <div class="col-5 card">
+            <div class="card-body">
+                <form action="#" th:action="@{/projects/coordinator/{id}/bookRoom(id=${proj.id})}" th:object="${bookRoomForm}" method="post">
+                    <label for="roomField" class="form-label">Room:</label>
+                    <input id="roomField" type="text" class="form-control" th:field="*{room}"><br>
+                    <label for="timeField" class="form-label">Time:</label>
+                    <input id="timeField" type="text" class="form-control" th:field="*{time}"><br>
+                    <input id="bookRoomBtn" type="submit" class="btn btn-danger my-1" value="Book Room">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+    <div class="row">
+        <h4>Students: </h4>
+        <div class="card my-2" th:each="student, index : ${students}">
+            <div class="card-header" th:text="${student.name}"></div>
+            <div class="card-body">
+                <h4>Availability</h4>
+                <div>
+                    <div th:each="key : ${studentTimeslots.get(index.getIndex()).keySet()}">
+                        <span><b th:text="${key} + ': '"></b><br><code th:text="${studentTimeslots.get(index.getIndex()).get(key) != null} ? ${studentTimeslots.get(index.getIndex()).get(key)}: 'Availability not set'"></code></span><br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../../script.js"></script>
+<script src="../../CommonActions.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>
