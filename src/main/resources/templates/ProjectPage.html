@@ -6,12 +6,18 @@
 </head>
 <body>
 
+<nav class="navbar navbar-expand-lg text-white" style="background-color: #2b070a;">
+    <div class="container-fluid">
+        <a class="link-light link-underline link-underline-opacity-0" href="/">Home</a>
+    </div>
+</nav>
+
+
 </body>
 
 <th:block th:each="project : ${proj}">
     <th:block th:if="${project.id == projID}">
         <h3 th:text="${project.name}+' Project'">name</h3>
-
         <table border="1">
         <thead>
             <tr>

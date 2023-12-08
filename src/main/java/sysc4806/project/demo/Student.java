@@ -13,6 +13,8 @@ import sysc4806.project.demo.messages.Message;
 @Entity
 public class Student {
 
+    public static final String STUDENT_ROLE = "STUDENT";
+
     @Id
     @GeneratedValue
     private Long id;
