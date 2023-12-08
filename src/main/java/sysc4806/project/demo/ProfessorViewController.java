@@ -40,6 +40,8 @@ public class ProfessorViewController {
 
         if (profRepo.findById(profId).isPresent()) {
             Professor prof = profRepo.findById(profId).get();
+
+            logger.info("Professor coordinator from Prof View? " + prof.getCoordinatorBoolean());
             model.addAttribute("prof", prof);
 
             model.addAttribute("timeslotForm", new TimeslotForm());

@@ -1,7 +1,6 @@
 package sysc4806.project.demo;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import sysc4806.project.demo.presentationHandling.TimeSlotHandling;
@@ -23,6 +22,7 @@ public class Professor {
     @NotNull
     private String profPassword;
     private String availability;
+    private boolean coordinatorBoolean;
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Project> projects;
@@ -34,9 +34,10 @@ public class Professor {
         this.projects = new ArrayList<>();
     }
 
-    public Professor(String name, String profPassword){
+    public Professor(String name, String profPassword, boolean isCoordinator){
         this.name = name;
         this.profPassword = profPassword;
+        this.coordinatorBoolean = isCoordinator;
     }
 
     public Professor() {
@@ -73,6 +74,18 @@ public class Professor {
 
     public void setAvailability(String availability) {
         this.availability = availability;
+    }
+
+    public void setProfPassword(String profPassword) {
+        this.profPassword = profPassword;
+    }
+
+    public boolean getCoordinatorBoolean() {
+        return coordinatorBoolean;
+    }
+
+    public void setCoordinator(boolean coordinator) {
+        coordinatorBoolean = coordinator;
     }
 
     public void addProject(Project project){
