@@ -27,9 +27,17 @@
                 Register Professor
             </div>
             <div class="card-body">
+                <a class="link-danger link-underline link-underline-opacity-0 my-2" href="/"><- back</a>
                 <form action="#" th:action="@{/registerProfessor/register}" th:object="${professorForm}" method="post">
                     <label for="nameField" class="form-label">Name:</label>
                     <input id="nameField" type="text" class="form-control" th:field="*{name}"><br>
+
+                    <label for="passwordField" class="form-label">Password:</label>
+                    <input id="passwordField" type="text" class="form-control" th:field="*{profPassword}"><br>
+
+                    <label for="coordinatorField" class="form-label">Is Coordinator</label>
+                    <input id="coordinatorField" type="text" class="form-control" th:field="*{coordinatorFlag}"><br>
+
                     <input id="sendMessageBtn" type="submit" class="btn btn-outline-danger my-1" value="Register!">
                 </form>
             </div>

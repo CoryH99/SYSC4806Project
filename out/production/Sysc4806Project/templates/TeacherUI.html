@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Professor UI</title>
+    <link rel="stylesheet" type="text/css" href="../static/style.css">
+</head>
+<body>
+
+<h2>Welcome, Professor!</h2>
+
+<!-- View Projects -->
+<h3>View Projects</h3>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Professor</th>
+        <th>Num Students</th>
+        <th>Current Students</th>
+        <th>Due Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Iterate through the projects -->
+    <tr th:each="project : ${projects}">
+        <td th:text="${project.id}"></td>
+        <td th:text="${project.name}"></td>
+        <td th:text="${project.description}"></td>
+        <td th:text="${project.professor.name}"></td>
+        <td th:text="${project.numStudents}"></td>
+        <td th:text="${project.currentStudents}"></td>
+        <td th:text="${project.dueDate}"></td>
+        <!-- Add more columns as needed -->
+    </tr>
+    </tbody>
+</table>
+
+<!-- Add New Project -->
+<h3>Add New Project</h3>
+<form action="/{professorId}/projects" method="post">
+    <label for="name">Project Name:</label>
+    <input type="text" id="name" name="name" required>
+    <label for="description">Description:</label>
+    <input type="text" id="description" name="description" required>
+
+    <label for="professor.name">Name:</label>
+    <input type="text" id="professor.name" name="professor.name" required>
+
+    <label for="numStudents">Max Number of Students:</label>
+    <input type="text" id="numStudents" name="numStudents" required>
+
+    <label for="dueDate">Due Date:</label>
+    <input type="text" id="dueDate" name="dueDate" required>
+
+    <button type="submit">Add Project</button>
+</form>
+
+<!-- Search Projects -->
+<h3>Search Projects</h3>
+<div class="search-container">
+    <label for="search">Search by Project Name:</label>
+    <input type="text" id="search" placeholder="Enter project name">
+    <button onclick="searchProject()">Search</button>
+</div>
+<script src="../static/script.js"></script>
+</body>
+</html>

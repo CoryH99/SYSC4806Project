@@ -1,8 +1,10 @@
 package sysc4806.project.demo;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Controller
+@EnableHystrix
 public class CoordinatorViewController {
 
     Logger logger = LoggerFactory.getLogger(CoordinatorViewController.class);
@@ -27,6 +30,7 @@ public class CoordinatorViewController {
     private MessageRepository mRepo;
 
     @GetMapping("/coordinatorView")
+    @HystrixCommand(fallbackMethod="coordinatorFallback")
     public String coordinatorView(Model model){
 
         model.addAttribute("projects", projectRepo.findByStatus(Project.ACTIVE_PROJ));
@@ -58,9 +62,10 @@ public class CoordinatorViewController {
         mRepo.save(message);
         studRepo.save(targetStud);
 
-        model.addAttribute("projects", projectRepo.findByStatus(Project.ACTIVE_PROJ));
-        model.addAttribute("students_no_project", studRepo.findByProjectIsNull());
-
         return "redirect:/coordinatorView";
+    }
+
+    private String coordinatorFallback(Model model){
+        return "ErrorUI";
     }
 }

@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +67,6 @@ public class SystemStorageService implements StorageService {
         catch (IOException e) {
             throw new RuntimeException("Failed to read stored files", e);
         }
-
     }
 
     @Override

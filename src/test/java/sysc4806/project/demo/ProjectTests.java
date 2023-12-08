@@ -80,6 +80,22 @@ public class ProjectTests {
     }
 
     @Test
+    public void testRemoverProjRestriction() throws Exception{
+        String requestBody = "{\"name\": \"testProject\", \"description\": \"test project\"}";
+        String expected = "";
+
+        this.mockController.perform(post("/project/createProject").contentType(MediaType.APPLICATION_JSON).
+                content(requestBody)).andDo(print()).andExpect(status().isOk());
+
+        this.mockController.perform(put("/project/addRestriction?id=1&restrict=cs").contentType(MediaType.APPLICATION_JSON)
+                ).andDo(print()).andExpect(status().isOk());
+
+        this.mockController.perform(delete("/project/removeRestriction?id=1&restrict=cs").contentType(MediaType.APPLICATION_JSON)
+                ).andDo(print()).andExpect(status().isOk()).
+                andExpect(content().string(containsString(expected)));
+    }
+
+    @Test
     public void testSetProjDueDate() throws Exception {
         String requestBody = "{\"name\": \"testProject\", \"description\": \"test project\"}";
         String expected = "Dec12";

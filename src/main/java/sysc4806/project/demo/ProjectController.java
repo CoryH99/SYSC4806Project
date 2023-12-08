@@ -1,12 +1,20 @@
 package sysc4806.project.demo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class ProjectController {
+
+    Logger logger = LoggerFactory.getLogger(CoordinatorViewController.class);
 
     @Autowired
     private ProjectRepository projectRepo;
@@ -50,8 +58,16 @@ public class ProjectController {
 
     @PutMapping("/project/addRestriction")
     public Project addProjectRestrict(@RequestParam Long id, @RequestParam String restrict){
+        logger.info("Inside addRestriction");
         Project p = projectRepo.findById(id).get();
         p.addProgramRestriction(restrict);
+        return projectRepo.save(p);
+    }
+
+    @DeleteMapping("/project/removeRestriction")
+    public Project removeProjectRestriction(@RequestParam Long id, @RequestParam String restrict){
+        Project p = projectRepo.findById(id).get();
+        p.removeProjectRestriction(restrict);
         return projectRepo.save(p);
     }
 
@@ -92,6 +108,5 @@ public class ProjectController {
         project.setStatus(Project.ARCHIVE);
         return projectRepo.save(project);
     }
-
 
 }

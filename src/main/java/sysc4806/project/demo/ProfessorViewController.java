@@ -1,16 +1,24 @@
 package sysc4806.project.demo;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import sysc4806.project.demo.security.HandleUsers;
+import sysc4806.project.demo.forms.TimeslotForm;
+import sysc4806.project.demo.presentationHandling.TimeSlotHandling;
+
 
 @Controller
+@EnableHystrix
 public class ProfessorViewController {
+
+    Logger logger = LoggerFactory.getLogger(CoordinatorViewController.class);
 
     @Autowired
     private ProfessorRepository profRepo;
@@ -19,25 +27,46 @@ public class ProfessorViewController {
     private ProjectRepository projectRepo;
 
     @GetMapping("/professorView/{id}")
-    public String specificProfessorView(@PathVariable("id") Long profId, Model model){
+    @HystrixCommand(fallbackMethod="profFallbackView")
+    public String specificProfessorView(@CookieValue(value = "role", defaultValue = "noRole") String role,
+                                        @CookieValue(value = "id", defaultValue = "-1") String givenId,
+                                        @PathVariable("id") Long profId, Model model){
+
+        logger.info("found cookies: " + role + " and " + givenId);
+        if (HandleUsers.checkIfProf(givenId, role, profId)){
+            logger.warn("ID: " + givenId + " attempted to login to professor " + profId);
+            return "redirect:/";
+        }
 
         if (profRepo.findById(profId).isPresent()) {
             Professor prof = profRepo.findById(profId).get();
+
+            logger.info("Professor coordinator from Prof View? " + prof.getCoordinatorBoolean());
             model.addAttribute("prof", prof);
 
+            model.addAttribute("timeslotForm", new TimeslotForm());
             model.addAttribute("activeProjects", prof.getActiveProjects());
             model.addAttribute("archivedProjects", prof.getArchivedProjects());
+            model.addAttribute("timeslot", TimeSlotHandling.fromTimeslotToMap(prof.getAvailability()));
 
             model.addAttribute("projectForm", new Project());
 
             return "TeacherUI";
-        } else {
+        }
+        else {
             return "redirect:/";
         }
     }
 
     @PostMapping("/professorView/{id}/createProject/")
-    public String profCreateProject(@ModelAttribute Project project, @PathVariable("id") Long profId, Model model){
+    public String profCreateProject(@CookieValue(value = "role", defaultValue = "noRole") String role,
+                                    @CookieValue(value = "id", defaultValue = "-1") String givenId,
+                                    @ModelAttribute Project project, @PathVariable("id") Long profId, Model model){
+
+        if (HandleUsers.checkIfProf(givenId, role, profId)){
+            logger.warn("ID: " + givenId + " attempted to login to professor " + profId);
+            return "redirect:/";
+        }
 
         Professor prof = profRepo.findById(profId).get();
 
@@ -53,5 +82,24 @@ public class ProfessorViewController {
         projectRepo.save(new_proj);
 
         return "redirect:/professorView/" + profId;
+    }
+
+    @PostMapping("/professorView/createAvailability/{id}")
+    public String createAvailability(@ModelAttribute TimeslotForm timeslot, @PathVariable("id") Long profId, Model model){
+        String new_timeslot = TimeSlotHandling.convertToTimeslot(TimeSlotHandling.createTimeList(timeslot));
+
+        if (profRepo.findById(profId).isPresent()) {
+            Professor prof = profRepo.findById(profId).get();
+            prof.setAvailability(new_timeslot);
+            profRepo.save(prof);
+        }
+
+        return "redirect:/professorView/" + profId;
+    }
+
+    private String profFallbackView(@CookieValue(value = "role", defaultValue = "noRole") String role,
+                                    @CookieValue(value = "id", defaultValue = "-1") String givenId,
+                                    @PathVariable("id") Long profId, Model model){
+        return "ErrorUI";
     }
 }

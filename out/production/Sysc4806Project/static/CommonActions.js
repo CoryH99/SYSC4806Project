@@ -14,18 +14,3 @@ function createCallout(calloutType, divToAdd, message){
 
     target.append(callout);
 }
-
-function toggleDiv(divToShowOrHide) {
-    let x = document.getElementById(divToShowOrHide);
-    if (x.style.display === "none") {
-        x.style.display = "block";
-    } else {
-        x.style.display = "none";
-    }
-}
-
-function viewForm(divToHide, showForm){
-    toggleDiv(divToHide);
-    toggleDiv(showForm);
-
-}
