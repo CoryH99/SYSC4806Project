@@ -26,6 +26,7 @@
                 <th>Professor</th>
                 <th th:text="${project.currentStudents}+'/'+${project.numStudents}+' Students'">Students</th>
                 <th>Due Date</th>
+                <th>Programs</th>
             </tr>
         </thead>
         <tbody>
@@ -41,6 +42,7 @@
                     </table>
                 </td>
                 <td th:text="${project.dueDate}"></td>
+                <td th:text="${project.getProgramRestrictions()}"></td>
             </tr>
     </tbody>
     </table>

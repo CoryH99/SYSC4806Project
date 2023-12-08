@@ -43,6 +43,7 @@
                 <th>Num Students</th>
                 <th>Current Students</th>
                 <th>Due Date</th>
+                <th>Program Restrictions</th>
             </tr>
             </thead>
             <tbody>
@@ -55,6 +56,7 @@
                 <td th:text="${project.numStudents}"></td>
                 <td th:text="${project.currentStudents}"></td>
                 <td th:text="${project.dueDate}"></td>
+                <td th:text="${project.getProgramRestrictions()}"></td>
                 <!-- Add more columns as needed -->
             </tr>
             </tbody>
