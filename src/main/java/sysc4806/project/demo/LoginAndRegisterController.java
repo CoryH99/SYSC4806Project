@@ -140,4 +140,30 @@ public class LoginAndRegisterController {
 
         return "redirect:" + send_to;
     }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        // Invalidate the session (clear user authentication)
+        request.getSession().invalidate();
+
+        // Clear cookies related to authentication (if any)
+        clearAuthenticationCookies(response);
+
+        System.out.println("logout success");
+        // Redirect to the login page or any other appropriate page
+        return "home";
+    }
+
+    private void clearAuthenticationCookies(HttpServletResponse response) {
+        // Clear the "role" and "studId" cookies
+        Cookie roleCookie = new Cookie("role", null);
+        roleCookie.setMaxAge(0);
+        roleCookie.setPath("/");
+        response.addCookie(roleCookie);
+
+        Cookie studIdCookie = new Cookie("studId", null);
+        studIdCookie.setMaxAge(0);
+        studIdCookie.setPath("/");
+        response.addCookie(studIdCookie);
+    }
 }
