@@ -35,12 +35,15 @@ Version 2.0
 - Added ability for a professor to archive/delete/unarchive projects
 - Cleaned up UI
 - Added functionality to submit a report for a project
+Version 3.0
+- Added page navigation
+- Added circuit breaker pattern
+- Added ability to add an oral presentation to the project coordinator
+- Add function to submit a report
+- Added username and password functionality
+- Added program requirements
+- Finalized UI
 ======================================================================
-# Next Steps
-- Add circuit breaker pattern across all critical points
-- Add oral presentation functionality to project coordinator class
-- Finish all features
-- Finalize UI
 
 Er Diagram for Milestone 2:
 ![ER_DiagramM2](https://github.com/acegiansal/Sysc4806Project/assets/91341372/487adb8d-5345-49c0-9815-48ce438ea1cb)
