@@ -1,26 +1,56 @@
 <html xmlns:th="https://www.thymeleaf.org">
+
+
 <body>
+<th:block th:each="project : ${proj}">
+    <th:block th:if="${project.id == id}">
+        <div>
+            <form method="POST" enctype="multipart/form-data" th:action="@{/uploading/{id}(id=${project.id})}">
+                <table>
+                    <tr>
+                        <td>File to upload:</td>
+                        <td><input id="up" type="file" name="file"/></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <button class="btn btn-success btn-sm" th:attr="onclick=|uploadFile(${project.id})|">
+                                Submit
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <a th:href="@{/projects/{id}(id=${project.id})}">
+                <button th:id="'projectPage' + ${project.id}" class="btn btn-outline-dark btn-sm notify-btn">
+                    Back
+                </button>
+            </a>
+        </div>
+        <div>
+            <th:block th:each="file : ${files}">
+                <th:block
+                        th:if="${project.getReport() == file.toString().substring(file.toString().lastIndexOf('/')+1)}">
+                    <a th:href="${file}" th:text="${file}"/>
+                </th:block>
+            </th:block>
+        </div>
+    </th:block>
+</th:block>
 
-<div th:if="${message}">
-    <h2 th:text="${message}"/>
-</div>
+<script>
+    async function uploadFile(projID) {
+        let uploadFile = document.getElementById("up").value;
 
-<div>
-    <form method="POST" enctype="multipart/form-data" action="/">
-        <table>
-            <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
-            <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
-        </table>
-    </form>
-</div>
+        let results = fetch('/uploading/' + projID + new URLSearchParams({
+            file: uploadFile,
+        }), {
+            method: "post"
+        }).then(() => {
+            window.location.replace("/projects/" + projID);
+        })
 
-<div>
-    <ul>
-        <li th:each="file : ${files}">
-            <a th:href="${file}" th:text="${file}" />
-        </li>
-    </ul>
-</div>
-
+    }
+</script>
 </body>
 </html>
