@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Project Coordinator</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="CommonTheme.css">
+    <!-- Jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+
+    <div class="mainHeader">
+        <h2 class="text-white p-3 display-4 contentPane">Welcome, Coordinator!</h2>
+    </div>
+
+    <div class="p-3 contentPane">
+        <!-- PROJECT SECTION -->
+        <!-- Search Projects -->
+        <h3 class="my-3">View Projects</h3>
+<!--        <div class="search-container">-->
+        <div>
+            <label for="search" class="text-muted me-3">Search by Project Name: </label>
+            <input type="text" id="search" placeholder="Enter project name">
+            <button class="btn search-button" onclick="searchProject()">Search</button>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Professor</th>
+                <th>Num Students</th>
+                <th>Current Students</th>
+                <th>Due Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Iterate through the projects -->
+            <tr th:each="project : ${projects}">
+                <td th:text="${project.id}"></td>
+                <td th:text="${project.name}"></td>
+                <td th:text="${project.description}"></td>
+                <td th:text="${project.professor.name}"></td>
+                <td th:text="${project.numStudents}"></td>
+                <td th:text="${project.currentStudents}"></td>
+                <td th:text="${project.dueDate}"></td>
+                <!-- Add more columns as needed -->
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- Send Message Section-->
+        <hr>
+        <div class="row m-0">
+            <div class="card col-6">
+                <h3 class="card-title mt-2">Students With No Project</h3>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Program</th>
+                        <th>Last Message</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="student, index : ${students_no_project}">
+                        <td class="m-2" th:text="${student.name}"></td>
+                        <td class="m-2" th:text="${student.program}"></td>
+                        <td class="m-2" th:text="(${student.messages} != 0 and ${#lists.size(student.messages)} > 0) ? ${student.messages[#lists.size(student.messages) - 1].date}: 'No Message Yet'"></td>
+                        <td class="m-2">
+                            <button th:id="'send-btn-' + ${student.id}" class="btn btn-outline-dark btn-sm notify-btn" th:data-studid="${student.id}" th:data-studname="${student.name}">
+                                Notify Student
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header">
+                        Send a Message
+                    </div>
+                    <div class="card-body" id="message-box">
+                        <h4 id="sendTitle" class="card-title">To send a message, select a student</h4>
+
+                        <form action="#" th:action="@{/coordinator/sendMessage}" th:object="${messageForm}" method="post">
+                            <input id="idField" type="hidden" th:field="*{id}" value="">
+                            <label for="contentField" class="form-label">Message:</label>
+                            <input id="contentField" type="text" class="form-control" th:field="*{content}" disabled><br>
+                            <input id="sendMessageBtn" type="submit" class="btn btn-danger my-1" value="Send Message" disabled>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="p-2">
+        <h3 class="contentPane text-white">Group 10</h3>
+    </footer>
+
+    <script>
+        // Enable the form
+        $(document).ready(function(){
+            $('.notify-btn').click(function() {
+                var id = $(this).data('studid');
+                var name = $(this).data('studname');
+
+                $('#sendTitle').text("Send " + name + " #" + id + " a message:");
+                $('#idField').val(id);
+                $('#contentField').prop('disabled', false);
+                $('#sendMessageBtn').prop('disabled', false);
+            });
+        });
+
+    </script>
+
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>

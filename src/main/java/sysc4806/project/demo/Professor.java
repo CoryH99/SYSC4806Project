@@ -5,25 +5,38 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import sysc4806.project.demo.presentationHandling.TimeSlotHandling;
+import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class Professor {
+
+    public static final String PROF_ROLE = "PROFESSOR";
+
     @Id
     @GeneratedValue
     private Long id;
     private String name;
+
+    @NotNull
+    private String profPassword;
     private String availability;
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Project> projects;
 
-    public Professor(String name, String availability){
+    public Professor(String name, String availability, String profPassword){
         this.name = name;
         this.availability = availability;
+        this.profPassword = profPassword;
         this.projects = new ArrayList<>();
+    }
+
+    public Professor(String name, String profPassword){
+        this.name = name;
+        this.profPassword = profPassword;
     }
 
     public Professor() {
@@ -45,6 +58,10 @@ public class Professor {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getProfPassword(){return profPassword;}
+
+    public void setPassword() {this.profPassword = profPassword;}
 
     public String getAvailability() {
         if (availability != null && !availability.isEmpty()){

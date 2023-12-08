@@ -6,11 +6,15 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.antlr.v4.runtime.misc.NotNull;
 import sysc4806.project.demo.messages.Message;
 import sysc4806.project.demo.presentationHandling.TimeSlotHandling;
 
 @Entity
 public class Student {
+
+    public static final String STUDENT_ROLE = "STUDENT";
 
     @Id
     @GeneratedValue
@@ -22,6 +26,10 @@ public class Student {
     @ManyToOne (fetch = FetchType.EAGER)
     private Project project;
     private String timeslot;
+
+    @NotNull
+    private String password;
+
     @JsonManagedReference
     @OneToMany(fetch = FetchType.EAGER)
     private List<Message> messages;
@@ -36,11 +44,16 @@ public class Student {
 
     public Student() {this.messages = new ArrayList<>();}
 
-    public Student(String name, String program, String timeslot) {
+    public Student(String name, String program, String timeslot, String password) {
         this.name = name;
         this.program = program;
         this.timeslot = timeslot;
+        this.password = password;
         this.messages = new ArrayList<>();
+    }
+
+    public Student(String name, String program, String password){
+        this(name, program,"", password);
     }
 
     public String getProgram() {
@@ -75,6 +88,9 @@ public class Student {
         return name;
     }
 
+    public String getPassword() {return password;}
+
+
     public void setName(String name) {
         this.name = name;
     }
@@ -98,3 +114,4 @@ public class Student {
                 '}';
     }
 }
+

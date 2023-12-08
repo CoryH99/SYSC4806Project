@@ -31,6 +31,10 @@
                 <form action="#" th:action="@{/registerProfessor/register}" th:object="${professorForm}" method="post">
                     <label for="nameField" class="form-label">Name:</label>
                     <input id="nameField" type="text" class="form-control" th:field="*{name}"><br>
+
+                    <label for="passwordField" class="form-label">Password:</label>
+                    <input id="passwordField" type="text" class="form-control" th:field="*{profPassword}"><br>
+
                     <input id="sendMessageBtn" type="submit" class="btn btn-outline-danger my-1" value="Register!">
                 </form>
             </div>
