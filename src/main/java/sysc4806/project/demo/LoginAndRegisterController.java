@@ -2,6 +2,8 @@ package sysc4806.project.demo;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +21,8 @@ import java.util.Optional;
 @Controller
 public class LoginAndRegisterController {
 
+    Logger logger = LoggerFactory.getLogger(CoordinatorViewController.class);
+
     @Autowired
     private StudentRepository studentRepo;
 
@@ -35,7 +39,6 @@ public class LoginAndRegisterController {
 
     @GetMapping("/loginStudent")
     public String loginStudent(@RequestParam("error") Optional<String> error, Model model){
-        model.addAttribute("numberOfStudents", studentRepo.count());
         error.ifPresent(s -> model.addAttribute("error", s));
         model.addAttribute("loginForm", new LoginForm());
         return "loginStudent";
@@ -69,22 +72,29 @@ public class LoginAndRegisterController {
 
 
     @GetMapping("/loginProfessor")
-    public String loginProfessor(Model model){
-        model.addAttribute("numberOfProfessors", profRepo.count());
+    public String loginProfessor(@RequestParam("error") Optional<String> error, Model model){
+        error.ifPresent(s -> model.addAttribute("error", s));
+        model.addAttribute("loginForm", new LoginForm());
         return "loginProf";
     }
 
     @PostMapping("/loginProfessor")
-    public String processLoginProfessor(@RequestParam Long id, @RequestParam String profPassword) {
-        Optional<Professor> optionalProfessor = profRepo.findById(id);
+    public String processLoginProfessor(@ModelAttribute LoginForm loginForm, HttpServletResponse response) {
+        Optional<Professor> optionalProfessor = profRepo.findById(loginForm.getId());
 
         if (optionalProfessor.isPresent()) {
             Professor professor = optionalProfessor.get();
             // Compare the entered password with the password associated with the student
-            if (profPassword.equals(professor.getProfPassword())) {
-                return "redirect:/ProfessorUI";
+            if (loginForm.getPassword().equals(professor.getProfPassword())) {
+
+                Cookie cookie = new Cookie("role", Professor.PROF_ROLE);
+                Cookie anotherCookie = new Cookie("profId", loginForm.getId().toString());
+                response.addCookie(cookie);
+                response.addCookie(anotherCookie);
+                return "redirect:/professorView/" + loginForm.getId();
             } else {
                 // Passwords do not match, return to login page with an error message
+                logger.warn("Incorrect password: " + loginForm.getPassword() + " instead of " + professor.getProfPassword());
                 return "redirect:/loginProfessor?error=Incorrect password";
             }
         } else {

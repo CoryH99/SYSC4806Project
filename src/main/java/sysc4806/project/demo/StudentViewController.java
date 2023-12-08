@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import sysc4806.project.demo.security.HandleUsers;
 
 @Controller
 public class StudentViewController {
@@ -27,8 +28,8 @@ public class StudentViewController {
                                       @PathVariable("id") Long studId, Model model, HttpServletResponse response){
 
         logger.info("found cookies: " + role + " and " + givenId);
-        if (Long.parseLong(givenId) != studId || !role.equals(Student.STUDENT_ROLE)){
-            logger.warn("ID: " + givenId + " attempted to login to user " + studId);
+        if (HandleUsers.checkIfStudent(givenId, role, studId)){
+            logger.warn("ID: " + givenId + " attempted to login to student " + studId);
             return "redirect:/";
         }
 

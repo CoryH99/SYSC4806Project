@@ -20,43 +20,29 @@
 </div>
 <hr>
 
+<div id="callout-div" class="px-2">
+    <div th:if="${error != null}" class="callout callout-danger">
+        <h4>ERROR</h4>
+        <code th:text="${error}"></code>
+    </div>
+</div>
+
+
 <div class="container d-flex align-items-center justify-content-center">
     <div class="card m-2 p-3 border-dark" style="max-width: 18rem;">
         <a class="link-danger link-underline link-underline-opacity-0 my-2" href="/"><- back</a>
-        <h5 class="card-title">Please Input ID</h5>
-        <input type="text" class="form-text m-2" id="profIdInput">
-        <input type="password" name="profPassword" placeholder="Password">
-        <button class="btn btn-danger m-2" th:onclick="'loginProf(' + ${numberOfProfessors} + ')'">Log in</button>
+        <h5 class="card-title">LOGIN</h5>
+        <form action="#" th:action="@{/loginProfessor}" th:object="${loginForm}" method="post">
+            <label for="profIdInput" class="form-label">Prof ID:</label>
+            <input type="text" class="form-text m-2" id="profIdInput" th:field="*{id}">
+            <label for="passwordField" class="form-label">Password:</label>
+            <input type="password" id="passwordField" name="password" class="form-text m-2" placeholder="Password" th:field="*{password}">
+            <button class="btn btn-danger m-2" type="submit">Log in</button>
+        </form>
     </div>
 </div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-<script th:inline="javascript">
-
-    function loginProf(maxProfs){
-        let inputId = document.getElementById("profIdInput").value
-
-
-        if (typeof Number(inputId) === 'number'){
-            if (inputId > 0 && inputId <= maxProfs){
-                location.href = "/professorView/" + inputId;
-            } else {
-                console.log("Invalid input")
-                $('#callout-div').empty();
-                createCallout("danger", "callout-div", "<h4>ERROR</h4>There is no professor with id: " + inputId);
-            }
-
-        } else {
-            console.log("Incorrect value inputted!")
-            $('#callout-div').empty();
-            createCallout("danger", "callout-div", "<h4>ERROR</h4>{" + inputId + "} is not valid input for professor ID (expecting int)");
-        }
-
-    }
-
-</script>
-
 </body>
 </html>
