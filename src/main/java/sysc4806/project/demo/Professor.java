@@ -33,6 +33,11 @@ public class Professor {
         this.projects = new ArrayList<>();
     }
 
+    public Professor(String name, String profPassword){
+        this.name = name;
+        this.profPassword = profPassword;
+    }
+
     public Professor() {
         this.projects = new ArrayList<>();
     }

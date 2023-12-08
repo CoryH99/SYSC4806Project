@@ -1,6 +1,7 @@
 package sysc4806.project.demo;
 
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -129,9 +130,9 @@ public class LoginAndRegisterController {
     }
 
     @PostMapping("/registerProfessor/register")
-    public String registerProf(@ModelAttribute RegistrationForm professorForm, Model model){
+    public String registerProf(@ModelAttribute RegistrationForm professorForm, Model model, HttpServletRequest request){
 
-        Professor prof = new Professor(professorForm.getName(),"",professorForm.getProfPassword());
+        Professor prof = new Professor(professorForm.getName(),professorForm.getProfPassword());
 
         profRepo.save(prof);
         String send_to = "/professorView/" + professorForm.getId();
@@ -139,5 +140,4 @@ public class LoginAndRegisterController {
 
         return "redirect:" + send_to;
     }
-
 }

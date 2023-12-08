@@ -17,11 +17,11 @@ public class RegistrationForm {
 
     public String getProfPassword(){return profPassword;}
 
-    public void setProfPassword(String profpassword){this.profPassword = profPassword;}
+    public void setProfPassword(String profPassword){this.profPassword = profPassword;}
 
     public String getPassword(){return password;}
 
-    public void setPassword(String Password){this.profPassword = Password;}
+    public void setPassword(String password){this.password = password;}
 
     public Long getId() { return id;}
 
