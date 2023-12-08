@@ -1,7 +1,9 @@
 package sysc4806.project.demo;
 
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@EnableHystrix
 public class ProfessorViewController {
 
     @Autowired
@@ -24,6 +27,7 @@ public class ProfessorViewController {
     private ProjectRepository projectRepo;
 
     @GetMapping("/professorView/{id}")
+    @HystrixCommand(fallbackMethod="fallbackView")
     public String specificProfessorView(@PathVariable("id") Long profId, Model model){
 
         if (profRepo.findById(profId).isPresent()) {
@@ -44,6 +48,7 @@ public class ProfessorViewController {
     }
 
     @PostMapping("/professorView/{id}/createProject/")
+    @HystrixCommand(fallbackMethod="fallbackView")
     public String profCreateProject(@ModelAttribute Project project, @PathVariable("id") Long profId, Model model){
 
         Professor prof = profRepo.findById(profId).get();
@@ -73,5 +78,9 @@ public class ProfessorViewController {
         }
 
         return "redirect:/professorView/" + profId;
+    }
+
+    private String fallbackView(){
+        return "ErrorUI";
     }
 }

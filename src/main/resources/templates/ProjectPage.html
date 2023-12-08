@@ -6,12 +6,18 @@
 </head>
 <body>
 
+<nav class="navbar navbar-expand-lg text-white" style="background-color: #2b070a;">
+    <div class="container-fluid">
+        <a class="link-light link-underline link-underline-opacity-0" href="/">Home</a>
+    </div>
+</nav>
+
+
 </body>
 
 <th:block th:each="project : ${proj}">
     <th:block th:if="${project.id == projID}">
         <h3 th:text="${project.name}+' Project'">name</h3>
-
         <table border="1">
         <thead>
             <tr>
@@ -20,6 +26,7 @@
                 <th>Professor</th>
                 <th th:text="${project.currentStudents}+'/'+${project.numStudents}+' Students'">Students</th>
                 <th>Due Date</th>
+                <th>Programs</th>
             </tr>
         </thead>
         <tbody>
@@ -35,9 +42,15 @@
                     </table>
                 </td>
                 <td th:text="${project.dueDate}"></td>
+                <td th:text="${project.getProgramRestrictions()}"></td>
             </tr>
     </tbody>
     </table>
+        <a th:href="@{/upload/{id}(id=${project.id})}">
+            <button th:id="'reportUpload' + ${project.id}" class="btn btn-outline-dark btn-sm notify-btn">
+                Upload Report
+            </button>
+        </a>
     </th:block>
 </th:block>
 
