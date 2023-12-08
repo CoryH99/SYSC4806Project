@@ -40,8 +40,11 @@ public class LoginAndRegisterController {
     }
 
     @GetMapping("/loginStudent")
-    public String loginStudent(@RequestParam("error") Optional<String> error, Model model){
+    public String loginStudent(@RequestParam("error") Optional<String> error,
+                               @RequestParam("msg") Optional<String> msg,
+                               Model model){
         error.ifPresent(s -> model.addAttribute("error", s));
+        msg.ifPresent(s -> model.addAttribute("msg", s));
         model.addAttribute("loginForm", new LoginForm());
         return "loginStudent";
     }
@@ -72,8 +75,11 @@ public class LoginAndRegisterController {
 
 
     @GetMapping("/loginProfessor")
-    public String loginProfessor(@RequestParam("error") Optional<String> error, Model model){
+    public String loginProfessor(@RequestParam("error") Optional<String> error,
+                                 @RequestParam("msg") Optional<String> msg,
+                                 Model model){
         error.ifPresent(s -> model.addAttribute("error", s));
+        msg.ifPresent(s -> model.addAttribute("msg", s));
         model.addAttribute("loginForm", new LoginForm());
         return "loginProf";
     }
@@ -112,12 +118,11 @@ public class LoginAndRegisterController {
 
 
     @PostMapping("/registerStudent/register")
-    public String registerStudent(@ModelAttribute RegistrationForm studentForm, Model model){
+    public String registerStudent(@ModelAttribute RegistrationForm studentForm, Model model,  HttpServletResponse response){
 
         Student student = new Student(studentForm.getName(),studentForm.getProgram(), studentForm.getPassword());
-        studentRepo.save(student);
-
-        return "redirect:/studentView/" + studentForm.getId();
+        Student saved_student = studentRepo.save(student);
+        return "redirect:/loginStudent?msg=Your ID is " + saved_student.getId();
     }
 
     @GetMapping("/registerProfessor")
@@ -129,7 +134,7 @@ public class LoginAndRegisterController {
     }
 
     @PostMapping("/registerProfessor/register")
-    public String registerProf(@ModelAttribute RegistrationForm professorForm, Model model, HttpServletRequest request){
+    public String registerProf(@ModelAttribute RegistrationForm professorForm, Model model, HttpServletResponse response){
 
         boolean profIsCoordinator = professorForm.getCoordinatorFlag().equals("Yes");
 
@@ -137,11 +142,8 @@ public class LoginAndRegisterController {
 
         logger.info("Professor coordinator? " + prof.getCoordinatorBoolean());
 
-        profRepo.save(prof);
-        String send_to = "/professorView/" + professorForm.getId();
-        System.out.println("register success");
-
-        return "redirect:" + send_to;
+        Professor saved_prof = profRepo.save(prof);
+        return "redirect:/loginProfessor?msg=Your ID is " + saved_prof.getId();
     }
 
     @GetMapping("/logout")
@@ -164,7 +166,7 @@ public class LoginAndRegisterController {
         roleCookie.setPath("/");
         response.addCookie(roleCookie);
 
-        Cookie studIdCookie = new Cookie("studId", null);
+        Cookie studIdCookie = new Cookie("id", null);
         studIdCookie.setMaxAge(0);
         studIdCookie.setPath("/");
         response.addCookie(studIdCookie);
