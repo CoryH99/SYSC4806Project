@@ -3,6 +3,7 @@ package sysc4806.project.demo;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jdk.incubator.foreign.ResourceScope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import sysc4806.project.demo.forms.LoginForm;
 import sysc4806.project.demo.forms.RegistrationForm;
+import sysc4806.project.demo.security.HandleUsers;
 
 import java.util.Optional;
 
@@ -32,7 +34,9 @@ public class LoginAndRegisterController {
 //    private BCryptPasswordEncoder passwordEncoder;
 
     @GetMapping("/")
-    public String homeView(Model model){
+    public String homeView(Model model, HttpServletResponse response){
+        response.addCookie(HandleUsers.deleteCookie("role"));
+        response.addCookie(HandleUsers.deleteCookie("id"));
         return "home";
     }
 
@@ -52,10 +56,8 @@ public class LoginAndRegisterController {
             // Compare the entered password with the password associated with the student
             if (loginForm.getPassword().equals(student.getPassword())) {
 
-                Cookie cookie = new Cookie("role", Student.STUDENT_ROLE);
-                Cookie anotherCookie = new Cookie("id", loginForm.getId().toString());
-                response.addCookie(cookie);
-                response.addCookie(anotherCookie);
+                response.addCookie(HandleUsers.createCookie("role", Student.STUDENT_ROLE));
+                response.addCookie(HandleUsers.createCookie("id", loginForm.getId().toString()));
 
                 return "redirect:/studentView/" + loginForm.getId();
             } else {
@@ -86,10 +88,8 @@ public class LoginAndRegisterController {
             // Compare the entered password with the password associated with the student
             if (loginForm.getPassword().equals(professor.getProfPassword())) {
 
-                Cookie cookie = new Cookie("role", Professor.PROF_ROLE);
-                Cookie anotherCookie = new Cookie("id", loginForm.getId().toString());
-                response.addCookie(cookie);
-                response.addCookie(anotherCookie);
+                response.addCookie(HandleUsers.createCookie("role", Professor.PROF_ROLE));
+                response.addCookie(HandleUsers.createCookie("id", loginForm.getId().toString()));
                 return "redirect:/professorView/" + loginForm.getId();
             } else {
                 // Passwords do not match, return to login page with an error message
